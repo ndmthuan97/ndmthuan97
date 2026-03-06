@@ -1,12 +1,15 @@
+<div align="center">
+  <img src="intro.svg" width="500" />
+</div>
+
 <table width="100%">
   <tr>
     <td width="55%" style="vertical-align: top;">
-      <h1>Nguyen Dao Minh Thuan</h1>
       <ul>
-        <li><b>Backend Specialist</b> | Building reliable & scalable systems</li>
-        <li><b>Fullstack Enthusiast</b> | Crafting seamless user experiences</li>
-        <li><b>DevOps Learner</b> | Automating & optimizing workflows</li>
-        <li><b>Continuous Learner</b> | Delivering high-quality solutions 🚀</li>
+        <li><b>Backend Developer</b> | Designing reliable, scalable backend systems</li>
+        <li><b>Full-Stack Engineer</b> | Building seamless and user-friendly web applications</li>
+        <li><b>DevOps Enthusiast</b> | Automating deployment and improving system reliability</li>
+        <li><b>Continuous Learner</b> | Committed to writing clean, maintainable, high-quality code 🚀</li>
       </ul>
       <br/>
       <div align="left">
@@ -18,7 +21,6 @@
     <td width="45%" style="vertical-align: middle;">
       <div align="center">
         <img src="banner.gif" width="100%" style="border-radius: 10px;" />
-        <img src="intro.svg" width="100%" />
       </div>
     </td>
   </tr>
@@ -55,5 +57,5 @@
 </div>
 
 <div align="center">
-  <img src="cat.gif" width="100%" />
+  <img src="cat.gif" width="400" />
 </div>
