@@ -23,3 +23,37 @@
 </a>
 
 <br clear="both"/>
+
+### **Technologies:**
+
+<div align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
+  </a>
+  <br/><br/>
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
+  </a>
+  <br/><br/>
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
+  </a>
+</div>
+</br>
+
+<div align="center">
+<a href="https://github.com/ndmthuan97/github-stats#gh-dark-mode-only">
+	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-dark-mode-only" />
+	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/languages.svg#gh-dark-mode-only" />
+</a>
+
+<a href="https://github.com/ndmthuan97/github-stats#gh-light-mode-only">
+	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-light-mode-only" />
+	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/languages.svg#gh-light-mode-only" />
+</a>
+</div>
+
+<div align="center">
+  <img src="cat.gif" width="200" />
+</div>
+
