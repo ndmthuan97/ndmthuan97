@@ -20,10 +20,7 @@
 
 <br clear="both"/>
 
-<h3>
-  Technologies:
-  <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" />
-</h3>
+### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 
 <div align="center">
   <a href="https://skillicons.dev">
