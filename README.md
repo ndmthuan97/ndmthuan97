@@ -21,10 +21,8 @@
 <br clear="both"/>
 
 <h3>
-Technologies:
-<span style="float:right;">
-<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat"/>
-</span>
+  Technologies:
+  <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" />
 </h3>
 
 <div align="center">
