@@ -23,17 +23,11 @@
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 
 <div align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
-  </a>
+  <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
   <br/><br/>
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
-  </a>
+  <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
   <br/><br/>
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
-  </a>
+  <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
 </div>
 </br>
 
