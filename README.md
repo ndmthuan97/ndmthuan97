@@ -6,13 +6,15 @@
 
 <img src="banner.gif" align="right" width="42%" style="border-radius:12px; margin-left:25px;" />
 
-### 🧑‍💻 About Me 
-<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right"/>
+### 🧑‍💻 About me 
+<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat"/>
 
-- 🖥️ **Backend Developer** — Building reliable and scalable systems  
-- 🚀 **Full-Stack Engineer** — Creating seamless web applications  
-- ☁️ **DevOps Enthusiast** — Automating deployment & infrastructure  
-- 📚 **Continuous Learner** — Writing clean and maintainable code  
+<ul>
+  <li>🖥️ <b>Backend Developer</b> : Designing reliable, scalable backend systems</li>
+  <li>🚀 <b>Full-Stack Engineer</b> : Building seamless and user-friendly web applications</li>
+  <li>☁️ <b>DevOps Enthusiast</b> : Automating deployment and improving system reliability</li>
+  <li>📚 <b>Continuous Learner</b> : Committed to writing clean, maintainable, high-quality code</li>
+</ul>
 
 <br clear="both"/>
 
