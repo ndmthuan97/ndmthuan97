@@ -39,6 +39,6 @@
 
   <!-- Phrase 2: Shows during second half of cycle -->
   <g clip-path="url(#cp2)">
-    <text x="250" y="45" class="text">I'm a Developer</text>
+    <text x="250" y="45" class="text">Welcome here!</text>
   </g>
 </svg>
