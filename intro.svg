@@ -1,0 +1,44 @@
+<svg width="500" height="60" viewBox="0 0 500 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ee7724" />
+      <stop offset="33%" stop-color="#d8363a" />
+      <stop offset="66%" stop-color="#dd3675" />
+      <stop offset="100%" stop-color="#b44593" />
+    </linearGradient>
+    
+    <!-- ClipPath 1: Only active from 0s to 4s in every 8s cycle -->
+    <clipPath id="cp1">
+      <rect x="0" y="0" width="0" height="60">
+        <animate attributeName="width" values="0;500;500;0;0;0;0;0" dur="8s" repeatCount="indefinite" />
+      </rect>
+    </clipPath>
+
+    <!-- ClipPath 2: Only active from 4s to 8s in every 8s cycle -->
+    <clipPath id="cp2">
+      <rect x="0" y="0" width="0" height="60">
+        <animate attributeName="width" values="0;0;0;0;0;500;500;0" dur="8s" repeatCount="indefinite" />
+      </rect>
+    </clipPath>
+  </defs>
+
+  <style>
+    .text {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 900;
+      font-size: 38px;
+      fill: url(#g);
+      text-anchor: middle;
+    }
+  </style>
+
+  <!-- Phrase 1: Shows during first half of cycle -->
+  <g clip-path="url(#cp1)">
+    <text x="250" y="45" class="text">I'm Minh Thuan</text>
+  </g>
+
+  <!-- Phrase 2: Shows during second half of cycle -->
+  <g clip-path="url(#cp2)">
+    <text x="250" y="45" class="text">I'm a Developer</text>
+  </g>
+</svg>

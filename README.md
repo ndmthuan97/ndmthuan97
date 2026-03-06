@@ -1,19 +1,29 @@
-<div align="center">
-  <img src="banner.gif" width="100%" />
-</div>
+<table width="100%">
+  <tr>
+    <td width="55%" style="vertical-align: top;">
+      <h1>Nguyen Dao Minh Thuan</h1>
+      <ul>
+        <li><b>Backend Specialist</b> | Building reliable & scalable systems</li>
+        <li><b>Fullstack Enthusiast</b> | Crafting seamless user experiences</li>
+        <li><b>DevOps Learner</b> | Automating & optimizing workflows</li>
+        <li><b>Continuous Learner</b> | Delivering high-quality solutions 🚀</li>
+      </ul>
+      <br/>
+      <div align="left">
+        <a href="https://ndmthuan97.github.io/">
+          <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" alt="ndmthuan97" />
+        </a>
+      </div>
+    </td>
+    <td width="45%" style="vertical-align: middle;">
+      <div align="center">
+        <img src="banner.gif" width="100%" style="border-radius: 10px;" />
+        <img src="intro.svg" width="100%" />
+      </div>
+    </td>
+  </tr>
+</table>
 
-<div align="left">
-  <a href="https://ndmthuan97.github.io/">
-    <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" alt="ndmthuan97" />
-  </a>
-</div>
-
-
-Hi, I’m Nguyen Dao Minh Thuan, a self-taught web developer with a strong passion for backend development. While I’m comfortable working across the full stack, my primary focus is designing and building reliable, scalable, and maintainable backend systems.
-
-I’m also expanding my expertise in DevOps, where I enjoy optimizing deployment pipelines, automating workflows, and improving system performance and reliability.
-
-I’m continuously learning and refining my skills to deliver high-quality solutions and contribute meaningful value to the teams and projects I work with. 🚀
 
 ### **Languages and Tools:**
 
