@@ -57,5 +57,5 @@
 </div>
 
 <div align="center">
-  <img src="cat.gif" width="400" />
+  <img src="cat.gif" width="200" />
 </div>
