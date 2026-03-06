@@ -4,19 +4,12 @@
 
 ---
 
-<div align="right">
-  <a href="https://ndmthuan97.github.io/">
-    <img src="banner.gif" width="45%" style="border-radius:10px; margin-left:20px;" />
-  </a>
+<a href="https://ndmthuan97.github.io/">
+  <img src="banner.gif" align="right" width="45%" style="border-radius:10px; margin-left:20px;" />
+</a>
 
-  <br/>
-
-  <a href="https://ndmthuan97.github.io/">
-    <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" />
-  </a>
-</div>
-
-### 🧑‍💻 About me
+### 🧑‍💻 About me 
+<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right"/>
 
 <ul>
   <li>🖥️ <b>Backend Developer</b> : Designing reliable, scalable backend systems</li>
