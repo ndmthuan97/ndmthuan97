@@ -18,13 +18,14 @@
   <li>📚 <b>Continuous Learner</b> : Committed to writing clean, maintainable, high-quality code</li>
 </ul>
 
-<a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
-  <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat"/>
-</a>
-
 <br clear="both"/>
 
-### **Technologies:**
+<h3>
+Technologies:
+<span style="float:right;">
+<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat"/>
+</span>
+</h3>
 
 <div align="center">
   <a href="https://skillicons.dev">
