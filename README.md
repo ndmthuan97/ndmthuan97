@@ -5,9 +5,9 @@
 ---
 
 <img src="banner.gif" align="right" width="42%" style="border-radius:12px; margin-left:25px;" />
+<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" />
 
-### 🧑‍💻 About me 
-<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat"/>
+### 🧑‍💻 About me
 
 <ul>
   <li>🖥️ <b>Backend Developer</b> : Designing reliable, scalable backend systems</li>
@@ -19,7 +19,7 @@
 <br clear="both"/>
 
 
-### **Languages and Tools:**
+### **Technologies:**
 
 <div align="center">
   <a href="https://skillicons.dev">
