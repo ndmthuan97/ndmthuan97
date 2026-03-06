@@ -4,15 +4,17 @@
 
 ---
 
-<a href="https://ndmthuan97.github.io/">
-  <img src="banner.gif" align="right" width="45%" style="border-radius: 10px;" />
-</a>
-
-<p align="right">
+<div align="right">
   <a href="https://ndmthuan97.github.io/">
-    <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" alt="ndmthuan97" />
+    <img src="banner.gif" width="45%" style="border-radius:10px; margin-left:20px;" />
   </a>
-</p>
+
+  <br/>
+
+  <a href="https://ndmthuan97.github.io/">
+    <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" />
+  </a>
+</div>
 
 ### 🧑‍💻 About me
 
