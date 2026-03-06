@@ -1,12 +1,11 @@
 <div align="center">
-  <img src="source.gif" width="100%" />
-  <h1>Welcome to my GitHub profile! 👋</h1>
-  <p>Chào mừng bạn đến với không gian phát triển của mình!</p>
-  <p><i>Building reliable, scalable, and efficient systems.</i></p>
+  <img src="banner.gif" width="100%" />
 </div>
 
 <div align="left">
-  <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" alt="ndmthuan97" />
+  <a href="https://ndmthuan97.github.io/">
+    <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" alt="ndmthuan97" />
+  </a>
 </div>
 
 
@@ -19,17 +18,14 @@ I’m continuously learning and refining my skills to deliver high-quality solut
 ### **Languages and Tools:**
 
 <div align="center">
-  <p><b>Backend</b></p>
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
   </a>
   <br/><br/>
-  <p><b>Frontend</b></p>
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
   </a>
   <br/><br/>
-  <p><b>Others</b></p>
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
   </a>
@@ -46,4 +42,8 @@ I’m continuously learning and refining my skills to deliver high-quality solut
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-light-mode-only" />
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/languages.svg#gh-light-mode-only" />
 </a>
+</div>
+
+<div align="center">
+  <img src="cat.gif" width="100%" />
 </div>
