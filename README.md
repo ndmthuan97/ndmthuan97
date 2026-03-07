@@ -1,14 +1,10 @@
 <div align="center">
-	<a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
-		<img src="intro.svg" width="500"/>
-	</a>
+	<img src="intro.svg" width="500"/>
 </div>
 
 ---
 
-<a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
-  <img src="banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
-</a>
+<img src="banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
 
 ### 🧑‍💻 About me
 <p>
@@ -20,7 +16,7 @@ My main focus is backend architecture, system design, and performance optimizati
   <li>💻 <b>Experience:</b> Specialized in <b>Backend Developer</b> and cloud infrastructure (Azure)</li>
   <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
   <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
-  <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
+  <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="https://www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
 </ul>
 
 <br clear="both"/>
