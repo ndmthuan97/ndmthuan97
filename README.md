@@ -6,9 +6,9 @@
 
 ---
 
-<div style="display:flex; gap:25px; align-items:stretch;">
-
-<div style="flex:1">
+<a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
+  <img src="banner.gif" align="right" width="42%" style="border-radius:12px; margin-left:25px;" />
+</a>
 
 ### 🧑‍💻 About me
 
@@ -23,31 +23,19 @@ My main focus is backend architecture, system design, and performance optimizati
   <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
   <li>📫 <b>Connect with me:</b> 
     <a href="https://ndmthuan97.github.io">Portfolio</a> |
-    <a href="www.linkedin.com/in/ndmthuan97">LinkedIn</a> |
+    <a href="https://www.linkedin.com/in/ndmthuan97">LinkedIn</a> |
     <a href="mailto:ndmthuan.97@gmail.com">Email</a>
   </li>
 </ul>
 
-</div>
-
-<div style="flex:1">
-<a href="https://ndmthuan97.github.io/" target="_blank">
-<img src="banner.gif" style="width:100%; height:100%; max-height:320px; object-fit:cover; border-radius:12px;" />
-</a>
-</div>
-
-</div>
-
-<ul>
-  <li>💻 <b>Experience:</b> Specialized in <b>Backend Developer</b> and cloud infrastructure (Azure)</li>
-  <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
-  <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
-  <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
-</ul>
-
 <br clear="both"/>
 
-### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
+---
+
+### 🛠️ Technologies 
+<a href="https://ndmthuan97.github.io/" target="_blank">
+<img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" />
+</a>
 
 <div align="center">
   <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
@@ -56,9 +44,11 @@ My main focus is backend architecture, system design, and performance optimizati
   <br/><br/>
   <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
 </div>
-</br>
+
+<br/>
 
 <div align="center">
+
 <a href="https://github.com/ndmthuan97/github-stats#gh-dark-mode-only">
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-dark-mode-only" />
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/languages.svg#gh-dark-mode-only" />
@@ -68,9 +58,9 @@ My main focus is backend architecture, system design, and performance optimizati
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-light-mode-only" />
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/languages.svg#gh-light-mode-only" />
 </a>
+
 </div>
 
 <div align="center">
   <img src="cat.gif" width="200" />
 </div>
-
