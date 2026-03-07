@@ -22,6 +22,7 @@ My main focus is backend architecture, system design, and performance optimizati
 <br clear="both"/>
 
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
+</br>
 
 <div align="center">
   <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
