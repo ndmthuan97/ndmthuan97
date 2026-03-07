@@ -7,15 +7,20 @@
 ---
 
 <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
-  <img src="banner.gif" align="right" width="42%" style="border-radius:12px; margin-left:25px;" />
+  <img src="banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
 </a>
 
 ### 🧑‍💻 About me
+<p>
+Professional Software Engineer with years of experience in developing robust and scalable software solutions. 
+My main focus is backend architecture, system design, and performance optimization.
+</p>
+
 <ul>
-  <li>🖥️ <b>Backend Developer</b> : Designing reliable, scalable backend systems</li>
-  <li>🚀 <b>Full-Stack Engineer</b> : Building seamless and user-friendly web applications</li>
-  <li>☁️ <b>DevOps Enthusiast</b> : Automating deployment and improving system reliability</li>
-  <li>📚 <b>Continuous Learner</b> : Committed to writing clean, maintainable, high-quality code</li>
+  <li>💻 <b>Experience:</b> Specialized in <b>Backend Developer</b> and cloud infrastructure (Azure)</li>
+  <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
+  <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
+  <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
 </ul>
 
 <br clear="both"/>
