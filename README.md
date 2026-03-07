@@ -33,29 +33,16 @@ I enjoy working on <b>system architecture, performance optimization, and cloud i
 
 <br clear="both"/>
 
----
-
 # 🛠️ Technologies
 <img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" />
 
 <div align="center">
-
-### Backend
 <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
-
 <br/><br/>
-
-### Frontend
 <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
-
 <br/><br/>
-
-### DevOps & Tools
 <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
-
 </div>
-
----
 
 # 📊 GitHub Stats
 
