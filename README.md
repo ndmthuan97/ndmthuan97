@@ -4,7 +4,7 @@
 	</a>
 </div>
 
----
+<br clear="both"/>
 
 <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer">
   <img src="banner.gif" align="right" width="42%" style="border-radius:12px; margin-left:25px;" />
@@ -29,8 +29,6 @@ My main focus is backend architecture, system design, and performance optimizati
 </ul>
 
 <br clear="both"/>
-
----
 
 ### 🛠️ Technologies 
 <a href="https://ndmthuan97.github.io/" target="_blank">
