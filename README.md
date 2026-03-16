@@ -6,7 +6,7 @@
 
 <img src="banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
 
-### <img src="personal.gif" width="10" /> About me
+### 🧑‍💻 About me
 <p>
 Professional Software Engineer with years of experience in developing robust and scalable software solutions. 
 My main focus is backend architecture, system design, and performance optimization.
@@ -21,7 +21,7 @@ My main focus is backend architecture, system design, and performance optimizati
 
 <br clear="both"/>
 
-### <img src="laptop.gif" width="10" /> Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
+### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 </br>
 
 <div align="center">
