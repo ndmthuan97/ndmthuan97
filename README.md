@@ -1,7 +1,9 @@
 <div align="center">
-	<img src="images/cat-left.gif" width="200" style="margin-left:25px; margin-right:25px;"/>
-	<img src="images/intro.svg" width="500"/>
-	<img src="images/cat-right.gif" width="200" style="margin-left:25px; margin-right:25px;"/>
+  <img src="images/cat-left.gif" width="200"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/intro.svg" width="500"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/cat-right.gif" width="200"/>
 </div>
 
 ---
