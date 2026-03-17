@@ -19,8 +19,6 @@ My main focus is backend architecture, system design, and performance optimizati
   <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="https://www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
 </ul>
 
-<br clear="both"/>
-
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 </br>
 
