@@ -1,5 +1,5 @@
 <div align="center" style="white-space: nowrap;">
-  <img src="images/intro.svg" width="500" style="vertical-align: middle;"/>
+  <img src="images/intro.svg" width="800" style="vertical-align: middle;"/>
 </div>
 
 ---
