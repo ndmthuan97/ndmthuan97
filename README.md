@@ -1,10 +1,10 @@
 <div align="center">
-	<img src="intro.svg" width="500"/>
+	<img src="images/intro.svg" width="500"/>
 </div>
 
 ---
 
-<img src="banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
+<img src="images/banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
 
 ### 🧑‍💻 About me
 <p>
@@ -33,6 +33,10 @@ My main focus is backend architecture, system design, and performance optimizati
 </div>
 </br>
 
+
+### 📊 Statistics  
+</br>
+
 <div align="center">
 <a href="https://github.com/ndmthuan97/github-stats#gh-dark-mode-only">
 	<img src="https://github.com/ndmthuan97/github-stats/blob/master/generated/overview.svg#gh-dark-mode-only" />
@@ -46,5 +50,24 @@ My main focus is backend architecture, system design, and performance optimizati
 </div>
 
 <div align="center">
-  <img src="cat.gif" width="200" />
+  <img src="images/cat.gif" width="200" />
+</div>
+
+### 🤝 Connect with me
+<br>
+
+<div align="center">
+
+<a href="https://ndmthuan97.github.io">
+  <img src="images/personal.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
+</a>
+
+<a href="https://www.linkedin.com/in/ndmthuan97">
+  <img src="images/linkedin.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
+</a>
+
+<a href="mailto:ndmthuan.97@gmail.com">
+  <img src="images/mail.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
+</a>
+
 </div>
