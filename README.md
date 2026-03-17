@@ -1,7 +1,7 @@
 <div align="center" style="white-space: nowrap;">
-  <img src="images/cat-left.gif" width="100" style="vertical-align: middle;"/>
+  <img src="images/cat-left.gif" width="60" style="vertical-align: middle;"/>
   <img src="images/intro.svg" width="500" style="vertical-align: middle;"/>
-  <img src="images/cat-right.gif" width="100" style="vertical-align: middle;"/>
+  <img src="images/cat-right.gif" width="60" style="vertical-align: middle;"/>
 </div>
 
 ---
