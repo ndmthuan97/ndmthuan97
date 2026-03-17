@@ -1,16 +1,8 @@
-<table align="center">
-  <tr>
-    <td align="center" style="vertical-align: middle;">
-      <img src="images/cat-left.gif" width="100"/>
-    </td>
-    <td align="center" style="vertical-align: middle;">
-      <img src="images/intro.svg" width="500"/>
-    </td>
-    <td align="center" style="vertical-align: middle;">
-      <img src="images/cat-right.gif" width="100"/>
-    </td>
-  </tr>
-</table>
+<div align="center" style="white-space: nowrap;">
+  <img src="images/cat-left.gif" width="100" style="vertical-align: middle;"/>
+  <img src="images/intro.svg" width="500" style="vertical-align: middle;"/>
+  <img src="images/cat-right.gif" width="100" style="vertical-align: middle;"/>
+</div>
 
 ---
 
@@ -57,6 +49,7 @@ My main focus is backend architecture, system design, and performance optimizati
 </a>
 </div>
 
+</br>
 <div align="center">
-  <img src="images/working.gif" width="200" />
+  <img src="images/github.gif" width="200" />
 </div>
