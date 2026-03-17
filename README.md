@@ -1,10 +1,16 @@
-<div align="center">
-  <img src="images/cat-left.gif" width="200"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="images/intro.svg" width="500"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="images/cat-right.gif" width="200"/>
-</div>
+<table align="center">
+  <tr>
+    <td align="center" style="vertical-align: middle;">
+      <img src="images/cat-left.gif" width="100"/>
+    </td>
+    <td align="center" style="vertical-align: middle;">
+      <img src="images/intro.svg" width="500"/>
+    </td>
+    <td align="center" style="vertical-align: middle;">
+      <img src="images/cat-right.gif" width="100"/>
+    </td>
+  </tr>
+</table>
 
 ---
 
