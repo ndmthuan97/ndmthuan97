@@ -50,22 +50,3 @@ My main focus is backend architecture, system design, and performance optimizati
 <div align="center">
   <img src="images/cat.gif" width="200" />
 </div>
-
-### 🤝 Connect with me
-<br>
-
-<div align="center">
-
-<a href="https://ndmthuan97.github.io">
-  <img src="images/personal.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
-</a>
-
-<a href="https://www.linkedin.com/in/ndmthuan97">
-  <img src="images/linkedin.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
-</a>
-
-<a href="mailto:ndmthuan.97@gmail.com">
-  <img src="images/mail.gif" width="120" style="margin-left:25px; margin-right:25px;"/>
-</a>
-
-</div>
