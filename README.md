@@ -23,9 +23,9 @@ My main focus is backend architecture, system design, and performance optimizati
 </br>
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=dotnet,cs,java,redis,postgres,mssql" />
+  <img src="https://skillicons.dev/icons?i=dotnet,cs,spring,java,redis,postgres,mssql" />
   <br/><br/>
-  <img src="https://skillicons.dev/icons?i=angular,ts,html,css,js,tailwind,bootstrap,primeng" />
+  <img src="https://skillicons.dev/icons?i=angular,react,ts,html,css,js,tailwind,bootstrap,primeng" />
   <br/><br/>
   <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
 </div>
