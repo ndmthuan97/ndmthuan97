@@ -29,8 +29,6 @@ My main focus is backend architecture, system design, and performance optimizati
   <br/><br/>
   <img src="https://go-skill-icons.vercel.app/api/icons?i=docker,git,github,azure,vercel,redis,nginx,rabbitmq,postman,figma,jira" />
 </div>
-</br>
-
 
 ### 📊 Statistics  
 </br>
