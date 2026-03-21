@@ -17,7 +17,6 @@ My main focus is backend architecture, system design, and performance optimizati
   <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
   <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
 </ul>
-</br>
 
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 </br>
