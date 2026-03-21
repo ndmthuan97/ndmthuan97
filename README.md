@@ -57,15 +57,18 @@ My main focus is backend architecture, system design, and performance optimizati
 
 <div align="center">
   <a href="https://www.facebook.com/thuan.minh.71697092" target="_blank">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=facebook" style="margin: 0 15px;" />
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=facebook"/>
   </a>
+	&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.linkedin.com/in/ndmthuan97" target="_blank">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=linkedin" style="margin: 0 15px;" />
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=linkedin"/>
   </a>
+	&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="mailto:ndmthuan.97@gmail.com">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=gmail" style="margin: 0 15px;" />
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=gmail"/>
   </a>
+	&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://ndmthuan97.github.io" target="_blank">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=github" style="margin: 0 15px;" />
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=github"/>
   </a>
 </div>
