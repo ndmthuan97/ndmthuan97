@@ -16,18 +16,17 @@ My main focus is backend architecture, system design, and performance optimizati
   <li>💻 <b>Experience:</b> Specialized in <b>Backend Developer</b> and cloud infrastructure (Azure)</li>
   <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
   <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
-  <li>📫 <b>Connect with me:</b> <a href="https://ndmthuan97.github.io">Portfolio</a> | <a href="https://www.linkedin.com/in/ndmthuan97">LinkedIn</a> | <a href="mailto:ndmthuan.97@gmail.com">Email</a></li>
 </ul>
 
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
 </br>
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=dotnet,cs,spring,java,redis,postgres,mssql" />
+  <img src="https://go-skill-icons.vercel.app/api/icons?i=dotnet,cs,spring,java,postgres,sqlserver" />
   <br/><br/>
-  <img src="https://skillicons.dev/icons?i=angular,react,ts,html,css,js,tailwind,bootstrap,primeng" />
+  <img src="https://go-skill-icons.vercel.app/api/icons?i=angular,react,ts,html,css,js,tailwind,bootstrap" />
   <br/><br/>
-  <img src="https://skillicons.dev/icons?i=docker,git,github,azure,vercel,postman,figma,jira" />
+  <img src="https://go-skill-icons.vercel.app/api/icons?i=docker,git,github,azure,vercel,redis,nginx,rabbitmq,postman,figma,jira" />
 </div>
 </br>
 
@@ -50,4 +49,22 @@ My main focus is backend architecture, system design, and performance optimizati
 </br>
 <div align="center">
   <img src="images/github.gif" width="200" />
+</div>
+
+### 📊 Connect with me  
+</br>
+
+<div align="center">
+  <a href="https://www.facebook.com/thuan.minh.71697092" target="_blank">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=facebook" style="margin: 0 8px;" />
+  </a>
+  <a href="https://www.linkedin.com/in/ndmthuan97" target="_blank">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=linkedin" style="margin: 0 8px;" />
+  </a>
+  <a href="mailto:ndmthuan.97@gmail.com">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=gmail" style="margin: 0 8px;" />
+  </a>
+  <a href="https://ndmthuan97.github.io" target="_blank">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=github" style="margin: 0 8px;" />
+  </a>
 </div>
