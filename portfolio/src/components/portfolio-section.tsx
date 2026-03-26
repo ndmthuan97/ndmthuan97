@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { X, ExternalLink, Server, Monitor, FileText, Sparkles } from "lucide-react";
 import portfolioData from "../data/portfolio.json";
 import { useReveal } from "../hooks/use-reveal";
+import { assetPath } from "../utils/asset-path";
 
 type Category = "all" | "backend" | "frontend" | "mobile";
 
@@ -186,7 +187,7 @@ export function PortfolioSection() {
             >
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={item.image || "/default.png"}
+                  src={assetPath(item.image || "/default.png")}
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -251,7 +252,7 @@ export function PortfolioSection() {
               <div className="flex flex-col md:flex-row gap-5 items-center md:items-start text-center md:text-left">
                 <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden rounded-xl border-2 border-primary/20 bg-muted flex items-center justify-center shadow-lg">
                   <img
-                    src={selectedProject.image || "/default.png"}
+                    src={assetPath(selectedProject.image || "/default.png")}
                     alt={selectedProject.title}
                     className="w-full h-full object-cover"
                     onError={(e) => {

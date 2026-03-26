@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import homeData from "../data/home.json";
 import { useReveal } from "../hooks/use-reveal";
+import { assetPath } from "../utils/asset-path";
 
 export function HeroSection({ onNavigate }: { onNavigate?: (section: string) => void }) {
   const { name, role, bio, profileImage } = homeData;
@@ -16,7 +17,7 @@ export function HeroSection({ onNavigate }: { onNavigate?: (section: string) => 
           <div className={`relative z-10 flex-shrink-0 ${isVisible ? "animate-in zoom-in fade-in duration-1000" : "opacity-0"}`}>
             <div className={`relative w-64 aspect-[3/4] md:w-80 lg:w-[28rem] overflow-hidden shadow-2xl ${isVisible ? "animate-profile" : ""} border-4 border-primary/20`}>
               <img
-                src={profileImage}
+                src={assetPath(profileImage)}
                 alt={`${name} - ${role}`}
                 className="w-full h-full object-cover"
               />
