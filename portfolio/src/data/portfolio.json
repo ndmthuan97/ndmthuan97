@@ -19,7 +19,65 @@
     ],
     "items": [
         {
-            "id": 1,
+            "id": 5,
+            "image": "/deca.png",
+            "title": "Deca Project",
+            "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
+            "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
+            "features": [
+                "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
+                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization (e.g., contractions like 'I'm' == 'I am').",
+                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden), and optional full-answer reveal.",
+                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation, and get a Vietnamese translation via dictionary API.",
+                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback powered by integrated language model APIs.",
+                "⌨️ Keyboard Shortcut Support: Hotkey bindings for audio playback and navigation to enable a hands-free study flow."
+            ],
+            "technicalDetails": {
+                "backend": [
+                    "Built a Next.js API layer with file-based routing to serve topics, phrases, and AI completions.",
+                    "Integrated external dictionary API (dictionaryapi.dev) and translation API (MyMemory) for real-time IPA and meaning lookup.",
+                    "Implemented server-side AI proxy to securely forward requests to language model APIs without exposing keys on the client."
+                ],
+                "frontend": [
+                    "Developed a responsive SPA with Next.js 15 (App Router) and TypeScript, leveraging React Server Components where appropriate.",
+                    "Styled with TailwindCSS using a consistent design token system; implemented a two-column layout with state-driven progressive disclosure to prevent layout shifts.",
+                    "Managed complex UI state (idle/wrong/correct) for listening practice with answer normalization, diff rendering, and fixed-position IPA tooltip using getBoundingClientRect.",
+                    "Used TanStack Query for server-state management, caching topic/phrase data and handling background refetching.",
+                    "Integrated Web Speech API (SpeechSynthesis) with custom progress tracking for audio playback simulation."
+                ]
+            },
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Deca"
+                }
+            ],
+            "category": [
+                "backend",
+                "frontend"
+            ],
+            "technologies": {
+                "frontend": [
+                    "Next.js 15",
+                    "TypeScript",
+                    "TailwindCSS",
+                    "TanStack Query",
+                    "Web Speech API"
+                ],
+                "backend": [
+                    "Next.js API Routes",
+                    "Node.js"
+                ],
+                "thirdParty": [
+                    "OpenAI / AI SDK",
+                    "DictionaryAPI",
+                    "MyMemory Translate",
+                    "Vercel"
+                ]
+            }
+        },
+        {
+            "id": 4,
             "image": "/trava.png",
             "title": "Trava Project",
             "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
@@ -83,7 +141,7 @@
             }
         },
         {
-            "id": 2,
+            "id": 3,
             "image": "/phygen.png",
             "title": "PhyGen Project",
             "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
@@ -147,7 +205,7 @@
             }
         },
         {
-            "id": 3,
+            "id": 2,
             "image": "/timeswap.png",
             "title": "TimeSwap Project",
             "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
@@ -220,7 +278,7 @@
             }
         },
         {
-            "id": 4,
+            "id": 1,
             "image": "",
             "title": "Adobe Migration Project",
             "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
