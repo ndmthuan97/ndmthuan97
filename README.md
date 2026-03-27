@@ -65,7 +65,7 @@ My main focus is backend architecture, system design, and performance optimizati
     <img src="https://go-skill-icons.vercel.app/api/icons?i=gmail"/>
   </a>
 	&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://ndmthuan97.github.io" target="_blank">
+  <a href="https://ndmthuan97.github.io/ndmthuan97" target="_blank">
     <img src="https://go-skill-icons.vercel.app/api/icons?i=github"/>
   </a>
 </div>
