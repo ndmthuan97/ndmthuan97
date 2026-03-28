@@ -1,124 +1,152 @@
-import { Mail, Github, Linkedin, MapPin } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Mail, Github, Linkedin, MapPin, CheckCircle, XCircle } from "lucide-react";
 import contactData from "../data/contact.json";
 import { useReveal } from "../hooks/use-reveal";
+import { Button } from "./ui/button";
 
-const ICON_MAP: Record<string, React.ElementType> = {
-    Mail,
-    Github,
-    Linkedin,
-    MapPin,
-};
+const ICON_MAP: Record<string, React.ElementType> = { Mail, Github, Linkedin, MapPin };
+
+type Status = "idle" | "success" | "error";
+
+// Simple inline toast notification
+function Toast({ status, onClose }: { status: Status; onClose: () => void }) {
+  useEffect(() => {
+    if (status !== "idle") {
+      const t = setTimeout(onClose, 4000);
+      return () => clearTimeout(t);
+    }
+  }, [status, onClose]);
+
+  if (status === "idle") return null;
+
+  const isSuccess = status === "success";
+  return (
+    <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ${
+      isSuccess ? "bg-green-950/90 border-green-500/40 text-green-300" : "bg-red-950/90 border-red-500/40 text-red-300"
+    }`}>
+      {isSuccess
+        ? <CheckCircle size={18} className="text-green-400 flex-shrink-0" />
+        : <XCircle size={18} className="text-red-400 flex-shrink-0" />}
+      <span className="text-sm font-medium">
+        {isSuccess
+          ? "Email client opened! Click Send to deliver your message."
+          : "Please fill in all fields before sending."}
+      </span>
+      <button onClick={onClose} className="ml-2 opacity-60 hover:opacity-100 transition-opacity text-xs">✕</button>
+    </div>
+  );
+}
 
 export function ContactSection() {
-    const { isVisible, ref } = useReveal(0.05);
+  const { isVisible, ref } = useReveal(0.05);
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [status, setStatus] = useState<Status>("idle");
 
-    return (
-        <section id="contact" ref={ref} className="min-h-screen flex items-center py-20 bg-background relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-secondary/5 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2"></div>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-            <div className="container mx-auto px-6 md:px-12 lg:px-20">
-                {/* Header */}
-                <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-muted/30 uppercase tracking-widest select-none whitespace-nowrap">
-                        CONTACT
-                    </span>
-                    <h2 className="relative text-3xl md:text-4xl font-bold">
-                        <span className="text-foreground">GET IN </span>
-                        <span className="text-primary">TOUCH</span>
-                    </h2>
-                    <div className="w-20 h-1.5 bg-primary mx-auto mt-4 rounded-full"></div>
-                </div>
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, subject, message } = form;
+    if (!name || !email || !subject || !message) {
+      setStatus("error");
+      return;
+    }
+    const emailTo = contactData.contacts.find(c => c.id === "email")?.value ?? "";
+    const body = encodeURIComponent(`Hi, I'm ${name}.\n\n${message}\n\nReply to: ${email}`);
+    window.open(`mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${body}`, "_blank");
+    setStatus("success");
+    setForm({ name: "", email: "", subject: "", message: "" });
+  }, [form]);
 
-                {/* Intro Text */}
-                <div className={`mb-12 text-center max-w-3xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-                    <h3 className="text-3xl font-bold mb-4">{contactData.intro.title}</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                        {contactData.intro.description}
-                    </p>
-                </div>
+  return (
+    <section id="contact" ref={ref} className="min-h-screen flex items-center py-20 relative overflow-hidden">
+      <Toast status={status} onClose={() => setStatus("idle")} />
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-                    {/* Contact Info */}
-                    <div className="flex flex-col gap-6">
-                        {contactData.contacts.map((contact, index) => {
-                            const Icon = ICON_MAP[contact.icon];
-                            const isLink = !!contact.href;
-                            const Wrapper = isLink ? "a" : "div";
-                            const wrapperProps = isLink
-                                ? {
-                                    href: contact.href,
-                                    target: contact.id !== "email" ? "_blank" : undefined,
-                                    rel: contact.id !== "email" ? "noopener noreferrer" : undefined,
-                                }
-                                : {};
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/8 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-accent/8 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2" />
 
-                            return (
-                                <Wrapper
-                                    key={contact.id}
-                                    {...wrapperProps}
-                                    className={`group flex items-center gap-5 p-5 rounded-xl bg-card border border-border/50 ${isVisible ? "animate-in slide-in-from-left fade-in duration-500 fill-mode-backwards" : "opacity-0"} ${isLink
-                                        ? "hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                                        : ""
-                                        }`}
-                                    style={{ animationDelay: isVisible ? `${300 + (index * 100)}ms` : '0ms' }}
-                                >
-                                    <div className="w-14 h-14 bg-primary/10 text-primary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                                        {Icon && <Icon size={28} />}
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-bold text-foreground">{contact.label}</h4>
-                                        <p className="text-muted-foreground group-hover:text-primary transition-colors">
-                                            {contact.value}
-                                        </p>
-                                    </div>
-                                </Wrapper>
-                            );
-                        })}
-                    </div>
+      <div className="container mx-auto px-6 md:px-12 lg:px-20">
+        {/* Header */}
+        <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-figma-border/25 uppercase tracking-widest select-none whitespace-nowrap">
+            CONTACT
+          </span>
+          <h2 className="relative text-3xl md:text-4xl font-bold">
+            <span className="text-foreground">GET IN </span>
+            <span className="text-primary">TOUCH</span>
+          </h2>
+          <div className="w-20 h-1 bg-primary mx-auto mt-4 rounded-full" />
+        </div>
 
-                    {/* Contact Form / Decorative Image */}
-                    <div className={`relative ${isVisible ? "animate-in slide-in-from-right fade-in duration-700 delay-500 fill-mode-backwards" : "opacity-0"}`}>
-                        <div className="bg-card border border-border/50 rounded-2xl p-8 shadow-xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-500 group-hover:bg-primary/20"></div>
-                            <div className="absolute bottom-0 left-0 w-24 h-24 bg-secondary/10 rounded-full blur-2xl -ml-12 -mb-12 transition-all duration-500 group-hover:bg-secondary/20"></div>
+        {/* Intro */}
+        <div className={`mb-12 text-center max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+          <h3 className="text-2xl font-bold mb-3">{contactData.intro.title}</h3>
+          <p className="text-muted-foreground leading-relaxed">{contactData.intro.description}</p>
+        </div>
 
-                            <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-                            <form className="flex flex-col gap-4">
-                                <div className="flex flex-col md:flex-row gap-4">
-                                    <input
-                                        type="text"
-                                        placeholder="Name"
-                                        className="w-full p-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                                    />
-                                    <input
-                                        type="email"
-                                        placeholder="Email"
-                                        className="w-full p-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                                    />
-                                </div>
-                                <input
-                                    type="text"
-                                    placeholder="Subject"
-                                    className="w-full p-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                                />
-                                <textarea
-                                    placeholder="Message"
-                                    rows={5}
-                                    className="w-full p-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors resize-none"
-                                ></textarea>
-                                <button
-                                    type="button"
-                                    className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all transform hover:scale-[1.02] shadow-lg shadow-primary/25"
-                                >
-                                    Send Message
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-stretch">
+
+          {/* Left: contact info */}
+          <div className={`lg:col-span-2 flex flex-col justify-between gap-3 ${isVisible ? "animate-in slide-in-from-left fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
+            style={{ animationDelay: "200ms" }}>
+            {contactData.contacts.map((contact, index) => {
+              const Icon = ICON_MAP[contact.icon];
+              const isLink = !!contact.href;
+              const Wrapper = isLink ? "a" : "div";
+              const wrapperProps = isLink
+                ? { href: contact.href, target: contact.id !== "email" ? "_blank" : undefined, rel: contact.id !== "email" ? "noopener noreferrer" : undefined }
+                : {};
+              return (
+                <Wrapper key={contact.id} {...wrapperProps}
+                  className={`flex items-center gap-4 p-4 rounded-xl border border-figma-border/40 bg-figma-header/50 backdrop-blur-sm transition-all duration-300 ${isLink ? "hover:border-primary/60 hover:bg-figma-header/80 hover:shadow-[0_0_16px_rgba(118,60,172,0.2)] cursor-pointer group" : ""}`}
+                  style={{ animationDelay: isVisible ? `${300 + index * 80}ms` : "0ms" }}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/15 text-primary flex items-center justify-center flex-shrink-0 group-hover:bg-primary/25 transition-colors">
+                    {Icon && <Icon size={18} />}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{contact.label}</p>
+                    <p className="text-sm font-medium text-foreground truncate">{contact.value}</p>
+                  </div>
+                </Wrapper>
+              );
+            })}
+          </div>
+
+          {/* Right: contact form */}
+          <div className={`lg:col-span-3 ${isVisible ? "animate-in slide-in-from-right fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
+            style={{ animationDelay: "400ms" }}>
+            <div className="relative rounded-2xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+              <div className="p-6 md:p-8">
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-primary rounded-full inline-block" />
+                  Send Me a Message
+                </h3>
+                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-2 gap-4">
+                    <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required
+                      className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                    <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required
+                      className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                  </div>
+                  <input name="subject" type="text" placeholder="Subject" value={form.subject} onChange={handleChange} required
+                    className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                  <textarea name="message" placeholder="Message" rows={6} value={form.message} onChange={handleChange} required
+                    className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none text-sm" />
+                  <Button type="submit"
+                    className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/80 transition-all shadow-[0_4px_20px_rgba(118,60,172,0.4)] hover:shadow-[0_4px_28px_rgba(118,60,172,0.6)]">
+                    Send Message
+                  </Button>
+                </form>
+              </div>
             </div>
-        </section>
-    );
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
 }

@@ -3,6 +3,7 @@ import { X, ExternalLink, Server, Monitor, FileText, Sparkles } from "lucide-rea
 import portfolioData from "../data/portfolio.json";
 import { useReveal } from "../hooks/use-reveal";
 import { assetPath } from "../utils/asset-path";
+import { Badge } from "./ui/badge";
 
 type Category = "all" | "backend" | "frontend" | "mobile";
 
@@ -157,19 +158,20 @@ export function PortfolioSection() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12">
           {filters.map((filter) => (
             <button
               key={filter.value}
               onClick={() => setActiveFilter(filter.value)}
-              className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all uppercase ${activeFilter === filter.value
-                ? filter.value === "all" ? "bg-primary text-white shadow-lg shadow-primary/20" :
-                  filter.value === "backend" ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20" :
-                    filter.value === "frontend" ? "bg-green-500 text-white shadow-lg shadow-green-500/20" :
-                      filter.value === "mobile" ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" :
-                        "bg-primary text-white shadow-lg shadow-primary/20"
-                : "bg-muted text-black/70 dark:bg-neutral-900 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800"
-                }`}
+              className={`px-5 py-2 rounded-xl text-xs font-bold tracking-widest transition-all uppercase border ${
+                activeFilter === filter.value
+                  ? filter.value === "all" ? "bg-primary text-white border-primary shadow-[0_0_16px_rgba(118,60,172,0.4)]" :
+                    filter.value === "backend" ? "bg-blue-600 text-white border-blue-600 shadow-[0_0_16px_rgba(37,99,235,0.4)]" :
+                    filter.value === "frontend" ? "bg-green-600 text-white border-green-600 shadow-[0_0_16px_rgba(22,163,74,0.4)]" :
+                    filter.value === "mobile" ? "bg-orange-500 text-white border-orange-500 shadow-[0_0_16px_rgba(249,115,22,0.4)]" :
+                    "bg-primary text-white border-primary"
+                  : "bg-figma-skill text-muted-foreground border-figma-border/50 hover:text-primary hover:border-figma-border-light"
+              }`}
             >
               {filter.label}
             </button>
@@ -182,7 +184,7 @@ export function PortfolioSection() {
             <div
               key={item.id}
               onClick={() => setSelectedProject(item)}
-              className={`group relative overflow-hidden rounded-lg cursor-pointer bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 ${isVisible ? "animate-in fade-in slide-in-from-bottom duration-500 fill-mode-backwards" : "opacity-0"}`}
+              className={`group relative overflow-hidden rounded-xl cursor-pointer border border-figma-border/40 bg-figma-card/80 hover:border-figma-border-light/70 hover:shadow-[0_0_24px_rgba(118,60,172,0.25)] transition-all duration-300 ${isVisible ? "animate-in fade-in slide-in-from-bottom duration-500 fill-mode-backwards" : "opacity-0"}`}
               style={{ animationDelay: isVisible ? `${index * 100}ms` : '0ms' }}
             >
               <div className="relative h-48 overflow-hidden">
@@ -191,36 +193,31 @@ export function PortfolioSection() {
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-white font-medium tracking-wide px-4 py-2 border border-white/50 rounded-full hover:bg-white/10 transition-colors">
+                <div className="absolute inset-0 bg-figma-bg/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="text-white font-medium tracking-wide px-4 py-2 border border-figma-border-light/60 rounded-full bg-figma-card/50 backdrop-blur-sm">
                     View Details
                   </span>
                 </div>
               </div>
 
-              <div className="p-6">
-                <div className="flex flex-wrap gap-2 mb-3">
+              <div className="p-5">
+                <div className="flex flex-wrap gap-1.5 mb-3">
                   {item.category.map((cat) => {
                     const isBackend = cat.toLowerCase() === "backend";
                     const isFrontend = cat.toLowerCase() === "frontend";
                     const isMobile = cat.toLowerCase() === "mobile";
-
-                    const colorClasses = isBackend ? "bg-blue-500/10 text-blue-600" :
-                      isFrontend ? "bg-green-500/10 text-green-600" :
-                        isMobile ? "bg-orange-500/10 text-orange-600" :
-                          "bg-primary/10 text-primary";
-
+                    const variant = isBackend ? "bg-blue-500/15 text-blue-400 border-blue-500/30" :
+                      isFrontend ? "bg-green-500/15 text-green-400 border-green-500/30" :
+                      isMobile ? "bg-orange-500/15 text-orange-400 border-orange-500/30" :
+                      "bg-primary/15 text-figma-accent border-primary/30";
                     return (
-                      <span
-                        key={cat}
-                        className={`text-[10px] font-bold px-2 py-0.5 ${colorClasses} rounded uppercase tracking-wide`}
-                      >
+                      <Badge key={cat} variant="outline" className={`text-[10px] font-bold uppercase tracking-wide ${variant}`}>
                         {cat}
-                      </span>
+                      </Badge>
                     );
                   })}
                 </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-muted-foreground text-sm line-clamp-3">
@@ -234,23 +231,23 @@ export function PortfolioSection() {
 
       {/* Project Detail Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
           <div
-            className="relative w-full max-w-5xl bg-background rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 border border-border my-auto flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-5xl bg-figma-header rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 border border-figma-border my-auto flex flex-col max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-figma-card border border-figma-border text-white hover:bg-primary/20 hover:border-primary transition-colors"
             >
               <X size={20} />
             </button>
 
             {/* Modal Header */}
-            <div className="p-5 md:p-6 border-b border-border/60 flex-shrink-0">
+            <div className="p-5 md:p-6 border-b border-figma-border/50 flex-shrink-0">
               <div className="flex flex-col md:flex-row gap-5 items-center md:items-start text-center md:text-left">
-                <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden rounded-xl border-2 border-primary/20 bg-muted flex items-center justify-center shadow-lg">
+                <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden rounded-xl border-2 border-figma-border bg-figma-skill flex items-center justify-center shadow-lg">
                   <img
                     src={assetPath(selectedProject.image || "/default.png")}
                     alt={selectedProject.title}
@@ -300,14 +297,14 @@ export function PortfolioSection() {
                       }
 
                       const colorClass = isBackend
-                        ? "bg-blue-500/10 text-blue-600"
+                        ? "bg-blue-500/15 text-blue-400 border border-blue-500/30"
                         : isFrontend
-                          ? "bg-green-500/10 text-green-600"
+                          ? "bg-green-500/15 text-green-400 border border-green-500/30"
                           : isMobile
-                            ? "bg-orange-500/10 text-orange-600"
-                            : "bg-primary/10 text-primary";
+                            ? "bg-orange-500/15 text-orange-400 border border-orange-500/30"
+                            : "bg-primary/15 text-figma-accent border border-primary/30";
                       return (
-                        <span key={cat} className={`${baseClasses} ${colorClass} shadow-none`}>
+                        <span key={cat} className={`${baseClasses} ${colorClass}`}>
                           {cat}
                         </span>
                       );
@@ -328,8 +325,9 @@ export function PortfolioSection() {
                         return (
                           <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer">
                             <span
-                              className={`text-[9px] md:text-[10px] font-bold px-2.5 py-1 ${isGithub ? "bg-neutral-900" : "bg-primary"
-                                } text-white rounded-full uppercase tracking-wider flex items-center gap-1 hover:opacity-80 transition-all active:scale-95 shadow-sm`}
+                              className={`text-[9px] md:text-[10px] font-bold px-2.5 py-1 ${
+                                isGithub ? "bg-figma-skill border border-figma-border-light/50" : "bg-primary border border-primary/50"
+                              } text-white rounded-full uppercase tracking-wider flex items-center gap-1 hover:opacity-80 transition-all active:scale-95 shadow-sm`}
                             >
                               {link.label} <ExternalLink size={10} />
                             </span>
@@ -346,7 +344,7 @@ export function PortfolioSection() {
               <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8">
 
                 {/* ── LEFT COLUMN: Overview + Key Features (wider) ── */}
-                <div className="md:col-span-3 space-y-6 md:border-r border-border/60 md:pr-8">
+                <div className="md:col-span-3 space-y-6 md:border-r border-figma-border/40 md:pr-8">
                   {/* Overview */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">

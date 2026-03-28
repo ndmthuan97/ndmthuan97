@@ -1,5 +1,7 @@
 import aboutData from "../data/about.json";
 import { useReveal } from "../hooks/use-reveal";
+import { Card, CardContent } from "./ui/card";
+
 
 interface StatItem {
   value: string;
@@ -20,33 +22,33 @@ export function AboutSection() {
 
   return (
     <section id="about" ref={ref} className="min-h-screen flex items-center py-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-      {/* Decorative Background Elements */}
+      {/* Background blobs */}
       <div className="absolute top-20 -right-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
-      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl -z-10 animate-pulse delay-700" />
-      {/* New decorative blob */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl -z-10 animate-pulse delay-700" />
 
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h2 className="text-6xl md:text-7xl font-bold text-muted/30 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0">
+          <h2 className="text-6xl md:text-7xl font-bold text-figma-border/25 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
             RESUME
           </h2>
           <h3 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
             ABOUT <span className="text-primary">ME</span>
           </h3>
+          <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Personal Info & Stats */}
-        <div className="grid lg:grid-cols-2 gap-12 mb-20">
+        <div className="grid lg:grid-cols-2 gap-12 mb-12">
           {/* Personal Info */}
           <div className={`${isVisible ? "animate-in slide-in-from-left fade-in duration-700 fill-mode-backwards delay-200" : "opacity-0"}`}>
-            <h4 className="text-xl font-bold text-foreground mb-6 uppercase tracking-wide">Personal Information</h4>
-            <div className="grid grid-cols-1 gap-4 mb-8">
+            <h4 className="text-xl font-bold text-foreground mb-6 uppercase tracking-widest text-sm">
+              Personal Information
+            </h4>
+            <div className="space-y-3 mb-8">
               {personalInfo.map((item, index) => (
-                <div key={index} className="text-sm border-b border-border/50 pb-2 flex justify-between sm:justify-start sm:gap-4">
-                  <span className="text-muted-foreground min-w-[100px]">{item.label}</span>{" "}
-                  <span className={item.highlight ? "text-primary font-medium" : "text-foreground font-medium"}>
+                <div key={index} className="flex justify-between sm:justify-start sm:gap-4 border-b border-figma-border/30 pb-3">
+                  <span className="text-muted-foreground text-sm min-w-[120px]">{item.label}</span>
+                  <span className={`text-sm font-medium ${item.highlight ? "text-figma-accent" : "text-foreground"}`}>
                     {item.value}
                   </span>
                 </div>
@@ -54,22 +56,26 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-6">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-4">
             {stats.map((stat, index) => (
-              <div
+              <Card
                 key={index}
-                className={`border border-border rounded-lg p-6 flex items-center gap-4 ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
+                className={`figma-stat-card border-0 rounded-2xl overflow-hidden group ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
                 style={{ animationDelay: isVisible ? `${500 + (index * 150)}ms` : '0ms' }}
               >
-                <div>
-                  <span className="text-4xl md:text-5xl font-bold text-primary">{stat.value}</span>
-                  <span className="text-primary text-2xl">{stat.suffix}</span>
-                </div>
-                <div className="text-xs text-muted-foreground uppercase leading-tight tracking-wide max-w-16">
-                  {stat.label}
-                </div>
-              </div>
+                <CardContent className="p-6 flex flex-col justify-center h-full min-h-[120px]">
+                  <div className="mb-1">
+                    <span className="text-4xl md:text-5xl font-black text-primary group-hover:text-figma-accent transition-colors">
+                      {stat.value}
+                    </span>
+                    <span className="text-primary text-2xl font-bold">{stat.suffix}</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground uppercase leading-tight tracking-widest font-medium">
+                    {stat.label}
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -77,4 +83,3 @@ export function AboutSection() {
     </section>
   );
 }
-
