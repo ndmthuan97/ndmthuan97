@@ -22,20 +22,20 @@ export function AboutSection() {
 
   return (
     <section id="about" ref={ref} className="min-h-screen flex items-center py-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-      {/* Background blobs */}
-      <div className="absolute top-20 -right-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
-      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl -z-10 animate-pulse delay-700" />
+      {/* Background ambience */}
+      <div className="absolute top-20 -right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl -z-10 animate-pulse" />
+      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-white/3 rounded-full blur-3xl -z-10 animate-pulse delay-700" />
 
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/25 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
+          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-white/8 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
             RESUME
           </span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
-            ABOUT <span className="text-primary">ME</span>
+            ABOUT <span className="text-white">ME</span>
           </h2>
-          <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
+          <div className="w-16 h-1 bg-white mx-auto mt-4 rounded-full" />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-12">
@@ -46,9 +46,9 @@ export function AboutSection() {
             </h4>
             <div className="space-y-3 mb-8">
               {personalInfo.map((item, index) => (
-                <div key={index} className="flex justify-between sm:justify-start sm:gap-4 border-b border-figma-border/30 pb-3">
+                <div key={index} className="flex justify-between sm:justify-start sm:gap-4 border-b border-white/8 pb-3">
                   <span className="text-muted-foreground text-sm min-w-[120px]">{item.label}</span>
-                  <span className={`text-sm font-medium ${item.highlight ? "text-figma-accent" : "text-foreground"}`}>
+                  <span className={`text-sm font-medium ${item.highlight ? "text-white" : "text-foreground"}`}>
                     {item.value}
                   </span>
                 </div>
@@ -66,10 +66,10 @@ export function AboutSection() {
               >
                 <CardContent className="p-6 flex flex-col justify-center h-full min-h-[120px]">
                   <div className="mb-1">
-                    <span className="text-4xl md:text-5xl font-black text-primary group-hover:text-figma-accent transition-colors">
+                    <span className="text-4xl md:text-5xl font-black text-white group-hover:text-[#a1a1a1] motion-safe:transition-colors">
                       {stat.value}
                     </span>
-                    <span className="text-primary text-2xl font-bold">{stat.suffix}</span>
+                    <span className="text-white text-2xl font-bold">{stat.suffix}</span>
                   </div>
                   <div className="text-xs text-muted-foreground uppercase leading-tight tracking-widest font-medium">
                     {stat.label}

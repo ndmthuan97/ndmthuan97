@@ -8,7 +8,6 @@ const ICON_MAP: Record<string, React.ElementType> = { Mail, Github, Linkedin, Ma
 
 type Status = "idle" | "success" | "error";
 
-// Simple inline toast notification
 function Toast({ status, onClose }: { status: Status; onClose: () => void }) {
   useEffect(() => {
     if (status !== "idle") {
@@ -32,7 +31,7 @@ function Toast({ status, onClose }: { status: Status; onClose: () => void }) {
           ? "Email client opened! Click Send to deliver your message."
           : "Please fill in all fields before sending."}
       </span>
-      <button onClick={onClose} className="ml-2 opacity-60 hover:opacity-100 transition-opacity text-xs">✕</button>
+      <button onClick={onClose} className="ml-2 opacity-60 hover:opacity-100 motion-safe:transition-opacity text-xs">✕</button>
     </div>
   );
 }
@@ -64,20 +63,20 @@ export function ContactSection() {
     <section id="contact" ref={ref} className="min-h-screen flex items-center py-20 relative overflow-hidden">
       <Toast status={status} onClose={() => setStatus("idle")} />
 
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/8 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-accent/8 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-white/5 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-white/3 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2" />
 
       <div className="container mx-auto px-6 md:px-12 lg:px-20">
         {/* Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-figma-border/25 uppercase tracking-widest select-none whitespace-nowrap">
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-white/8 uppercase tracking-widest select-none whitespace-nowrap">
             CONTACT
           </span>
           <h2 className="relative text-3xl md:text-4xl font-bold tracking-tight">
             <span className="text-foreground">GET IN </span>
-            <span className="text-primary">TOUCH</span>
+            <span className="text-white">TOUCH</span>
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-white mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Intro */}
@@ -100,10 +99,10 @@ export function ContactSection() {
                 : {};
               return (
                 <Wrapper key={contact.id} {...wrapperProps}
-                  className={`flex items-center gap-4 p-4 rounded-xl border border-figma-border/40 bg-figma-header/50 backdrop-blur-sm transition-all duration-300 ${isLink ? "hover:border-primary/60 hover:bg-figma-header/80 hover:shadow-[0_0_16px_rgba(118,60,172,0.2)] cursor-pointer group" : ""}`}
+                  className={`flex items-center gap-4 p-4 rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/50 backdrop-blur-sm motion-safe:transition-all motion-safe:duration-300 ${isLink ? "hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] hover:bg-[#111111]/80 cursor-pointer group" : ""}`}
                   style={{ animationDelay: isVisible ? `${300 + index * 80}ms` : "0ms" }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/15 text-primary flex items-center justify-center flex-shrink-0 group-hover:bg-primary/25 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 motion-safe:transition-colors">
                     {Icon && <Icon size={18} />}
                   </div>
                   <div className="min-w-0">
@@ -118,26 +117,26 @@ export function ContactSection() {
           {/* Right: contact form */}
           <div className={`lg:col-span-3 ${isVisible ? "animate-in slide-in-from-right fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
             style={{ animationDelay: "400ms" }}>
-            <div className="relative rounded-xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden h-full">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+            <div className="relative rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/60 backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
               <div className="p-6 md:p-8">
                 <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <span className="w-1 h-5 bg-primary rounded-full inline-block" />
+                  <span className="w-1 h-5 bg-white rounded-full inline-block" />
                   Send Me a Message
                 </h3>
                 <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-4">
                     <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required
-                      className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                      className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
                     <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required
-                      className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                      className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
                   </div>
                   <input name="subject" type="text" placeholder="Subject" value={form.subject} onChange={handleChange} required
-                    className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm" />
+                    className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
                   <textarea name="message" placeholder="Message" rows={6} value={form.message} onChange={handleChange} required
-                    className="w-full p-3 bg-figma-skill/80 border border-figma-border/60 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none text-sm" />
+                    className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors resize-none text-sm" />
                   <Button type="submit"
-                    className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/80 transition-all shadow-[0_4px_20px_rgba(118,60,172,0.4)] hover:shadow-[0_4px_28px_rgba(118,60,172,0.6)]">
+                    className="w-full py-3 bg-white text-[#0a0a0a] font-bold rounded-lg hover:bg-[#e5e5e5] motion-safe:transition-all shadow-[0_0_0_1px_rgba(255,255,255,0.2)]">
                     Send Message
                   </Button>
                 </form>

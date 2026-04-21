@@ -67,7 +67,7 @@ function TechLabel({ tech }: { tech: string }) {
   const badgeUrl = useMemo(() => getBadgeUrl(tech), [tech]);
   return (
     <img src={badgeUrl} alt={tech} title={tech}
-      className="h-5 cursor-default transition-all hover:scale-105 rounded-sm"
+      className="h-5 cursor-default motion-safe:transition-all hover:scale-105 rounded-sm"
       loading="lazy"
       onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
     />
@@ -78,13 +78,12 @@ function getCategoryStyle(cat: string) {
   if (cat === "backend") return { base: "bg-blue-500 text-white", muted: "bg-blue-500/15 text-blue-400 border-blue-500/30" };
   if (cat === "frontend") return { base: "bg-violet-500 text-white", muted: "bg-violet-500/15 text-violet-400 border-violet-500/30" };
   if (cat === "mobile") return { base: "bg-cyan-500 text-white", muted: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30" };
-  return { base: "bg-primary text-white", muted: "bg-primary/15 text-figma-accent border-primary/30" };
+  return { base: "bg-white text-[#0a0a0a]", muted: "bg-white/10 text-white border-white/20" };
 }
 
 export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  // Escape to close + focus trap
   useEffect(() => {
     closeRef.current?.focus();
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -114,23 +113,23 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-project-title"
-        className="relative w-full max-w-5xl bg-figma-header rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 border border-figma-border my-auto flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-5xl bg-[#111111] rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_16px_48px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200 my-auto flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
         <button
           ref={closeRef}
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-figma-card border border-figma-border text-white hover:bg-primary/20 hover:border-primary transition-colors"
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] text-white hover:bg-white/10 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] motion-safe:transition-all"
           aria-label="Close"
         >
           <X size={20} />
         </button>
 
         {/* Header */}
-        <div className="p-5 md:p-6 border-b border-figma-border/50 flex-shrink-0">
+        <div className="p-5 md:p-6 border-b border-white/8 flex-shrink-0">
           <div className="flex flex-col md:flex-row gap-5 items-center md:items-start text-center md:text-left">
-            <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden rounded-xl border-2 border-figma-border bg-figma-skill flex items-center justify-center shadow-lg">
+            <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 overflow-hidden rounded-xl shadow-[0_0_0_2px_rgba(255,255,255,0.08)] bg-[#111111] flex items-center justify-center">
               <img
                 src={assetPath(item.image || "/default.png")}
                 alt={item.title}
@@ -147,13 +146,12 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                 {item.title}
               </h3>
               <div className="flex flex-wrap justify-center md:justify-start gap-1.5">
-                {/* Category tags */}
                 {item.category.map((cat) => {
                   const style = getCategoryStyle(cat);
                   const link = item.links?.find((l) =>
                     l.label.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(l.label.toLowerCase())
                   );
-                  const baseClasses = "text-[9px] md:text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 transition-all shadow-sm";
+                  const baseClasses = "text-[9px] md:text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 motion-safe:transition-all shadow-sm";
                   if (link) {
                     return (
                       <a key={cat} href={link.url} target="_blank" rel="noopener noreferrer">
@@ -167,7 +165,6 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                     <span key={cat} className={`${baseClasses} ${style.muted} border`}>{cat}</span>
                   );
                 })}
-                {/* Other links */}
                 {item.links?.filter((l) =>
                   !item.category.some((cat) =>
                     l.label.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(l.label.toLowerCase())
@@ -176,7 +173,7 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                   const isGithub = link.label.toLowerCase().includes("github");
                   return (
                     <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer">
-                      <span className={`text-[9px] md:text-[10px] font-bold px-2.5 py-1 ${isGithub ? "bg-figma-skill border border-figma-border-light/50" : "bg-primary border border-primary/50"} text-white rounded-full uppercase tracking-wider flex items-center gap-1 hover:opacity-80 transition-all active:scale-95 shadow-sm`}>
+                      <span className={`text-[9px] md:text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 hover:opacity-80 motion-safe:transition-all active:scale-95 ${isGithub ? "bg-[#171717] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.1)]" : "bg-white text-[#0a0a0a] shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"}`}>
                         {link.label} <ExternalLink size={10} />
                       </span>
                     </a>
@@ -191,11 +188,11 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
         <div className="p-5 md:p-6 overflow-y-auto custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8">
             {/* Left: Overview + Features */}
-            <div className="md:col-span-3 space-y-6 md:border-r border-figma-border/40 md:pr-8">
+            <div className="md:col-span-3 space-y-6 md:border-r border-white/8 md:pr-8">
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <FileText size={16} className="text-primary flex-shrink-0" />
-                  <h6 className="text-xs font-black uppercase text-primary tracking-widest">Overview</h6>
+                  <FileText size={16} className="text-white flex-shrink-0" />
+                  <h6 className="text-xs font-black uppercase text-white tracking-widest">Overview</h6>
                 </div>
                 <p className="text-muted-foreground leading-relaxed text-sm whitespace-pre-wrap">
                   {item.overview || item.description}
@@ -204,13 +201,13 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
               {item.features && item.features.length > 0 && (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Sparkles size={16} className="text-primary flex-shrink-0" />
-                    <h6 className="text-xs font-black uppercase text-primary tracking-widest">Key Features</h6>
+                    <Sparkles size={16} className="text-white flex-shrink-0" />
+                    <h6 className="text-xs font-black uppercase text-white tracking-widest">Key Features</h6>
                   </div>
                   <ul className="space-y-3">
                     {item.features.map((feature, i) => (
                       <li key={i} className="flex gap-2.5 text-sm text-muted-foreground items-start group">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary/60 mt-1.5 flex-shrink-0 group-hover:scale-125 group-hover:bg-primary transition-all" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/40 mt-1.5 flex-shrink-0 group-hover:scale-125 group-hover:bg-white motion-safe:transition-all" />
                         <span className="leading-relaxed whitespace-pre-line">{feature}</span>
                       </li>
                     ))}
@@ -296,12 +293,12 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                 </div>
               )}
 
-              {/* Third-party (NEW) */}
+              {/* Third-party */}
               {allTechs.thirdParty.length > 0 && (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-figma-accent text-sm font-bold">🔗</span>
-                    <h6 className="text-xs font-black uppercase text-figma-accent tracking-widest">Third-party</h6>
+                    <span className="text-white text-sm font-bold">🔗</span>
+                    <h6 className="text-xs font-black uppercase text-white tracking-widest">Third-party</h6>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {allTechs.thirdParty.map((tech) => <TechLabel key={tech} tech={tech} />)}

@@ -42,16 +42,16 @@ export function SkillsSection() {
 
   return (
     <section id="skills" ref={ref} className="min-h-screen flex items-center py-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/3 rounded-full blur-[120px] -z-10" />
 
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/30 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
+          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-white/8 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
             EXPERTISE
           </span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
-            MY <span className="text-primary">SKILLS</span>
+            MY <span className="text-white">SKILLS</span>
           </h2>
         </div>
 
@@ -79,7 +79,7 @@ export function SkillsSection() {
                         onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0'; }}
                       />
                       {/* Tooltip */}
-                      <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-figma-card text-foreground text-[10px] py-1 px-2 rounded-md border border-figma-border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                      <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#171717] text-white text-[10px] py-1 px-2 rounded-md shadow-[0_0_0_1px_rgba(255,255,255,0.08)] opacity-0 group-hover:opacity-100 motion-safe:transition-opacity whitespace-nowrap pointer-events-none z-10">
                         {SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon}
                       </span>
                     </div>

@@ -42,8 +42,8 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
               onClick={() => onNavigate(item.href)}
               className={`w-14 h-14 rounded-[6px] flex items-center justify-center motion-safe:transition-all motion-safe:duration-150 cursor-pointer ${
                 activeSection === item.href
-                  ? "bg-primary text-primary-foreground shadow-[0_0_0_1px_rgba(118,60,172,0.6),0_0_0_4px_rgba(118,60,172,0.08)]"
-                  : "bg-figma-header text-muted-foreground shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:text-primary hover:shadow-[0_0_0_1px_rgba(118,60,172,0.3)]"
+                  ? "bg-white text-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
+                  : "bg-[#171717] text-[#666666] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)]"
               }`}
               aria-label={item.label}
             >
@@ -56,7 +56,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
         <div className="relative group">
           <button
             onClick={goAdmin}
-            className="w-14 h-14 rounded-[6px] flex items-center justify-center motion-safe:transition-all motion-safe:duration-150 cursor-pointer bg-figma-header/60 text-muted-foreground/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)] hover:text-figma-accent hover:shadow-[0_0_0_1px_rgba(118,60,172,0.2)]"
+            className="w-14 h-14 rounded-[6px] flex items-center justify-center motion-safe:transition-all motion-safe:duration-150 cursor-pointer bg-[#171717]/60 text-[#666666]/60 shadow-[0_0_0_1px_rgba(255,255,255,0.04)] hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
             aria-label="Admin panel"
           >
             <Settings size={20} />
@@ -68,11 +68,11 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
         </div>
       </div>
 
-      {/* Mobile FAB — circular FAB pattern, kept as-is */}
+      {/* Mobile FAB */}
       <div className="lg:hidden fixed right-6 bottom-6 z-50">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_0_1px_rgba(118,60,172,0.6),0_0_24px_rgba(118,60,172,0.1)] cursor-pointer motion-safe:transition-all motion-safe:duration-150"
+          className="w-16 h-16 rounded-full bg-white text-[#171717] flex items-center justify-center shadow-[0_0_0_1px_rgba(255,255,255,0.2)] cursor-pointer motion-safe:transition-all motion-safe:duration-150"
           aria-label="Toggle Menu"
         >
           {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
@@ -81,13 +81,11 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-300">
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/70 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-300">
           <div
-            className="relative bg-figma-header/90 backdrop-blur-2xl rounded-xl w-[320px] h-[320px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] animate-in zoom-in-95 duration-200"
+            className="relative bg-[#171717]/95 backdrop-blur-2xl rounded-xl w-[320px] h-[320px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-figma-purple/10 blur-3xl" />
-
             {/* Nav items — radial */}
             {navItems.map((item, index) => {
               const angle = (index * 72) - 90;
@@ -106,8 +104,8 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
                 >
                   <div className={`motion-safe:transition-all motion-safe:duration-150 ${
                     activeSection === item.href
-                      ? "text-primary scale-125"
-                      : "text-white/70 group-hover:text-primary"
+                      ? "text-white scale-125"
+                      : "text-[#666666] group-hover:text-white"
                   }`}>
                     {item.icon(32)}
                   </div>
@@ -118,7 +116,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
             {/* Admin button — center of radial menu */}
             <button
               onClick={() => { setIsMenuOpen(false); goAdmin(); }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-[6px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-figma-card/60 text-muted-foreground/60 flex items-center justify-center hover:text-figma-accent hover:shadow-[0_0_0_1px_rgba(118,60,172,0.2)] motion-safe:transition-all motion-safe:duration-150"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-[6px] bg-[#171717] text-[#666666] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] flex items-center justify-center hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)] motion-safe:transition-all motion-safe:duration-150"
               aria-label="Admin panel"
               title="Admin"
             >
