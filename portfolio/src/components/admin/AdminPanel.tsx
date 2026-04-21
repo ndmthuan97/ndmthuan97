@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import { Plus, Trash2, Edit3, Upload, X, Save, ImagePlus, Sparkles, Star } from "lucide-react";
+import { Plus, Trash2, Edit3, Upload, X, Save, ImagePlus, Sparkles, Star, FileInput, GitCommit } from "lucide-react";
 import initialData from "../../data/portfolio.json";
 import type { PortfolioItem } from "../../types/portfolio";
 import { assetPath } from "../../utils/asset-path";
@@ -589,8 +589,8 @@ function ItemForm({
   const contributedCount = repoOptions.filter(r => r.type === "contributed").length;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_24px_64px_rgba(0,0,0,0.7)] rounded-2xl flex flex-col" style={{ maxHeight: "90vh" }}>
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4">
+      <div className="w-full sm:max-w-5xl bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_24px_64px_rgba(0,0,0,0.7)] sm:rounded-2xl rounded-t-2xl flex flex-col" style={{ maxHeight: "95dvh" }}>
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/8 shrink-0">
@@ -623,11 +623,11 @@ function ItemForm({
           </div>
         </div>
 
-        {/* 2-column body */}
-        <div className="flex flex-1 min-h-0">
+        {/* Responsive body: single scroll on mobile, dual-panel scroll on md+ */}
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
 
           {/* ── LEFT: Config panel ─────────────────────────────── */}
-          <div className="w-72 shrink-0 border-r border-white/8 flex flex-col overflow-y-auto p-5 gap-5">
+          <div className="md:w-68 shrink-0 md:border-r border-b md:border-b-0 border-white/8 flex flex-col md:overflow-y-auto p-4 sm:p-5 gap-5">
 
             {/* GitHub Repos */}
             <div className="space-y-2">
@@ -792,7 +792,7 @@ function ItemForm({
           </div>
 
           {/* ── RIGHT: Content panel ────────────────────────────── */}
-          <div className="flex-1 min-w-0 overflow-y-auto p-6 space-y-5">
+          <div className="flex-1 min-w-0 md:overflow-y-auto p-5 sm:p-6 space-y-5">
 
             {/* Title */}
             <div className="space-y-1.5">
@@ -876,9 +876,9 @@ function ItemForm({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-white/8 shrink-0">
-          <p className="text-xs text-[#444]">{item.id === 0 ? "New project" : `ID: ${item.id}`}</p>
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 border-t border-white/8 shrink-0">
+          <p className="text-xs text-[#444] hidden sm:block">{item.id === 0 ? "New project" : `ID: ${item.id}`}</p>
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <button onClick={onClose} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               Cancel
             </button>
@@ -1006,17 +1006,18 @@ export function AdminPanel() {
     <div className="min-h-screen bg-[#0a0a0a] text-foreground">
       {/* Top bar */}
       <div className="border-b border-white/8 bg-[#111111] sticky top-0 z-30">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-lg font-black text-foreground">Portfolio Admin</h1>
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-base font-black text-foreground">Portfolio Admin</h1>
             <p className="text-xs text-muted-foreground">{items.length} projects</p>
           </div>
-          <div className="flex items-center gap-2 flex-wrap justify-end">
+          <div className="flex items-center gap-1.5 flex-shrink-0">
             <button
               onClick={() => setEditing({ ...BLANK_ITEM, id: 0 })}
-              className="flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-white/90 text-[#0a0a0a] text-sm font-bold rounded-[6px] motion-safe:transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-2.5 py-2 bg-white hover:bg-white/90 text-[#0a0a0a] text-sm font-bold rounded-[6px] motion-safe:transition-all active:scale-95"
             >
-              <Plus size={14} /> Add Project
+              <Plus size={14} />
+              <span className="hidden sm:inline">Add Project</span>
             </button>
             <input
               ref={importJsonRef}
@@ -1027,25 +1028,27 @@ export function AdminPanel() {
             />
             <button
               onClick={() => importJsonRef.current?.click()}
-              className="flex items-center gap-1.5 px-3 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] text-sm font-medium rounded-[6px] motion-safe:transition-all"
+              className="flex items-center gap-1.5 px-2.5 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] text-sm font-medium rounded-[6px] motion-safe:transition-all"
+              title="Import JSON"
             >
-              <Upload size={14} /> Import JSON
+              <FileInput size={14} />
+              <span className="hidden sm:inline">Import JSON</span>
             </button>
             <button
               onClick={handleCommit}
               disabled={saving || !GITHUB_TOKEN}
-              title={!GITHUB_TOKEN ? "Set VITE_GITHUB_PAT to enable direct commit" : ""}
-              className="flex items-center gap-1.5 px-3 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(74,222,128,0.4)] text-sm font-medium rounded-[6px] motion-safe:transition-all disabled:opacity-40"
+              title={!GITHUB_TOKEN ? "Set VITE_GITHUB_PAT to enable direct commit" : "Commit to GitHub"}
+              className="flex items-center gap-1.5 px-2.5 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(74,222,128,0.4)] text-sm font-medium rounded-[6px] motion-safe:transition-all disabled:opacity-40"
             >
-              <Upload size={14} />
-              {saving ? "Saving..." : "Commit to GitHub"}
+              <GitCommit size={14} />
+              <span className="hidden sm:inline">{saving ? "Saving..." : "Commit"}</span>
             </button>
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); window.location.hash = ""; window.location.reload(); }}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-2"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-2 hidden sm:block"
             >
-              ← Back to site
+              ← Back
             </a>
           </div>
         </div>
@@ -1058,10 +1061,10 @@ export function AdminPanel() {
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center gap-4 bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)] rounded-xl p-4 motion-safe:transition-all group"
+            className="flex items-start gap-3 bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)] rounded-xl p-3 sm:p-4 motion-safe:transition-all group"
           >
             {/* Thumbnail */}
-            <div className="w-14 h-14 flex-shrink-0 rounded-[6px] overflow-hidden bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-[6px] overflow-hidden bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
               {item.image ? (
                 <img src={assetPath(item.image)} alt={item.title} className="w-full h-full object-cover" />
               ) : (
@@ -1070,57 +1073,54 @@ export function AdminPanel() {
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <p className="font-bold text-foreground truncate">{item.title}</p>
-                {item.featured && (
-                  <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/15 text-amber-400 shadow-[0_0_0_1px_rgba(251,191,36,0.3)] rounded font-bold uppercase tracking-wide">
-                    Featured
-                  </span>
-                )}
-                {item.githubRepo && (
-                  <span className="text-[10px] px-1.5 py-0.5 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] rounded text-muted-foreground font-mono">
-                    {item.githubRepo}
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground truncate">{item.description}</p>
-              <div className="flex gap-1 mt-1.5">
-                {item.category.map((cat) => (
-                  <span key={cat} className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.2)] font-bold uppercase">
-                    {cat}
-                  </span>
-                ))}
-              </div>
-            </div>
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
+                    <p className="font-bold text-foreground truncate text-sm">{item.title}</p>
+                    {item.featured && (
+                      <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/15 text-amber-400 shadow-[0_0_0_1px_rgba(251,191,36,0.3)] rounded font-bold uppercase tracking-wide shrink-0">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground line-clamp-1">{item.description}</p>
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {item.category.map((cat) => (
+                      <span key={cat} className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.2)] font-bold uppercase">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-            <div className="flex items-center gap-1">
-              {/* Pin / Featured button — always visible so state is obvious */}
-              <button
-                onClick={() => handleToggleFeatured(item.id)}
-                className={`p-2 rounded-[6px] motion-safe:transition-colors ${
-                  item.featured
-                    ? "text-amber-400 bg-amber-500/10"
-                    : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                }`}
-                title={item.featured ? "Unpin from featured" : "Set as featured"}
-              >
-                <Star size={16} fill={item.featured ? "currentColor" : "none"} />
-              </button>
-              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  onClick={() => setEditing(item)}
-                  className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors"
-                  title="Edit"
-                >
-                  <Edit3 size={16} />
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id, item.title)}
-                  className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors"
-                  title="Delete"
-                >
-                  <Trash2 size={16} />
-                </button>
+                {/* Action buttons */}
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => handleToggleFeatured(item.id)}
+                    className={`p-2 rounded-[6px] motion-safe:transition-colors ${
+                      item.featured
+                        ? "text-amber-400 bg-amber-500/10"
+                        : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                    }`}
+                    title={item.featured ? "Unpin from featured" : "Set as featured"}
+                  >
+                    <Star size={15} fill={item.featured ? "currentColor" : "none"} />
+                  </button>
+                  <button
+                    onClick={() => setEditing(item)}
+                    className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Edit"
+                  >
+                    <Edit3 size={15} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id, item.title)}
+                    className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Delete"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
