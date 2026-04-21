@@ -97,7 +97,8 @@
                 "ndmthuan97/Tapo_Backend",
                 "ndmthuan97/Tapo_Frontend"
             ],
-            "githubRepo": "ndmthuan97/Tapo"
+            "githubRepo": "ndmthuan97/Tapo",
+            "featured": true
         },
         {
             "id": 5,
@@ -155,7 +156,8 @@
                     "MyMemory Translate",
                     "Vercel"
                 ]
-            }
+            },
+            "featured": false
         },
         {
             "id": 4,
@@ -219,7 +221,8 @@
                     "Vercel",
                     "Swagger/OpenAPI"
                 ]
-            }
+            },
+            "featured": false
         },
         {
             "id": 3,
@@ -283,7 +286,8 @@
                     "TailwindCSS",
                     "Vercel"
                 ]
-            }
+            },
+            "featured": false
         },
         {
             "id": 2,
@@ -356,7 +360,8 @@
                     "Google Maps API",
                     "ChatGPT API"
                 ]
-            }
+            },
+            "featured": false
         },
         {
             "id": 1,
@@ -391,7 +396,8 @@
                     "Excel",
                     "Agile/Scrum"
                 ]
-            }
+            },
+            "featured": false
         }
     ]
 }
