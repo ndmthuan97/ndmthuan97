@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import { Plus, Trash2, Edit3, Upload, X, Save, ImagePlus, Sparkles } from "lucide-react";
+import { Plus, Trash2, Edit3, Upload, X, Save, ImagePlus, Sparkles, Star } from "lucide-react";
 import initialData from "../../data/portfolio.json";
 import type { PortfolioItem } from "../../types/portfolio";
 import { assetPath } from "../../utils/asset-path";
@@ -950,6 +950,19 @@ export function AdminPanel() {
     toast("info", `✓ Deleted "${title}"`);
   };
 
+  const handleToggleFeatured = (id: number) => {
+    setItems((prev) => {
+      const target = prev.find((i) => i.id === id);
+      const alreadyFeatured = target?.featured;
+      // Only one featured at a time — clear all others
+      return prev.map((i) => ({ ...i, featured: alreadyFeatured ? false : i.id === id }));
+    });
+    const title = items.find((i) => i.id === id)?.title ?? "";
+    toast("info", alreadyFeaturedId === id ? `Unpinned "${title}"` : `⭐ "${title}" set as featured`);
+  };
+
+  const alreadyFeaturedId = items.find((i) => i.featured)?.id ?? null;
+
   const buildJson = () => {
     const data = { filters: initialData.filters, items };
     return JSON.stringify(data, null, 4);
@@ -1059,6 +1072,11 @@ export function AdminPanel() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
                 <p className="font-bold text-foreground truncate">{item.title}</p>
+                {item.featured && (
+                  <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/15 text-amber-400 shadow-[0_0_0_1px_rgba(251,191,36,0.3)] rounded font-bold uppercase tracking-wide">
+                    Featured
+                  </span>
+                )}
                 {item.githubRepo && (
                   <span className="text-[10px] px-1.5 py-0.5 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] rounded text-muted-foreground font-mono">
                     {item.githubRepo}
@@ -1075,21 +1093,35 @@ export function AdminPanel() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-1">
+              {/* Pin / Featured button — always visible so state is obvious */}
               <button
-                onClick={() => setEditing(item)}
-                className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors"
-                title="Edit"
+                onClick={() => handleToggleFeatured(item.id)}
+                className={`p-2 rounded-[6px] motion-safe:transition-colors ${
+                  item.featured
+                    ? "text-amber-400 bg-amber-500/10"
+                    : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                }`}
+                title={item.featured ? "Unpin from featured" : "Set as featured"}
               >
-                <Edit3 size={16} />
+                <Star size={16} fill={item.featured ? "currentColor" : "none"} />
               </button>
-              <button
-                onClick={() => handleDelete(item.id, item.title)}
-                className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors"
-                title="Delete"
-              >
-                <Trash2 size={16} />
-              </button>
+              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  onClick={() => setEditing(item)}
+                  className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors"
+                  title="Edit"
+                >
+                  <Edit3 size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(item.id, item.title)}
+                  className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             </div>
           </div>
         ))}

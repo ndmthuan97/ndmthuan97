@@ -10,6 +10,7 @@ export interface PortfolioItem {
   image: string;
   title: string;
   description: string;
+  featured?: boolean;
   overview?: string;
   features?: string[];
   githubRepo?: string; // legacy single repo — use githubRepos when multiple
