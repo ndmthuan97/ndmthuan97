@@ -19,6 +19,87 @@
     ],
     "items": [
         {
+            "id": 1776777982009,
+            "image": "/tapo.png",
+            "title": "Tapo",
+            "description": "Tapo is a full-stack e-commerce platform for laptop retail, offering a comprehensive shopping experience with authentication, real-time chat, payment integration, and admin tooling.",
+            "overview": "I built Tapo as a full-stack learning project to apply my knowledge of Java, React, and modern web technologies. The platform features a responsive design, JWT authentication, and real-time chat functionality, making it a robust e-commerce solution. I focused on creating a scalable and maintainable architecture to support a seamless user experience.",
+            "features": [
+                "🔒 Authentication: JWT + Refresh Token (Redis), Google OAuth2, email verification, RBAC (4 roles)",
+                "🛍️ Shopping: Product catalog, cart, order lifecycle, PayOS payment",
+                "⭐ Reviews: 1–5 star ratings, text reviews, admin approve/reject workflow",
+                "💬 Real-time Chat: WebSocket (STOMP) between customers and staff",
+                "🏔️ Vouchers: Fixed / percentage discount, usage limits, date range",
+                "⚡️ Flash Sale: Countdown timer, stock-limited campaigns",
+                "📦 Inventory: Stock management, auto-export on delivery, low-stock alerts",
+                "📝 Blog: News & reviews, SEO sitemap",
+                "📊 Admin Dashboard: Revenue charts, order stats, user management",
+                "💳 Instalment Calculator: 6 / 12 / 18 / 24-month payment plans",
+                "🔄 Return Requests: Customer return flow with admin processing",
+                "🌐 i18n: Vietnamese / English UI"
+            ],
+            "technicalDetails": {
+                "backend": [
+                    "Engineered a scalable RESTful API with Spring Boot 4.0.3, implementing JWT authentication and authorization.",
+                    "Utilized Spring Security for auth filters and role-based access control.",
+                    "Integrated Redis for refresh token storage and rate limiting.",
+                    "Designed a robust data access layer using Spring Data JPA and PostgreSQL."
+                ],
+                "frontend": [
+                    "Developed a responsive Single Page Application with React 19 and Vite 8.",
+                    "Styled with TailwindCSS and shadcn/ui for a consistent design system.",
+                    "Managed complex state synchronization with TanStack React Query and React Hook Form.",
+                    "Integrated WebSocket (STOMP) for real-time chat functionality."
+                ]
+            },
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Tapo"
+                },
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Backend"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Frontend"
+                }
+            ],
+            "category": [
+                "backend",
+                "frontend"
+            ],
+            "technologies": {
+                "backend": [
+                    "Java 21",
+                    "Spring Boot 4.0.3",
+                    "PostgreSQL",
+                    "Redis",
+                    "Spring Security",
+                    "JJWT"
+                ],
+                "frontend": [
+                    "React 19",
+                    "TypeScript 5.9",
+                    "Vite 8",
+                    "TailwindCSS",
+                    "shadcn/ui"
+                ],
+                "thirdParty": [
+                    "PayOS SDK",
+                    "Google OAuth2",
+                    "Socket.IO"
+                ]
+            },
+            "githubRepos": [
+                "ndmthuan97/Tapo",
+                "ndmthuan97/Tapo_Backend",
+                "ndmthuan97/Tapo_Frontend"
+            ],
+            "githubRepo": "ndmthuan97/Tapo"
+        },
+        {
             "id": 5,
             "image": "/deca.png",
             "title": "Deca Project",
