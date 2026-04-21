@@ -19,6 +19,90 @@
     ],
     "items": [
         {
+            "id": 1776776851241,
+            "image": "/tapo.png",
+            "title": "Tapo",
+            "description": "Tapo is a comprehensive laptop e-commerce platform that offers a range of features including authentication, product management, order processing, real-time chat, payment integration, and admin tooling.",
+            "overview": "I developed Tapo as a full-stack learning project to apply my knowledge of Java, React, and modern web technologies. The platform provides a seamless user experience for laptop retail, with a focus on production-ready patterns and scalability.",
+            "features": [
+                "🔐 Authentication: JWT + Refresh Token (Redis), Google OAuth2, email verification, RBAC (4 roles)",
+                "🛍️ Shopping: Product catalog, cart, order lifecycle, PayOS payment",
+                "⭐ Reviews: 1–5 star ratings, text reviews, admin approve/reject workflow",
+                "💬 Real-time Chat: WebSocket (STOMP) between customers and staff",
+                "🏔️ Vouchers: Fixed / percentage discount, usage limits, date range",
+                "⚡️ Flash Sale: Countdown timer, stock-limited campaigns",
+                "📦 Inventory: Stock management, auto-export on delivery, low-stock alerts",
+                "📝 Blog: News & reviews, SEO sitemap (/sitemap.xml)",
+                "📊 Admin Dashboard: Revenue charts, order stats, user management",
+                "💳 Instalment Calculator: 6 / 12 / 18 / 24-month payment plans",
+                "🔄 Return Requests: Customer return flow with admin processing",
+                "🌐 i18n: Vietnamese / English UI (react-i18next)"
+            ],
+            "technicalDetails": {
+                "backend": [
+                    "Built a RESTful API backend using Java Spring Boot 4.0.3, providing authentication, product management, order processing, and real-time chat functionality.",
+                    "Implemented JWT authentication with refresh tokens stored in Redis for secure and efficient authentication.",
+                    "Integrated PayOS payment gateway for secure and reliable payment processing.",
+                    "Utilized Spring WebSocket (STOMP) for real-time chat functionality between customers and staff."
+                ],
+                "frontend": [
+                    "Developed a responsive Single Page Application (SPA) using React 19 and TypeScript 5.9, leveraging Vite for efficient builds and deployments.",
+                    "Styled the application using Tailwind CSS v4, ensuring a consistent and visually appealing design throughout.",
+                    "Managed complex state synchronization and API requests using React Query and Axios.",
+                    "Implemented internationalization (i18n) using react-i18next for Vietnamese and English UI support."
+                ]
+            },
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Tapo"
+                },
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Backend"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Frontend"
+                }
+            ],
+            "category": [
+                "backend",
+                "frontend"
+            ],
+            "technologies": {
+                "backend": [
+                    "Java 21",
+                    "Spring Boot 4.0.3",
+                    "Spring Security",
+                    "JJWT 0.12.6",
+                    "Spring Data JPA (Hibernate)",
+                    "Spring WebSocket (STOMP)",
+                    "Redis (Lettuce / Upstash)",
+                    "PostgreSQL"
+                ],
+                "frontend": [
+                    "React 19",
+                    "TypeScript 5.9",
+                    "Tailwind CSS v4",
+                    "Vite",
+                    "React Query",
+                    "Axios"
+                ],
+                "thirdParty": [
+                    "PayOS SDK 1.0.2",
+                    "Google OAuth2",
+                    "Vercel"
+                ]
+            },
+            "githubRepos": [
+                "ndmthuan97/Tapo",
+                "ndmthuan97/Tapo_Backend",
+                "ndmthuan97/Tapo"
+            ],
+            "githubRepo": "ndmthuan97/Tapo"
+        },
+        {
             "id": 5,
             "image": "/deca.png",
             "title": "Deca Project",
@@ -106,15 +190,11 @@
             },
             "links": [
                 {
-                    "label": "Github",
-                    "url": "https://github.com/ndmthuan97/Trava"
-                },
-                {
-                    "label": "Github (trava-backend)",
+                    "label": "Backend",
                     "url": "https://github.com/ndmthuan97/trava-backend"
                 },
                 {
-                    "label": "Github (trava-frontend)",
+                    "label": "Frontend",
                     "url": "https://github.com/ndmthuan97/trava-frontend"
                 }
             ],
@@ -142,13 +222,7 @@
                     "Vercel",
                     "Swagger/OpenAPI"
                 ]
-            },
-            "githubRepos": [
-                "ndmthuan97/Trava",
-                "ndmthuan97/trava-backend",
-                "ndmthuan97/trava-frontend"
-            ],
-            "githubRepo": "ndmthuan97/Trava"
+            }
         },
         {
             "id": 3,
