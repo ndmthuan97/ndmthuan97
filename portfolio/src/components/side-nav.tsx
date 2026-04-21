@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Home, User, Briefcase, Wrench, Mail, Menu, X } from "lucide-react";
+import { Home, User, Briefcase, Wrench, Mail, Menu, X, Settings } from "lucide-react";
 import navData from "../data/navigation.json";
 
 interface NavItem {
@@ -15,6 +15,8 @@ const ICON_MAP: Record<string, (size?: number) => React.ReactNode> = {
   Briefcase: (size = 24) => <Briefcase width={size} height={size} />,
   Mail: (size = 24) => <Mail width={size} height={size} />,
 };
+
+const goAdmin = () => { window.location.hash = "admin"; };
 
 export function SideNav({ activeSection, onNavigate }: { activeSection: string; onNavigate: (section: string) => void }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,6 +51,21 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
             </button>
           ))}
         </nav>
+
+        {/* Admin button — desktop */}
+        <div className="relative group">
+          <button
+            onClick={goAdmin}
+            className="w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer border border-figma-border/40 bg-figma-header/60 text-muted-foreground/50 hover:text-figma-accent hover:border-figma-accent/40 hover:bg-figma-accent/10 hover:shadow-[0_0_10px_rgba(118,60,172,0.25)]"
+            aria-label="Admin panel"
+          >
+            <Settings size={15} />
+          </button>
+          {/* Tooltip */}
+          <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-figma-card border border-figma-border rounded text-[10px] text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Admin
+          </span>
+        </div>
       </div>
 
       {/* Mobile FAB */}
@@ -71,6 +88,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-figma-purple/10 blur-3xl" />
 
+            {/* Nav items — radial */}
             {navItems.map((item, index) => {
               const angle = (index * 72) - 90;
               const radius = 100;
@@ -96,6 +114,16 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
                 </button>
               );
             })}
+
+            {/* Admin button — center of radial menu */}
+            <button
+              onClick={() => { setIsMenuOpen(false); goAdmin(); }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-figma-border/50 bg-figma-card/60 text-muted-foreground/60 flex items-center justify-center hover:text-figma-accent hover:border-figma-accent/50 hover:bg-figma-accent/10 transition-all"
+              aria-label="Admin panel"
+              title="Admin"
+            >
+              <Settings size={18} />
+            </button>
           </div>
           <div className="absolute inset-0 -z-10" onClick={() => setIsMenuOpen(false)} />
         </div>
