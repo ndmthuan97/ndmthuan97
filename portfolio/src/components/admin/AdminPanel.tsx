@@ -1,12 +1,12 @@
-import { useState, useCallback } from "react";
-import { Plus, Trash2, Edit3, Github, Download, Upload, X, Save, AlertCircle } from "lucide-react";
+import { useState, useCallback, useRef } from "react";
+import { Plus, Trash2, Edit3, Github, Download, Upload, X, Save, AlertCircle, ImagePlus } from "lucide-react";
 import initialData from "../../data/portfolio.json";
 import type { PortfolioItem } from "../../types/portfolio";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_PAT as string | undefined;
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO as string | undefined; // e.g. "ndmthuan97/ndmthuan97"
-const FILE_PATH = "src/data/portfolio.json";
+const FILE_PATH = "portfolio/src/data/portfolio.json";
 
 // ─── GitHub Helpers ───────────────────────────────────────────────────────────
 async function getFileSha(): Promise<string | null> {
@@ -27,7 +27,7 @@ async function commitToGitHub(content: string): Promise<{ ok: boolean; message: 
   const sha = await getFileSha();
   const body: Record<string, unknown> = {
     message: "chore: update portfolio via admin panel",
-    content: btoa(unescape(encodeURIComponent(content))),
+    content: btoa(encodeURIComponent(content).replace(/%([0-9A-F]{2})/gi, (_, p) => String.fromCharCode(parseInt(p, 16)))),
   };
   if (sha) body.sha = sha;
 
@@ -58,6 +58,44 @@ async function fetchGitHubRepo(repo: string) {
   return res.json() as Promise<{ name: string; description: string; language: string; topics: string[]; stargazers_count: number; html_url: string }>;
 }
 
+async function uploadImageToGitHub(file: File): Promise<{ ok: boolean; path?: string; message: string }> {
+  if (!GITHUB_TOKEN) return { ok: false, message: "VITE_GITHUB_PAT not set" };
+  if (!GITHUB_REPO) return { ok: false, message: "VITE_GITHUB_REPO not set" };
+
+  const ext = file.name.split(".").pop() ?? "png";
+  const filename = `${Date.now()}.${ext}`;
+  const repoPath = `portfolio/public/${filename}`;
+
+  const base64 = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve((reader.result as string).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+  const res = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoPath}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: `chore: upload project image ${filename}`,
+        content: base64,
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.json() as { message: string };
+    return { ok: false, message: err.message ?? res.statusText };
+  }
+  return { ok: true, path: `/${filename}`, message: "Uploaded!" };
+}
+
 // ─── Item Form ───────────────────────────────────────────────────────────────
 const BLANK_ITEM: PortfolioItem = {
   id: Date.now(),
@@ -85,6 +123,22 @@ function ItemForm({
   const [repoInput, setRepoInput] = useState(item.githubRepo ?? "");
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageUpload = async (file: File) => {
+    setUploading(true);
+    setUploadError("");
+    const result = await uploadImageToGitHub(file);
+    if (result.ok && result.path) {
+      update("image", result.path);
+    } else {
+      setUploadError(result.message);
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const update = (field: keyof PortfolioItem, value: unknown) =>
     setDraft((d) => ({ ...d, [field]: value }));
@@ -153,15 +207,42 @@ function ItemForm({
                 className="w-full bg-figma-card border border-figma-border rounded-lg px-3 py-2 text-sm text-foreground focus:border-figma-accent/60 outline-none"
               />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">Image path</span>
-              <input
-                value={draft.image}
-                onChange={(e) => update("image", e.target.value)}
-                placeholder="/project.png"
-                className="w-full bg-figma-card border border-figma-border rounded-lg px-3 py-2 text-sm text-foreground focus:border-figma-accent/60 outline-none"
-              />
-            </label>
+            <div className="space-y-1">
+              <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">Image</span>
+              <div className="flex gap-2">
+                <input
+                  value={draft.image}
+                  onChange={(e) => update("image", e.target.value)}
+                  placeholder="/project.png"
+                  className="flex-1 bg-figma-card border border-figma-border rounded-lg px-3 py-2 text-sm text-foreground focus:border-figma-accent/60 outline-none min-w-0"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-figma-skill border border-figma-border rounded-lg text-sm font-medium hover:border-figma-accent/50 transition-colors disabled:opacity-50 shrink-0"
+                >
+                  <ImagePlus size={14} />
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }}
+                />
+              </div>
+              {uploadError && <p className="text-red-400 text-xs">{uploadError}</p>}
+              {draft.image && (
+                <img
+                  src={draft.image}
+                  alt="preview"
+                  className="mt-1 h-20 w-auto rounded-lg border border-figma-border object-cover"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+              )}
+            </div>
             <label className="space-y-1">
               <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">Category (comma separated)</span>
               <input
