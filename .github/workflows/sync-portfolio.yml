@@ -1,12 +1,16 @@
-name: Deploy to GitHub Pages
+name: Sync Portfolio from GitHub
 
 on:
+  schedule:
+    - cron: "0 0 * * 0" # Every Sunday at 00:00 UTC
   push:
     branches: ["main"]
+    paths:
+      - "portfolio/portfolio.config.json"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -15,13 +19,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  sync-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     defaults:
       run:
         working-directory: portfolio
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -32,6 +41,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run sync script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run sync
+
+      - name: Commit updated portfolio.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet src/data/portfolio.json || (
+            git add src/data/portfolio.json &&
+            git commit -m "chore: sync portfolio from GitHub [skip ci]" &&
+            git push
+          )
+
       - name: Build
         env:
           VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
@@ -39,17 +63,12 @@ jobs:
           VITE_GITHUB_REPO: ${{ secrets.VITE_GITHUB_REPO }}
         run: npm run build
 
+      - uses: actions/configure-pages@v5
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: portfolio/dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
