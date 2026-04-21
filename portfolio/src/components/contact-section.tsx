@@ -73,7 +73,7 @@ export function ContactSection() {
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-figma-border/25 uppercase tracking-widest select-none whitespace-nowrap">
             CONTACT
           </span>
-          <h2 className="relative text-3xl md:text-4xl font-bold">
+          <h2 className="relative text-3xl md:text-4xl font-bold tracking-tight">
             <span className="text-foreground">GET IN </span>
             <span className="text-primary">TOUCH</span>
           </h2>
@@ -82,7 +82,7 @@ export function ContactSection() {
 
         {/* Intro */}
         <div className={`mb-12 text-center max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h3 className="text-2xl font-bold mb-3">{contactData.intro.title}</h3>
+          <h3 className="text-2xl font-bold tracking-tight mb-3">{contactData.intro.title}</h3>
           <p className="text-muted-foreground leading-relaxed">{contactData.intro.description}</p>
         </div>
 
@@ -118,7 +118,7 @@ export function ContactSection() {
           {/* Right: contact form */}
           <div className={`lg:col-span-3 ${isVisible ? "animate-in slide-in-from-right fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
             style={{ animationDelay: "400ms" }}>
-            <div className="relative rounded-2xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden h-full">
+            <div className="relative rounded-xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden h-full">
               <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
               <div className="p-6 md:p-8">
                 <h3 className="text-xl font-bold mb-6 flex items-center gap-2">

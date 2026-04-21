@@ -76,8 +76,8 @@ function TechLabel({ tech }: { tech: string }) {
 
 function getCategoryStyle(cat: string) {
   if (cat === "backend") return { base: "bg-blue-500 text-white", muted: "bg-blue-500/15 text-blue-400 border-blue-500/30" };
-  if (cat === "frontend") return { base: "bg-green-500 text-white", muted: "bg-green-500/15 text-green-400 border-green-500/30" };
-  if (cat === "mobile") return { base: "bg-orange-500 text-white", muted: "bg-orange-500/15 text-orange-400 border-orange-500/30" };
+  if (cat === "frontend") return { base: "bg-violet-500 text-white", muted: "bg-violet-500/15 text-violet-400 border-violet-500/30" };
+  if (cat === "mobile") return { base: "bg-cyan-500 text-white", muted: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30" };
   return { base: "bg-primary text-white", muted: "bg-primary/15 text-figma-accent border-primary/30" };
 }
 
@@ -114,7 +114,7 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-project-title"
-        className="relative w-full max-w-5xl bg-figma-header rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 border border-figma-border my-auto flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-5xl bg-figma-header rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 border border-figma-border my-auto flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
@@ -250,14 +250,14 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
               {(item.technicalDetails?.frontend || allTechs.frontend.length > 0) && (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Monitor size={16} className="text-green-500 flex-shrink-0" />
-                    <h6 className="text-xs font-black uppercase text-green-500 tracking-widest">Frontend</h6>
+                    <Monitor size={16} className="text-violet-500 flex-shrink-0" />
+                    <h6 className="text-xs font-black uppercase text-violet-500 tracking-widest">Frontend</h6>
                   </div>
                   {item.technicalDetails?.frontend && (
                     <ul className="space-y-1.5">
                       {item.technicalDetails.frontend.slice(0, 2).map((d, i) => (
                         <li key={i} className="flex gap-2 text-sm text-muted-foreground items-start">
-                          <span className="w-1 h-1 rounded-full bg-green-400 mt-2 flex-shrink-0" />
+                          <span className="w-1 h-1 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
                           <span className="leading-relaxed">{d}</span>
                         </li>
                       ))}
@@ -275,14 +275,14 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
               {(item.technicalDetails?.mobile || allTechs.mobile.length > 0) && (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-orange-500 text-sm font-bold">📱</span>
-                    <h6 className="text-xs font-black uppercase text-orange-500 tracking-widest">Mobile</h6>
+                    <span className="text-cyan-500 text-sm font-bold">📱</span>
+                    <h6 className="text-xs font-black uppercase text-cyan-500 tracking-widest">Mobile</h6>
                   </div>
                   {item.technicalDetails?.mobile && (
                     <ul className="space-y-1.5">
                       {item.technicalDetails.mobile.slice(0, 2).map((d, i) => (
                         <li key={i} className="flex gap-2 text-sm text-muted-foreground items-start">
-                          <span className="w-1 h-1 rounded-full bg-orange-400 mt-2 flex-shrink-0" />
+                          <span className="w-1 h-1 rounded-full bg-cyan-400 mt-2 flex-shrink-0" />
                           <span className="leading-relaxed">{d}</span>
                         </li>
                       ))}

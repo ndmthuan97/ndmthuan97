@@ -32,7 +32,7 @@ export function AboutSection() {
           <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/25 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
             RESUME
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
             ABOUT <span className="text-primary">ME</span>
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
@@ -61,7 +61,7 @@ export function AboutSection() {
             {stats.map((stat, index) => (
               <Card
                 key={index}
-                className={`figma-stat-card border-0 rounded-2xl overflow-hidden group ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
+                className={`figma-stat-card border-0 rounded-xl overflow-hidden group ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
                 style={{ animationDelay: isVisible ? `${500 + (index * 150)}ms` : '0ms' }}
               >
                 <CardContent className="p-6 flex flex-col justify-center h-full min-h-[120px]">

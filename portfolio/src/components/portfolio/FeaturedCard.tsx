@@ -6,8 +6,8 @@ import type { PortfolioItem } from "../../types/portfolio";
 
 function getCategoryStyle(cat: string) {
   if (cat === "backend") return "bg-blue-500/15 text-blue-400 border-blue-500/30";
-  if (cat === "frontend") return "bg-green-500/15 text-green-400 border-green-500/30";
-  if (cat === "mobile") return "bg-orange-500/15 text-orange-400 border-orange-500/30";
+  if (cat === "frontend") return "bg-violet-500/15 text-violet-400 border-violet-500/30";
+  if (cat === "mobile") return "bg-cyan-500/15 text-cyan-400 border-cyan-500/30";
   return "bg-primary/15 text-figma-accent border-primary/30";
 }
 
@@ -38,7 +38,7 @@ export function FeaturedCard({
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); }
       }}
       aria-label={`View featured project: ${item.title}`}
-      className={`group relative rounded-2xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden cursor-pointer hover:border-figma-accent/50 hover:shadow-[0_0_48px_rgba(118,60,172,0.35)] transition-all duration-500 ${
+      className={`group relative rounded-xl border border-figma-border/50 bg-figma-header/60 backdrop-blur-sm overflow-hidden cursor-pointer hover:border-figma-accent/50 hover:shadow-[0_0_48px_rgba(118,60,172,0.35)] transition-all duration-500 ${
         isVisible ? "animate-in fade-in slide-in-from-bottom duration-700" : "opacity-0"
       }`}
     >

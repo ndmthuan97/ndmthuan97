@@ -5,8 +5,8 @@ import type { PortfolioItem } from "../../types/portfolio";
 
 function getCategoryStyle(cat: string) {
   if (cat === "backend") return "bg-blue-500/15 text-blue-400 border-blue-500/30";
-  if (cat === "frontend") return "bg-green-500/15 text-green-400 border-green-500/30";
-  if (cat === "mobile") return "bg-orange-500/15 text-orange-400 border-orange-500/30";
+  if (cat === "frontend") return "bg-violet-500/15 text-violet-400 border-violet-500/30";
+  if (cat === "mobile") return "bg-cyan-500/15 text-cyan-400 border-cyan-500/30";
   return "bg-primary/15 text-figma-accent border-primary/30";
 }
 

@@ -34,45 +34,45 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 flex-col items-center gap-4 z-50">
-        <nav className="flex flex-col gap-3">
+      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 flex-col items-center gap-3 z-50">
+        <nav className="flex flex-col gap-2">
           {navItems.map((item, index) => (
             <button
               key={index}
               onClick={() => onNavigate(item.href)}
-              className={`w-14 h-14 rounded-full flex items-center justify-center transition-all cursor-pointer border ${
+              className={`w-14 h-14 rounded-[6px] flex items-center justify-center motion-safe:transition-all motion-safe:duration-150 cursor-pointer ${
                 activeSection === item.href
-                  ? "bg-primary text-primary-foreground border-primary shadow-[0_0_16px_rgba(118,60,172,0.5)]"
-                  : "bg-figma-header border-figma-border text-muted-foreground hover:text-primary hover:border-figma-border-light hover:shadow-[0_0_12px_rgba(118,60,172,0.3)]"
+                  ? "bg-primary text-primary-foreground shadow-[0_0_0_1px_rgba(118,60,172,0.6),0_0_0_4px_rgba(118,60,172,0.08)]"
+                  : "bg-figma-header text-muted-foreground shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:text-primary hover:shadow-[0_0_0_1px_rgba(118,60,172,0.3)]"
               }`}
               aria-label={item.label}
             >
-              {item.icon(24)}
+              {item.icon(22)}
             </button>
           ))}
         </nav>
 
-        {/* Admin button — desktop */}
+        {/* Admin button — desktop, secondary hierarchy */}
         <div className="relative group">
           <button
             onClick={goAdmin}
-            className="w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer border border-figma-border/40 bg-figma-header/60 text-muted-foreground/50 hover:text-figma-accent hover:border-figma-accent/40 hover:bg-figma-accent/10 hover:shadow-[0_0_10px_rgba(118,60,172,0.25)]"
+            className="w-14 h-14 rounded-[6px] flex items-center justify-center motion-safe:transition-all motion-safe:duration-150 cursor-pointer bg-figma-header/60 text-muted-foreground/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)] hover:text-figma-accent hover:shadow-[0_0_0_1px_rgba(118,60,172,0.2)]"
             aria-label="Admin panel"
           >
-            <Settings size={15} />
+            <Settings size={20} />
           </button>
-          {/* Tooltip */}
-          <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-figma-card border border-figma-border rounded text-[10px] text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {/* Tooltip — Vercel badge style */}
+          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-[10px] min-h-[24px] flex items-center bg-[#ebf5ff] rounded-[9999px] text-[12px] font-medium text-[#0068d6] whitespace-nowrap opacity-0 group-hover:opacity-100 motion-safe:transition-opacity pointer-events-none">
             Admin
           </span>
         </div>
       </div>
 
-      {/* Mobile FAB */}
+      {/* Mobile FAB — circular FAB pattern, kept as-is */}
       <div className="lg:hidden fixed right-6 bottom-6 z-50">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_24px_rgba(118,60,172,0.6)] cursor-pointer"
+          className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_0_1px_rgba(118,60,172,0.6),0_0_24px_rgba(118,60,172,0.1)] cursor-pointer motion-safe:transition-all motion-safe:duration-150"
           aria-label="Toggle Menu"
         >
           {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
@@ -83,7 +83,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-300">
           <div
-            className="relative bg-figma-header/90 backdrop-blur-2xl rounded-[3rem] w-[320px] h-[320px] shadow-2xl border border-figma-border animate-in zoom-in-95 duration-200"
+            className="relative bg-figma-header/90 backdrop-blur-2xl rounded-xl w-[320px] h-[320px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-figma-purple/10 blur-3xl" />
@@ -100,11 +100,11 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
                 <button
                   key={index}
                   onClick={() => handleNavClick(item.href)}
-                  className="absolute flex flex-col items-center justify-center group transition-all -translate-x-1/2 -translate-y-1/2"
+                  className="absolute flex flex-col items-center justify-center group motion-safe:transition-all motion-safe:duration-150 -translate-x-1/2 -translate-y-1/2"
                   style={{ left: `${x}px`, top: `${y}px` }}
                   aria-label={item.label}
                 >
-                  <div className={`transition-all ${
+                  <div className={`motion-safe:transition-all motion-safe:duration-150 ${
                     activeSection === item.href
                       ? "text-primary scale-125"
                       : "text-white/70 group-hover:text-primary"
@@ -118,7 +118,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
             {/* Admin button — center of radial menu */}
             <button
               onClick={() => { setIsMenuOpen(false); goAdmin(); }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-figma-border/50 bg-figma-card/60 text-muted-foreground/60 flex items-center justify-center hover:text-figma-accent hover:border-figma-accent/50 hover:bg-figma-accent/10 transition-all"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-[6px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-figma-card/60 text-muted-foreground/60 flex items-center justify-center hover:text-figma-accent hover:shadow-[0_0_0_1px_rgba(118,60,172,0.2)] motion-safe:transition-all motion-safe:duration-150"
               aria-label="Admin panel"
               title="Admin"
             >

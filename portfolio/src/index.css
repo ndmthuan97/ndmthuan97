@@ -6,20 +6,21 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ================================================================
-   FIGMA PORTFOLIO DESIGN TOKENS — dark purple theme
+   FIGMA PORTFOLIO DESIGN TOKENS — dark teal/cyan theme
+   Gradient source: #9cffff → #c9ffdc → #f1d5a0 → #ff9e8e
    ================================================================ */
 @theme {
-  --color-figma-bg: #11071F;
-  --color-figma-header: #1A0B2E;
-  --color-figma-card: #2C1250;
-  --color-figma-border: #4F228D;
-  --color-figma-border-light: #693B93;
-  --color-figma-purple: #763CAC;
-  --color-figma-accent: #9857D3;
-  --color-figma-bright: #A362FF;
-  --color-figma-text: #CCD6F6;
-  --color-figma-skill: #251C31;
-  --color-figma-portfolio: #2B215A;
+  --color-figma-bg: #060e15;
+  --color-figma-header: #0a1e2e;
+  --color-figma-card: #0e2a3a;
+  --color-figma-border: #1b5c78;
+  --color-figma-border-light: #2a7a9e;
+  --color-figma-purple: #3ab8d4;
+  --color-figma-accent: #9cffff;
+  --color-figma-bright: #c9ffdc;
+  --color-figma-text: #c8eaf2;
+  --color-figma-skill: #0d2535;
+  --color-figma-portfolio: #0a253a;
 }
 
 :root {
@@ -28,45 +29,45 @@
   font-weight: 400;
   color-scheme: dark;
   color: #FFFFFF;
-  background-color: #11071F;
+  background-color: #060e15;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* shadcn/ui variables — Figma dark purple palette */
-  --background: oklch(0.07 0.05 292);
+  /* shadcn/ui variables — dark teal/cyan palette (hue 195) */
+  --background: oklch(0.07 0.04 195);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.165 0.09 292);
+  --card: oklch(0.14 0.06 195);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.165 0.09 292);
+  --popover: oklch(0.14 0.06 195);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.46 0.178 292);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.12 0.07 292);
+  --primary: oklch(0.62 0.13 195);
+  --primary-foreground: oklch(0.07 0.04 195);
+  --secondary: oklch(0.12 0.05 195);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.155 0.055 292);
-  --muted-foreground: oklch(0.86 0.04 255);
-  --accent: oklch(0.52 0.215 292);
-  --accent-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.155 0.04 195);
+  --muted-foreground: oklch(0.82 0.04 195);
+  --accent: oklch(0.68 0.15 195);
+  --accent-foreground: oklch(0.07 0.04 195);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.315 0.14 292);
-  --input: oklch(0.22 0.1 292);
-  --ring: oklch(0.46 0.178 292);
-  --chart-1: oklch(0.58 0.24 292);
-  --chart-2: oklch(0.46 0.178 292);
-  --chart-3: oklch(0.36 0.14 292);
-  --chart-4: oklch(0.26 0.10 292);
-  --chart-5: oklch(0.155 0.055 292);
+  --border: oklch(0.32 0.09 195);
+  --input: oklch(0.20 0.06 195);
+  --ring: oklch(0.62 0.13 195);
+  --chart-1: oklch(0.65 0.16 195);
+  --chart-2: oklch(0.55 0.13 195);
+  --chart-3: oklch(0.42 0.10 195);
+  --chart-4: oklch(0.28 0.07 195);
+  --chart-5: oklch(0.155 0.04 195);
   --radius: 0.75rem;
-  --sidebar: oklch(0.12 0.07 292);
+  --sidebar: oklch(0.12 0.05 195);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.46 0.178 292);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.155 0.055 292);
+  --sidebar-primary: oklch(0.62 0.13 195);
+  --sidebar-primary-foreground: oklch(0.07 0.04 195);
+  --sidebar-accent: oklch(0.155 0.04 195);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.315 0.14 292);
-  --sidebar-ring: oklch(0.46 0.178 292);
+  --sidebar-border: oklch(0.32 0.09 195);
+  --sidebar-ring: oklch(0.62 0.13 195);
 }
 
 /* App root */
@@ -89,11 +90,11 @@ body {
   min-height: 100vh;
 }
 
-/* ── Figma radial glow layers ── */
+/* ── Teal radial glow layers ── */
 .figma-glow-layer {
   position: absolute;
   pointer-events: none;
-  background: radial-gradient(50% 50% at 50% 50%, #763CAC 0%, rgba(50, 15, 133, 0) 100%);
+  background: radial-gradient(50% 50% at 50% 50%, #3ab8d4 0%, rgba(6, 40, 60, 0) 100%);
 }
 .figma-glow-top {
   width: 38%; height: 34%;
@@ -112,39 +113,39 @@ body {
   left: 14%; top: 72%;
 }
 
-/* ── Figma card gradient (Experience cards) ── */
+/* ── Card gradient (Experience cards) ── */
 .figma-card-gradient {
-  background: linear-gradient(110.49deg, #130428 19.95%, #251043 67.64%, #38126D 107.08%, #261045 156.61%, #190634 183.21%);
+  background: linear-gradient(110.49deg, #060e15 19.95%, #0a1e2e 67.64%, #0e3d55 107.08%, #0b2240 156.61%, #07121c 183.21%);
   box-shadow: 4px 7px 26px rgba(0, 0, 0, 0.3);
 }
 
 /* ── Profile image glow ── */
 .figma-profile-glow {
-  box-shadow: 0 0 40px rgba(118, 60, 172, 0.55), 0 0 80px rgba(118, 60, 172, 0.2);
+  box-shadow: 0 0 40px rgba(58, 184, 212, 0.55), 0 0 80px rgba(58, 184, 212, 0.2);
 }
 
 /* ── Stat card ── */
 .figma-stat-card {
-  background: linear-gradient(110.49deg, #130428 19.95%, #251043 67.64%, #38126D 107.08%, #261045 156.61%, #190634 183.21%);
-  border: 1px solid #4F228D;
+  background: linear-gradient(110.49deg, #060e15 19.95%, #0a1e2e 67.64%, #0e3d55 107.08%, #0b2240 156.61%, #07121c 183.21%);
+  border: 1px solid #1b5c78;
   box-shadow: 4px 7px 26px rgba(0, 0, 0, 0.25);
 }
 
 /* ── Skill icon bg ── */
 .figma-skill-icon {
-  background: #251C31;
+  background: #0d2535;
   transition: box-shadow 0.3s, transform 0.3s;
 }
 .figma-skill-icon:hover {
-  box-shadow: 0 0 16px rgba(118, 60, 172, 0.5);
+  box-shadow: 0 0 16px rgba(58, 184, 212, 0.5);
   transform: scale(1.1);
 }
 
 /* ── Portfolio project glass card ── */
 .figma-portfolio-glass {
-  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(105, 59, 147, 0.22) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 213, 0) 100%);
+  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(30, 120, 160, 0.22) 0%, rgba(110, 191, 244, 0.04) 77.08%, rgba(70, 144, 213, 0) 100%);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(105, 59, 147, 0.3);
+  border: 1px solid rgba(30, 120, 160, 0.3);
 }
 
 /* ── Custom Scrollbar ── */
@@ -156,7 +157,7 @@ body {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4F228D;
+  background-color: #1b5c78;
   border-radius: 10px;
 }
 

@@ -50,7 +50,7 @@ export function SkillsSection() {
           <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/30 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
             EXPERTISE
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
             MY <span className="text-primary">SKILLS</span>
           </h2>
         </div>

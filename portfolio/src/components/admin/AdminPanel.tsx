@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import { Plus, Trash2, Edit3, Github, Download, Upload, X, Save, AlertCircle, ImagePlus } from "lucide-react";
 import initialData from "../../data/portfolio.json";
 import type { PortfolioItem } from "../../types/portfolio";
+import { assetPath } from "../../utils/asset-path";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_PAT as string | undefined;
@@ -236,7 +237,7 @@ function ItemForm({
               {uploadError && <p className="text-red-400 text-xs">{uploadError}</p>}
               {draft.image && (
                 <img
-                  src={draft.image}
+                  src={assetPath(draft.image)}
                   alt="preview"
                   className="mt-1 h-20 w-auto rounded-lg border border-figma-border object-cover"
                   onError={(e) => { e.currentTarget.style.display = "none"; }}
@@ -440,7 +441,7 @@ export function AdminPanel() {
             {/* Thumbnail */}
             <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-figma-skill border border-figma-border">
               {item.image ? (
-                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                <img src={assetPath(item.image)} alt={item.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-xl">📁</div>
               )}
