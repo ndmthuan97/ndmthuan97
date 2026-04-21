@@ -11,29 +11,17 @@ const AdminPanel = lazy(() => import('./components/admin/AdminPanel').then(m => 
 
 const SECTIONS = ['home', 'about', 'skills', 'portfolio', 'contact'];
 
-function App() {
+// ── Sub-component: Main portfolio view ────────────────────────────────────────
+function PortfolioApp() {
   const [activeSection, setActiveSection] = useState('home');
-  const [isAdmin, setIsAdmin] = useState(() => window.location.hash === '#admin');
 
-  useEffect(() => {
-    const onHash = () => setIsAdmin(window.location.hash === '#admin');
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+  const handleNavigate = (sectionId: string) => {
+    setActiveSection(sectionId);
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-  // Admin mode — render separately, no SideNav
-  if (isAdmin) {
-    return (
-      <Suspense fallback={<div className="min-h-screen bg-figma-bg flex items-center justify-center text-muted-foreground text-sm">Loading admin...</div>}>
-        <AdminGate><AdminPanel /></AdminGate>
-      </Suspense>
-    );
-  }
-
-  // Auto-detect active section on scroll via IntersectionObserver
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-
     SECTIONS.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
@@ -44,14 +32,8 @@ function App() {
       obs.observe(el);
       observers.push(obs);
     });
-
     return () => observers.forEach((o) => o.disconnect());
   }, []);
-
-  const handleNavigate = (sectionId: string) => {
-    setActiveSection(sectionId);
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <div className="dark min-h-screen w-full relative bg-figma-bg overflow-x-hidden">
@@ -74,7 +56,32 @@ function App() {
         </main>
       </div>
     </div>
-  )
+  );
+}
+
+// ── Root: hash-based routing ──────────────────────────────────────────────────
+function App() {
+  const [isAdmin, setIsAdmin] = useState(() => window.location.hash === '#admin');
+
+  useEffect(() => {
+    const onHash = () => setIsAdmin(window.location.hash === '#admin');
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  if (isAdmin) {
+    return (
+      <Suspense fallback={
+        <div className="min-h-screen bg-figma-bg flex items-center justify-center text-muted-foreground text-sm">
+          Loading admin...
+        </div>
+      }>
+        <AdminGate><AdminPanel /></AdminGate>
+      </Suspense>
+    );
+  }
+
+  return <PortfolioApp />;
 }
 
 export default App
