@@ -1093,14 +1093,14 @@ export function AdminPanel() {
                   </div>
                 </div>
 
-                {/* Action buttons */}
+                {/* Action buttons — always visible on mobile, hover-reveal on desktop */}
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={() => handleToggleFeatured(item.id)}
                     className={`p-2 rounded-[6px] motion-safe:transition-colors ${
                       item.featured
                         ? "text-amber-400 bg-amber-500/10"
-                        : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                        : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                     }`}
                     title={item.featured ? "Unpin from featured" : "Set as featured"}
                   >
@@ -1108,14 +1108,14 @@ export function AdminPanel() {
                   </button>
                   <button
                     onClick={() => setEditing(item)}
-                    className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                     title="Edit"
                   >
                     <Edit3 size={15} />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id, item.title)}
-                    className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                     title="Delete"
                   >
                     <Trash2 size={15} />
