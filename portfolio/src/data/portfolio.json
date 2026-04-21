@@ -106,11 +106,15 @@
             },
             "links": [
                 {
-                    "label": "Backend",
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Trava"
+                },
+                {
+                    "label": "Github (trava-backend)",
                     "url": "https://github.com/ndmthuan97/trava-backend"
                 },
                 {
-                    "label": "Frontend",
+                    "label": "Github (trava-frontend)",
                     "url": "https://github.com/ndmthuan97/trava-frontend"
                 }
             ],
@@ -138,7 +142,13 @@
                     "Vercel",
                     "Swagger/OpenAPI"
                 ]
-            }
+            },
+            "githubRepos": [
+                "ndmthuan97/Trava",
+                "ndmthuan97/trava-backend",
+                "ndmthuan97/trava-frontend"
+            ],
+            "githubRepo": "ndmthuan97/Trava"
         },
         {
             "id": 3,
