@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import { Plus, Trash2, Edit3, Upload, X, Save, ImagePlus, Sparkles, Star, FileInput, GitCommit } from "lucide-react";
+import { Plus, Trash2, Edit3, X, Save, ImagePlus, Sparkles, Star, FileInput, GitCommit } from "lucide-react";
 import initialData from "../../data/portfolio.json";
 import type { PortfolioItem } from "../../types/portfolio";
 import { assetPath } from "../../utils/asset-path";
