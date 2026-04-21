@@ -950,15 +950,24 @@ export function AdminPanel() {
     toast("info", `✓ Deleted "${title}"`);
   };
 
-  const handleToggleFeatured = (id: number) => {
-    setItems((prev) => {
-      const target = prev.find((i) => i.id === id);
-      const alreadyFeatured = target?.featured;
-      // Only one featured at a time — clear all others
-      return prev.map((i) => ({ ...i, featured: alreadyFeatured ? false : i.id === id }));
-    });
-    const title = items.find((i) => i.id === id)?.title ?? "";
-    toast("info", alreadyFeaturedId === id ? `Unpinned "${title}"` : `⭐ "${title}" set as featured`);
+  const handleToggleFeatured = async (id: number) => {
+    // Compute next state synchronously so we can commit it immediately
+    const target = items.find((i) => i.id === id);
+    const alreadyFeatured = target?.featured;
+    const nextItems = items.map((i) => ({ ...i, featured: alreadyFeatured ? false : i.id === id }));
+
+    setItems(nextItems);
+
+    const title = target?.title ?? "";
+    toast("info", alreadyFeatured ? `Unpinned "${title}"` : `⭐ "${title}" set as featured`);
+
+    // Auto-persist — skip if no GitHub token configured
+    if (!GITHUB_TOKEN) return;
+    setSaving(true);
+    const json = JSON.stringify({ filters: initialData.filters, items: nextItems }, null, 4);
+    const result = await commitToGitHub(json);
+    setSaving(false);
+    if (!result.ok) toast("error", "⚠ Featured not saved to GitHub", result.message);
   };
 
   const alreadyFeaturedId = items.find((i) => i.featured)?.id ?? null;
