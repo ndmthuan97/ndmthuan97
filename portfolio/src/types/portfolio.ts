@@ -12,7 +12,8 @@ export interface PortfolioItem {
   description: string;
   overview?: string;
   features?: string[];
-  githubRepo?: string; // optional: "owner/repo" for auto-sync
+  githubRepo?: string; // legacy single repo — use githubRepos when multiple
+  githubRepos?: string[]; // multiple repos (e.g. separate frontend + backend)
   githubStats?: {
     stars?: number;
     language?: string;

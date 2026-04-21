@@ -24,7 +24,7 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-figma-bg flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-figma-header border border-figma-border rounded-2xl p-8 space-y-6">
+      <div className="w-full max-w-sm bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] rounded-2xl p-8 space-y-6">
         <div className="text-center">
           <p className="text-3xl mb-2">🛡️</p>
           <h1 className="text-xl font-black text-foreground">Portfolio Admin</h1>
@@ -50,13 +50,13 @@ export function AdminGate({ children }: { children: React.ReactNode }) {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Password"
             autoFocus
-            className={`w-full bg-figma-card border rounded-xl px-4 py-3 text-foreground text-sm outline-none focus:border-figma-accent/60 transition-colors ${
-              error ? "border-red-500 animate-pulse" : "border-figma-border"
+            className={`w-full bg-[#0a0a0a] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] rounded-[6px] px-4 py-3 text-white placeholder:text-[#666666] text-sm outline-none motion-safe:transition-all ${
+              error ? "shadow-[0_0_0_1px_rgba(239,68,68,0.8)] animate-pulse" : "focus:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]"
             }`}
           />
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-xl transition-all active:scale-95"
+            className="w-full bg-white hover:bg-white/90 text-[#0a0a0a] font-bold py-3 rounded-[6px] motion-safe:transition-all active:scale-95 shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
           >
             Unlock
           </button>

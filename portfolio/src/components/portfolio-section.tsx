@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import portfolioData from "../data/portfolio.json";
 import { useReveal } from "../hooks/use-reveal";
-import type { PortfolioItem, PortfolioFilter } from "../types/portfolio";
+import type { PortfolioItem, PortfolioFilter, Category } from "../types/portfolio";
 import { FeaturedCard } from "./portfolio/FeaturedCard";
 import { PortfolioCard } from "./portfolio/PortfolioCard";
 import { ProjectModal } from "./portfolio/ProjectModal";
@@ -18,7 +18,7 @@ export function PortfolioSection() {
   const filteredItems = useMemo(() =>
     activeFilter === "all"
       ? portfolioItems
-      : portfolioItems.filter((item) => item.category.includes(activeFilter as never)),
+      : portfolioItems.filter((item) => item.category.includes(activeFilter as Exclude<Category, "all">)),
     [activeFilter]
   );
 

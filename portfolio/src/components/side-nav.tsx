@@ -88,7 +88,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
           >
             {/* Nav items — radial */}
             {navItems.map((item, index) => {
-              const angle = (index * 72) - 90;
+              const angle = (index * (360 / navItems.length)) - 90;
               const radius = 100;
               const rad = (angle * Math.PI) / 180;
               const x = 160 + radius * Math.cos(rad);
