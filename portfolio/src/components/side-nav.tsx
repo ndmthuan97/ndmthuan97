@@ -3,17 +3,17 @@ import { Home, User, Briefcase, Wrench, Mail, Menu, X } from "lucide-react";
 import navData from "../data/navigation.json";
 
 interface NavItem {
-  icon: React.ReactNode;
+  icon: (size?: number) => React.ReactNode;
   label: string;
   href: string;
 }
 
-const ICON_MAP: Record<string, React.ReactNode> = {
-  Home: <Home className="w-6 h-6" />,
-  User: <User className="w-6 h-6" />,
-  Wrench: <Wrench className="w-6 h-6" />,
-  Briefcase: <Briefcase className="w-6 h-6" />,
-  Mail: <Mail className="w-6 h-6" />,
+const ICON_MAP: Record<string, (size?: number) => React.ReactNode> = {
+  Home: (size = 24) => <Home width={size} height={size} />,
+  User: (size = 24) => <User width={size} height={size} />,
+  Wrench: (size = 24) => <Wrench width={size} height={size} />,
+  Briefcase: (size = 24) => <Briefcase width={size} height={size} />,
+  Mail: (size = 24) => <Mail width={size} height={size} />,
 };
 
 export function SideNav({ activeSection, onNavigate }: { activeSection: string; onNavigate: (section: string) => void }) {
@@ -21,7 +21,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
 
   const navItems: NavItem[] = navData.navItems.map((item) => ({
     ...item,
-    icon: ICON_MAP[item.icon] || <Home className="w-6 h-6" />,
+    icon: ICON_MAP[item.icon] ?? ((size?: number) => <Home width={size ?? 24} height={size ?? 24} />),
   }));
 
   const handleNavClick = (href: string) => {
@@ -45,7 +45,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
               }`}
               aria-label={item.label}
             >
-              {item.icon}
+              {item.icon(24)}
             </button>
           ))}
         </nav>
@@ -91,7 +91,7 @@ export function SideNav({ activeSection, onNavigate }: { activeSection: string; 
                       ? "text-primary scale-125"
                       : "text-white/70 group-hover:text-primary"
                   }`}>
-                    {React.cloneElement(item.icon as React.ReactElement<{ className?: string }>, { className: "w-8 h-8" })}
+                    {item.icon(32)}
                   </div>
                 </button>
               );

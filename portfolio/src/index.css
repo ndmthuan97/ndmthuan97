@@ -76,11 +76,11 @@
 
 a {
   font-weight: 500;
-  color: #A362FF;
+  color: var(--color-figma-bright);
   text-decoration: inherit;
 }
 a:hover {
-  color: #9857D3;
+  color: var(--color-figma-accent);
 }
 
 body {
@@ -212,5 +212,20 @@ body {
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ── Reduced Motion — respect user OS preference ── */
+@media (prefers-reduced-motion: reduce) {
+  .figma-glow-layer {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

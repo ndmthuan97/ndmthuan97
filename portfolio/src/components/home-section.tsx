@@ -31,6 +31,8 @@ function bolt(ctx: CanvasRenderingContext2D, a: Pt, b: Pt, r: number, d: number,
 function LightningOverlay() {
   const cvRef=useRef<HTMLCanvasElement>(null), tmRef=useRef<ReturnType<typeof setTimeout>|null>(null), rafRef=useRef<number|null>(null);
   const strike=useCallback(()=>{
+    // Pause when tab is not visible
+    if(document.hidden){tmRef.current=setTimeout(strike,1000);return;}
     const cv=cvRef.current; if(!cv) return;
     const ctx=cv.getContext("2d"); if(!ctx) return;
     const r=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
@@ -45,6 +47,7 @@ function LightningOverlay() {
     }
     let fade=1;
     const tick=()=>{
+      if(document.hidden){tmRef.current=setTimeout(strike,1000);return;}
       const c=cvRef.current?.getContext("2d"); if(!c) return;
       c.clearRect(0,0,W,H); fade-=.04;
       if(fade<=0){tmRef.current=setTimeout(strike,1e3+Math.random()*2500);return;}
@@ -55,6 +58,8 @@ function LightningOverlay() {
     rafRef.current=requestAnimationFrame(tick);
   },[]);
   useEffect(()=>{
+    // Respect prefers-reduced-motion
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     tmRef.current=setTimeout(strike,200);
     return ()=>{ if(tmRef.current) clearTimeout(tmRef.current); if(rafRef.current) cancelAnimationFrame(rafRef.current); };
   },[strike]);
@@ -69,6 +74,8 @@ function AtomicRings() {
   const rafRef   = useRef<number|null>(null);
 
   useEffect(()=>{
+    // Respect prefers-reduced-motion
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const bCv=backRef.current, fCv=frontRef.current;
     if(!bCv||!fCv) return;
     const bCtx=bCv.getContext("2d",{alpha:true}), fCtx=fCv.getContext("2d",{alpha:true});
@@ -111,6 +118,8 @@ function AtomicRings() {
     }
 
     function render(now:number){
+      // Pause when tab is hidden
+      if(document.hidden){rafRef.current=requestAnimationFrame(render);return;}
       const dt=Math.min((now-lastT)/16.67,2.5); lastT=now; fi++;
       const[W,H]=sync(bCv!); sync(fCv!);
       if(!W||!H){rafRef.current=requestAnimationFrame(render);return;}
@@ -276,13 +285,21 @@ export function HeroSection({ onNavigate }: { onNavigate?: (section: string) => 
           </div>
 
           <div className="flex-1 text-center lg:text-left z-10 max-w-2xl">
-            <div className={`relative mb-8 ${isVisible?"animate-in slide-in-from-right fade-in duration-1000 delay-300 fill-mode-backwards":"opacity-0"}`}>
+            <div className={`relative mb-4 ${isVisible?"animate-in slide-in-from-right fade-in duration-1000 delay-300 fill-mode-backwards":"opacity-0"}`}>
               <div className="flex items-center justify-center lg:justify-start gap-6">
                 <span className="w-12 h-1 bg-[#00f0ff] shadow-[0_0_15px_#00f0ff] rounded-full flex-shrink-0"/>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] to-[#e879f9] drop-shadow-[0_0_12px_rgba(232,121,249,0.3)]">
                   {`I'M ${name.toUpperCase()}`}
                 </h1>
               </div>
+            </div>
+
+            {/* Role badge */}
+            <div className={`mb-6 flex justify-center lg:justify-start ${isVisible?"animate-in slide-in-from-right fade-in duration-1000 delay-400 fill-mode-backwards":"opacity-0"}`}>
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-figma-accent/40 bg-figma-accent/10 text-figma-accent text-sm font-semibold tracking-widest uppercase">
+                <span className="w-2 h-2 rounded-full bg-figma-accent animate-pulse" />
+                {role}
+              </span>
             </div>
             
             <p className={`text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8 whitespace-pre-line ${isVisible?"animate-in slide-in-from-left fade-in duration-1000 delay-500 fill-mode-backwards":"opacity-0"}`}>

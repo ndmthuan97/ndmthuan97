@@ -1,0 +1,197 @@
+{
+  "_comment": "Source of truth. Run 'npm run sync' to enrich from GitHub API → src/data/portfolio.json",
+  "items": [
+    {
+      "id": 5,
+      "githubRepo": "ndmthuan97/Deca",
+      "title": "Deca Project",
+      "image": "/deca.png",
+      "category": ["backend", "frontend"],
+      "links": [
+        { "label": "Github", "url": "https://github.com/ndmthuan97/Deca" }
+      ],
+      "override": {
+        "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
+        "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
+        "features": [
+          "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
+          "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
+          "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
+          "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
+          "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
+          "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
+        ],
+        "technicalDetails": {
+          "backend": [
+            "Built a Next.js API layer with file-based routing to serve topics, phrases, and AI completions.",
+            "Integrated external dictionary API (dictionaryapi.dev) and translation API (MyMemory) for real-time IPA and meaning lookup.",
+            "Implemented server-side AI proxy to securely forward requests to language model APIs without exposing keys on the client."
+          ],
+          "frontend": [
+            "Developed a responsive SPA with Next.js 15 (App Router) and TypeScript, leveraging React Server Components where appropriate.",
+            "Styled with TailwindCSS using a consistent design token system with state-driven progressive disclosure.",
+            "Used TanStack Query for server-state management, caching topic/phrase data and handling background refetching.",
+            "Integrated Web Speech API (SpeechSynthesis) with custom progress tracking for audio playback simulation."
+          ]
+        },
+        "technologies": {
+          "frontend": ["Next.js 15", "TypeScript", "TailwindCSS", "TanStack Query", "Web Speech API"],
+          "backend": ["Next.js API Routes", "Node.js"],
+          "thirdParty": ["OpenAI / AI SDK", "DictionaryAPI", "MyMemory Translate", "Vercel"]
+        }
+      }
+    },
+    {
+      "id": 4,
+      "githubRepo": "ndmthuan97/trava-backend",
+      "title": "Trava Project",
+      "image": "/trava.png",
+      "category": ["backend", "frontend"],
+      "links": [
+        { "label": "Backend", "url": "https://github.com/ndmthuan97/trava-backend" },
+        { "label": "Frontend", "url": "https://github.com/ndmthuan97/trava-frontend" }
+      ],
+      "override": {
+        "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
+        "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
+        "features": [
+          "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
+          "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
+          "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
+          "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
+          "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
+        ],
+        "technicalDetails": {
+          "backend": [
+            "Engineered a scalable RESTful API with .NET 8, implementing Clean Architecture to decouple the domain core from infrastructure.",
+            "Utilized CQRS pattern with MediatR to separate read/write models, drastically optimizing complex database queries.",
+            "Integrated Redis for high-speed distributed caching of frequently accessed workspace configurations.",
+            "Secured endpoints using JWT authentication with granular Role-Based Access Control (RBAC)."
+          ],
+          "frontend": [
+            "Developed a highly responsive Single Page Application (SPA) leveraging Angular and TailwindCSS.",
+            "Built reusable and accessible UI components extensively utilizing the PrimeNG component library.",
+            "Ensured client-side security with strict generic Authentication Route Guards and centralized HTTP Interceptors."
+          ]
+        },
+        "technologies": {
+          "backend": [".NET 8", "EF Core", "PostgreSQL", "Redis", "JWT", "CQRS", "Clean Architecture"],
+          "frontend": ["Angular", "TailwindCSS", "PrimeNG"],
+          "thirdParty": ["Azure", "Vercel", "Swagger/OpenAPI"]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "githubRepo": "ndmthuan97/PhyGen_BE",
+      "title": "PhyGen Project",
+      "image": "/phygen.png",
+      "category": ["backend", "frontend"],
+      "links": [
+        { "label": "Backend", "url": "https://github.com/ndmthuan97/PhyGen_BE" },
+        { "label": "Frontend", "url": "https://github.com/tuyenhttt/PhyGen_FE" }
+      ],
+      "override": {
+        "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
+        "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
+        "features": [
+          "🏫 Curriculum Management: Flexible organization by Curriculum → Subject → Chapter → Topic → Section.",
+          "📝 Question Bank: Supports various question types, media attachments via Cloudinary, and categorization by difficulty.",
+          "⚙️ Automated Exam Generation: Builds detailed exam matrices and automatically synthesizes exams.",
+          "💳 Payment Integration: Supports secure transactions via the PayOS gateway.",
+          "🔐 Security & Authentication: Login/Registration with Email OTP, Role-Based Access Control (RBAC).",
+          "📄 Document Publishing: Supports exporting exams and documents to Word/PDF formats."
+        ],
+        "technicalDetails": {
+          "backend": [
+            "Architected a robust document generation backend using .NET 8 with Clean Architecture principles.",
+            "Integrated advanced LLMs (ChatGPT and Gemini APIs) to procedurally synthesize curriculum-accurate physics exam matrices.",
+            "Implemented secure payment processing workflows with external PayOS webhooks, ensuring ACID compliance.",
+            "Boosted API responsiveness with comprehensive response optimization strategies using Redis."
+          ],
+          "frontend": [
+            "Crafted a specialized, interactive React SPA focused on fluid user experiences during complex exam generation.",
+            "Implemented real-time streaming and previews of AI-generated text and LaTeX mathematical formulas.",
+            "Engineered complex state management to track curriculum trees, dynamic exam matrices, and payment transactions."
+          ]
+        },
+        "technologies": {
+          "backend": [".NET 8", "EF Core", "PostgreSQL", "JWT", "CQRS", "Clean Architecture", "Azure", "ChatGPT API", "Gemini API", "PayOS"],
+          "frontend": ["React", "TailwindCSS", "Vercel"]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "githubRepo": "tranduckhuy/time-swap",
+      "title": "TimeSwap Project",
+      "image": "/timeswap.png",
+      "category": ["backend", "frontend", "mobile"],
+      "links": [
+        { "label": "Github", "url": "https://github.com/tranduckhuy/time-swap" },
+        { "label": "Mobile", "url": "https://github.com/SangTran13/time-swap-android" }
+      ],
+      "override": {
+        "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
+        "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
+        "features": [
+          "👤 User Authentication: Login / Register with email, Forgot Password, Secure Logout.",
+          "📋 Job Management: Listings, Search by name/fee/industry/location, Post Job, Apply for Jobs, Applicant List.",
+          "🤖 AI Chatbot Integration: Integrated ChatGPT API to assist users with job-related inquiries.",
+          "💳 Payment Management: E-Wallet Integration for seamless transactions with Transaction History.",
+          "📄 User Profile Management: View & Edit Profile, Account Information with subscription details."
+        ],
+        "technicalDetails": {
+          "backend": [
+            "Developed a high-performance backend ecosystem using .NET 8 supporting high volumes of transactional 'Time' exchanges.",
+            "Engineered a bulletproof E-Wallet ledger system within PostgreSQL using optimistic concurrency.",
+            "Automated CI/CD pipelines for seamless, zero-downtime deployments onto scalable DigitalOcean droplets."
+          ],
+          "frontend": [
+            "Built a Progressive Web App (PWA) oriented SPA with Angular 18 focusing on lightning-fast job discovery.",
+            "Deeply integrated Google Maps API for geospatial search, enabling users to find local freelance opportunities.",
+            "Designed a polished dashboard layout employing TailwindCSS and PrimeNG for complex data grids."
+          ],
+          "mobile": [
+            "Developed a native Android application using modern Kotlin standards and the declarative Jetpack Compose UI toolkit.",
+            "Architected the mobile client with MVVM pattern alongside Android Architecture Components.",
+            "Utilized Retrofit and Coroutines/Flow for asynchronous network requests ensuring smooth scrolling in job feeds."
+          ]
+        },
+        "technologies": {
+          "backend": [".NET 8", "PostgreSQL", "JWT"],
+          "frontend": ["Angular", "TailwindCSS", "PrimeNG"],
+          "mobile": ["Kotlin", "Jetpack Compose", "MVVM", "Retrofit"],
+          "thirdParty": ["DigitalOcean", "Vercel", "Google Maps API", "ChatGPT API"]
+        }
+      }
+    },
+    {
+      "id": 1,
+      "title": "Adobe Migration Project",
+      "image": "",
+      "category": ["backend"],
+      "links": [],
+      "override": {
+        "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
+        "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
+        "features": [
+          "📄 Large-Scale Migration: Migrated and validated thousands of landing pages from legacy CMS platforms.",
+          "✅ Content Consistency: Ensured structural integrity and content consistency across global enterprise environments.",
+          "🔄 Agile Governance: Followed strictly governed Agile workflows for enterprise deployment and collaboration."
+        ],
+        "technicalDetails": {
+          "backend": [
+            "Worked extensively with AEM Content Fragments and components.",
+            "Validated landing pages for data accuracy and consistency.",
+            "Collaborated with cross-functional teams in a large-scale project."
+          ]
+        },
+        "technologies": {
+          "backend": ["Adobe Experience Manager (AEM)"],
+          "thirdParty": ["Jira", "Excel", "Agile/Scrum"]
+        }
+      }
+    }
+  ]
+}

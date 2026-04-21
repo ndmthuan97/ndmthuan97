@@ -10,6 +10,32 @@ interface SkillCategory {
   skills: Skill[];
 }
 
+/** Human-readable display names for go-skill-icons slugs */
+const SKILL_DISPLAY_NAMES: Record<string, string> = {
+  dotnet: ".NET",
+  cs: "C#",
+  java: "Java",
+  redis: "Redis",
+  postgres: "PostgreSQL",
+  sqlserver: "SQL Server",
+  angular: "Angular",
+  typescript: "TypeScript",
+  html: "HTML",
+  css: "CSS",
+  js: "JavaScript",
+  tailwindcss: "Tailwind CSS",
+  bootstrap: "Bootstrap",
+  primeng: "PrimeNG",
+  docker: "Docker",
+  git: "Git",
+  github: "GitHub",
+  azure: "Azure",
+  vercel: "Vercel",
+  postman: "Postman",
+  figma: "Figma",
+  jira: "Jira",
+};
+
 export function SkillsSection() {
   const skillCategories = skillsData.skillCategories as SkillCategory[];
   const { isVisible, ref } = useReveal(0.05);
@@ -21,12 +47,12 @@ export function SkillsSection() {
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h2 className="text-6xl md:text-7xl font-bold text-figma-border/30 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
+          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/30 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
             EXPERTISE
-          </h2>
-          <h3 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
             MY <span className="text-primary">SKILLS</span>
-          </h3>
+          </h2>
         </div>
 
         <div className="space-y-12">
@@ -46,10 +72,15 @@ export function SkillsSection() {
                       className={`w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden figma-skill-icon cursor-default group relative ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
                       style={{ animationDelay: isVisible ? `${(idx * 200) + (sIdx * 50)}ms` : '0ms' }}
                     >
-                      <img src={imgSrc} alt={skill.icon} className="w-full h-full object-contain p-2 md:p-3" />
+                      <img
+                        src={imgSrc}
+                        alt={SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon}
+                        className="w-full h-full object-contain p-2 md:p-3"
+                        onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0'; }}
+                      />
                       {/* Tooltip */}
                       <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-figma-card text-foreground text-[10px] py-1 px-2 rounded-md border border-figma-border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
-                        {skill.icon}
+                        {SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon}
                       </span>
                     </div>
                   );

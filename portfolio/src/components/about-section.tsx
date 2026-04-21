@@ -29,12 +29,12 @@ export function AboutSection() {
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h2 className="text-6xl md:text-7xl font-bold text-figma-border/25 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
+          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-figma-border/25 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none">
             RESUME
-          </h2>
-          <h3 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold pt-6 relative z-10">
             ABOUT <span className="text-primary">ME</span>
-          </h3>
+          </h2>
           <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
