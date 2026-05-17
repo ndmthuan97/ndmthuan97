@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "portfolio/**"
   workflow_dispatch:
 
 permissions:
@@ -25,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: portfolio/package-lock.json
 

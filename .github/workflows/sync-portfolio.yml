@@ -1,12 +1,11 @@
 name: Sync Portfolio from GitHub
 
 on:
-  schedule:
-    - cron: "0 0 * * 0" # Every Sunday at 00:00 UTC
   push:
     branches: ["main"]
     paths:
-      - "portfolio/portfolio.config.json"
+      - "portfolio/**"
+      - ".github/workflows/sync-portfolio.yml"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +33,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: portfolio/package-lock.json
 
