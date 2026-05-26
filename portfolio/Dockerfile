@@ -9,6 +9,9 @@ RUN npm ci
 
 # Copy source and build
 COPY . .
+# Accept base URL at build time (/ for Cloud Run, /ndmthuan97/ for GitHub Pages)
+ARG VITE_BASE_URL=/
+ENV VITE_BASE_URL=${VITE_BASE_URL}
 RUN npm run build
 
 # ── Stage 2: Serve ──────────────────────────────────────────────

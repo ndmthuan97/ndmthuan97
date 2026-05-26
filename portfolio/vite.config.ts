@@ -5,7 +5,8 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/ndmthuan97/",
+  // Use env var: /ndmthuan97/ for GitHub Pages, / for Cloud Run
+  base: process.env.VITE_BASE_URL ?? "/ndmthuan97/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -13,3 +14,4 @@ export default defineConfig({
     },
   },
 })
+
