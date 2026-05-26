@@ -13,7 +13,7 @@ env:
   REGION: asia-southeast1
   SERVICE: portfolio
   REGISTRY: asia-southeast1-docker.pkg.dev
-  REPO: cloud-run-source-deploy
+  REPO: portfolio-github-deploy
 
 jobs:
   deploy:
