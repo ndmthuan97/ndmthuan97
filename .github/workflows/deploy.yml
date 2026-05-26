@@ -6,6 +6,7 @@ on:
     paths:
       - "portfolio/**"
       - ".github/workflows/deploy.yml"
+  workflow_dispatch: # Allow manual trigger from GitHub UI
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
