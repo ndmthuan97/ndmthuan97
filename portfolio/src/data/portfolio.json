@@ -19,99 +19,35 @@
     ],
     "items": [
         {
-            "id": 1776777982009,
-            "image": "/tapo.png",
-            "title": "Tapo",
-            "description": "Tapo is a full-stack e-commerce platform for laptop retail, offering a comprehensive shopping experience with authentication, real-time chat, payment integration, and admin tooling.",
-            "overview": "I built Tapo as a full-stack learning project to apply my knowledge of Java, React, and modern web technologies. The platform features a responsive design, JWT authentication, and real-time chat functionality, making it a robust e-commerce solution. I focused on creating a scalable and maintainable architecture to support a seamless user experience.",
-            "features": [
-                "🔒 Authentication: JWT + Refresh Token (Redis), Google OAuth2, email verification, RBAC (4 roles)",
-                "🛍️ Shopping: Product catalog, cart, order lifecycle, PayOS payment",
-                "⭐ Reviews: 1–5 star ratings, text reviews, admin approve/reject workflow",
-                "💬 Real-time Chat: WebSocket (STOMP) between customers and staff",
-                "🏔️ Vouchers: Fixed / percentage discount, usage limits, date range",
-                "⚡️ Flash Sale: Countdown timer, stock-limited campaigns",
-                "📦 Inventory: Stock management, auto-export on delivery, low-stock alerts",
-                "📝 Blog: News & reviews, SEO sitemap",
-                "📊 Admin Dashboard: Revenue charts, order stats, user management",
-                "💳 Instalment Calculator: 6 / 12 / 18 / 24-month payment plans",
-                "🔄 Return Requests: Customer return flow with admin processing",
-                "🌐 i18n: Vietnamese / English UI"
-            ],
-            "technicalDetails": {
-                "backend": [
-                    "Engineered a scalable RESTful API with Spring Boot 4.0.3, implementing JWT authentication and authorization.",
-                    "Utilized Spring Security for auth filters and role-based access control.",
-                    "Integrated Redis for refresh token storage and rate limiting.",
-                    "Designed a robust data access layer using Spring Data JPA and PostgreSQL."
-                ],
-                "frontend": [
-                    "Developed a responsive Single Page Application with React 19 and Vite 8.",
-                    "Styled with TailwindCSS and shadcn/ui for a consistent design system.",
-                    "Managed complex state synchronization with TanStack React Query and React Hook Form.",
-                    "Integrated WebSocket (STOMP) for real-time chat functionality."
-                ]
-            },
-            "links": [
-                {
-                    "label": "Github",
-                    "url": "https://github.com/ndmthuan97/Tapo"
-                },
-                {
-                    "label": "Backend",
-                    "url": "https://github.com/ndmthuan97/Tapo_Backend"
-                },
-                {
-                    "label": "Frontend",
-                    "url": "https://github.com/ndmthuan97/Tapo_Frontend"
-                }
-            ],
+            "id": 5,
+            "image": "/deca.png",
+            "title": "Deca Project",
             "category": [
                 "backend",
                 "frontend"
             ],
-            "technologies": {
-                "backend": [
-                    "Java 21",
-                    "Spring Boot 4.0.3",
-                    "PostgreSQL",
-                    "Redis",
-                    "Spring Security",
-                    "JJWT"
-                ],
-                "frontend": [
-                    "React 19",
-                    "TypeScript 5.9",
-                    "Vite 8",
-                    "TailwindCSS",
-                    "shadcn/ui"
-                ],
-                "thirdParty": [
-                    "PayOS SDK",
-                    "Google OAuth2",
-                    "Socket.IO"
-                ]
-            },
-            "githubRepos": [
-                "ndmthuan97/Tapo",
-                "ndmthuan97/Tapo_Backend",
-                "ndmthuan97/Tapo_Frontend"
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Deca"
+                }
             ],
-            "githubRepo": "ndmthuan97/Tapo"
-        },
-        {
-            "id": 5,
-            "image": "/deca.png",
-            "title": "Deca Project",
+            "githubRepo": "ndmthuan97/Deca",
+            "githubStats": {
+                "stars": 0,
+                "language": "TypeScript",
+                "updatedAt": "2026-05-11T06:37:32Z",
+                "topics": []
+            },
             "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
             "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
             "features": [
                 "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
-                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization (e.g., contractions like 'I'm' == 'I am').",
-                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden), and optional full-answer reveal.",
-                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation, and get a Vietnamese translation via dictionary API.",
-                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback powered by integrated language model APIs.",
-                "⌨️ Keyboard Shortcut Support: Hotkey bindings for audio playback and navigation to enable a hands-free study flow."
+                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
+                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
+                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
+                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
+                "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
             ],
             "technicalDetails": {
                 "backend": [
@@ -121,22 +57,11 @@
                 ],
                 "frontend": [
                     "Developed a responsive SPA with Next.js 15 (App Router) and TypeScript, leveraging React Server Components where appropriate.",
-                    "Styled with TailwindCSS using a consistent design token system; implemented a two-column layout with state-driven progressive disclosure to prevent layout shifts.",
-                    "Managed complex UI state (idle/wrong/correct) for listening practice with answer normalization, diff rendering, and fixed-position IPA tooltip using getBoundingClientRect.",
+                    "Styled with TailwindCSS using a consistent design token system with state-driven progressive disclosure.",
                     "Used TanStack Query for server-state management, caching topic/phrase data and handling background refetching.",
                     "Integrated Web Speech API (SpeechSynthesis) with custom progress tracking for audio playback simulation."
                 ]
             },
-            "links": [
-                {
-                    "label": "Github",
-                    "url": "https://github.com/ndmthuan97/Deca"
-                }
-            ],
-            "category": [
-                "backend",
-                "frontend"
-            ],
             "technologies": {
                 "frontend": [
                     "Next.js 15",
@@ -161,30 +86,10 @@
             "id": 4,
             "image": "/trava.png",
             "title": "Trava Project",
-            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
-            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
-            "features": [
-                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
-                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
-                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
-                "✅ Task Management:\n- Supports complex Task structures (Parent/Sub-tasks).\n- Manages priority levels (Low to Urgent) and workloads (Points).\n- Direct interaction via a built-in commenting system.",
-                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
+            "category": [
+                "backend",
+                "frontend"
             ],
-            "technicalDetails": {
-                "backend": [
-                    "Engineered a scalable RESTful API with .NET 8, implementing Clean Architecture to decouple the domain core from infrastructure.",
-                    "Utilized CQRS pattern with MediatR to separate read/write models, drastically optimizing complex database queries.",
-                    "Designed a robust data access layer using Entity Framework Core and PostgreSQL with Repository and Unit of Work patterns.",
-                    "Integrated Redis for high-speed distributed caching of frequently accessed workspace configurations.",
-                    "Secured endpoints using JWT authentication, implementing granular Role-Based Access Control (RBAC) to govern Spaces and Tasks."
-                ],
-                "frontend": [
-                    "Developed a highly responsive Single Page Application (SPA) leveraging Angular and TailwindCSS.",
-                    "Managed complex cross-component state synchronization for real-time Kanban board updates and comment threads.",
-                    "Built reusable and accessible UI components extensively utilizing the PrimeNG component library.",
-                    "Ensured client-side security with strict generic Authentication Route Guards and centralized HTTP Interceptors."
-                ]
-            },
             "links": [
                 {
                     "label": "Backend",
@@ -195,10 +100,35 @@
                     "url": "https://github.com/ndmthuan97/trava-frontend"
                 }
             ],
-            "category": [
-                "backend",
-                "frontend"
+            "githubRepo": "ndmthuan97/trava-backend",
+            "githubStats": {
+                "stars": 0,
+                "language": "C#",
+                "updatedAt": "2026-03-06T15:41:46Z",
+                "topics": []
+            },
+            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
+            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
+            "features": [
+                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
+                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
+                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
+                "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
+                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
             ],
+            "technicalDetails": {
+                "backend": [
+                    "Engineered a scalable RESTful API with .NET 8, implementing Clean Architecture to decouple the domain core from infrastructure.",
+                    "Utilized CQRS pattern with MediatR to separate read/write models, drastically optimizing complex database queries.",
+                    "Integrated Redis for high-speed distributed caching of frequently accessed workspace configurations.",
+                    "Secured endpoints using JWT authentication with granular Role-Based Access Control (RBAC)."
+                ],
+                "frontend": [
+                    "Developed a highly responsive Single Page Application (SPA) leveraging Angular and TailwindCSS.",
+                    "Built reusable and accessible UI components extensively utilizing the PrimeNG component library.",
+                    "Ensured client-side security with strict generic Authentication Route Guards and centralized HTTP Interceptors."
+                ]
+            },
             "technologies": {
                 "backend": [
                     ".NET 8",
@@ -225,32 +155,10 @@
             "id": 3,
             "image": "/phygen.png",
             "title": "PhyGen Project",
-            "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
-            "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
-            "features": [
-                "🏫 Curriculum Management: Flexible organization by Curriculum -> Subject -> Chapter -> Topic -> Section.",
-                "📝 Question Bank: Supports various question types, media attachments via Cloudinary, and categorization by difficulty and educational goals.",
-                "⚙️ Automated Exam Generation (Matrixized Exam): Builds detailed exam matrices and automatically synthesizes exams meeting precise knowledge and difficulty requirements.",
-                "💳 Payment Integration: Supports secure transactions via the PayOS gateway.",
-                "🔐 Security & Authentication:\n- Login/Registration with Email OTP.\n- Detailed Role-Based Access Control (RBAC).\n- Utilizes JWT Bearer tokens for API security.",
-                "📧 Notifications: Real-time notification system for course statuses, exams, and transactions.",
-                "💬 Online Support: Integrated Chatbox module to assist users and answer inquiries.",
-                "📄 Document Publishing: Supports exporting exams and documents to professional Word/PDF formats."
+            "category": [
+                "backend",
+                "frontend"
             ],
-            "technicalDetails": {
-                "backend": [
-                    "Architected a robust document generation backend using .NET 8, adhering strictly to Clean Architecture principles.",
-                    "Seamlessly integrated advanced LLMs (ChatGPT and Gemini APIs) to procedurally synthesize curriculum-accurate physics exam matrices.",
-                    "Implemented secure payment processing workflows with external PayOS webhooks, ensuring ACID compliance for financial logs.",
-                    "Boosted API responsiveness by implementing comprehensive response optimization strategies using Redis."
-                ],
-                "frontend": [
-                    "Crafted a specialized, interactive React Single Page Application focused on fluid user experiences during complex exam generation.",
-                    "Implemented real-time streaming and previews of AI-generated text and LaTeX mathematical formulas.",
-                    "Designed a sleek, intuitive layout using TailwindCSS, optimizing multi-step wizard interfaces for educators.",
-                    "Engineered complex state management to track curriculum trees, dynamic exam matrices, and ongoing payment transactions."
-                ]
-            },
             "links": [
                 {
                     "label": "Backend",
@@ -261,10 +169,36 @@
                     "url": "https://github.com/tuyenhttt/PhyGen_FE"
                 }
             ],
-            "category": [
-                "backend",
-                "frontend"
+            "githubRepo": "ndmthuan97/PhyGen_BE",
+            "githubStats": {
+                "stars": 0,
+                "language": "C#",
+                "updatedAt": "2026-03-06T04:35:46Z",
+                "topics": []
+            },
+            "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
+            "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
+            "features": [
+                "🏫 Curriculum Management: Flexible organization by Curriculum → Subject → Chapter → Topic → Section.",
+                "📝 Question Bank: Supports various question types, media attachments via Cloudinary, and categorization by difficulty.",
+                "⚙️ Automated Exam Generation: Builds detailed exam matrices and automatically synthesizes exams.",
+                "💳 Payment Integration: Supports secure transactions via the PayOS gateway.",
+                "🔐 Security & Authentication: Login/Registration with Email OTP, Role-Based Access Control (RBAC).",
+                "📄 Document Publishing: Supports exporting exams and documents to Word/PDF formats."
             ],
+            "technicalDetails": {
+                "backend": [
+                    "Architected a robust document generation backend using .NET 8 with Clean Architecture principles.",
+                    "Integrated advanced LLMs (ChatGPT and Gemini APIs) to procedurally synthesize curriculum-accurate physics exam matrices.",
+                    "Implemented secure payment processing workflows with external PayOS webhooks, ensuring ACID compliance.",
+                    "Boosted API responsiveness with comprehensive response optimization strategies using Redis."
+                ],
+                "frontend": [
+                    "Crafted a specialized, interactive React SPA focused on fluid user experiences during complex exam generation.",
+                    "Implemented real-time streaming and previews of AI-generated text and LaTeX mathematical formulas.",
+                    "Engineered complex state management to track curriculum trees, dynamic exam matrices, and payment transactions."
+                ]
+            },
             "technologies": {
                 "backend": [
                     ".NET 8",
@@ -289,35 +223,11 @@
             "id": 2,
             "image": "/timeswap.png",
             "title": "TimeSwap Project",
-            "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
-            "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
-            "features": [
-                "👤 User Authentication:\n- Login / Register with email.\n- Forgot Password and Change Password support.\n- Secure Logout from the system.",
-                "📋 Job Management:\n- Job Listings: View all available jobs with essential details.\n- Job Search: Search jobs by name, fee, industry, category, location.\n- Post Job: Post a new job.\n- Apply for Jobs: Submit applications with user profiles.\n- Job Details: View full job descriptions and requirements.\n- Job Applicant List: Employers can review applicants and select the most suitable candidate.",
-                "🤖 AI Chatbot Integration:\n- Integrated ChatGPT API to assist users with job-related inquiries.",
-                "💳 Payment Management:\n- E-Wallet Integration for seamless transactions.\n- Transaction History to keep track of payments.",
-                "📄 User Profile Management:\n- View & Edit Profile: Update user's profile.\n- Account Information: View subscription details and current balance."
+            "category": [
+                "backend",
+                "frontend",
+                "mobile"
             ],
-            "technicalDetails": {
-                "backend": [
-                    "Developed a high-performance backend ecosystem using .NET 8 supporting high volumes of transactional 'Time' exchanges.",
-                    "Engineered a bulletproof E-Wallet ledger system within PostgreSQL, meticulously tracking time-credits using optimistic concurrency.",
-                    "Interfaced with the ChatGPT API to power an intelligent matching backend that recommends relevant job listings by parsing user skillsets.",
-                    "Automated CI/CD pipelines for seamless, zero-downtime deployments onto scalable DigitalOcean droplets."
-                ],
-                "frontend": [
-                    "Built a Progressive Web App (PWA) oriented SPA with Angular 18 focusing on lightning-fast job discovery.",
-                    "Deeply integrated Google Maps API for geospatial search, enabling users to find local freelance opportunities intuitively.",
-                    "Designed a polished dashboard layout employing TailwindCSS and PrimeNG for complex data grids and user statistics.",
-                    "Engineered robust dynamic forms with comprehensive reactive validators for job posting and profile onboarding."
-                ],
-                "mobile": [
-                    "Developed a native Android application using modern Kotlin standards and the declarative Jetpack Compose UI toolkit.",
-                    "Architected the mobile client with the MVVM pattern alongside Android Architecture Components for reactive UI state.",
-                    "Utilized Retrofit and Coroutines/Flow for asynchronous, non-blocking network requests ensuring smooth scrolling in job feeds.",
-                    "Embedded an AI conversational interface directly on-device and leveraged location services for precise geographic job filtering."
-                ]
-            },
             "links": [
                 {
                     "label": "Github",
@@ -328,11 +238,46 @@
                     "url": "https://github.com/SangTran13/time-swap-android"
                 }
             ],
-            "category": [
-                "backend",
-                "frontend",
-                "mobile"
+            "githubRepo": "tranduckhuy/time-swap",
+            "githubStats": {
+                "stars": 1,
+                "language": "C#",
+                "updatedAt": "2025-08-15T22:51:29Z",
+                "topics": [
+                    "angular",
+                    "docker",
+                    "docker-compose",
+                    "dotnet",
+                    "github-actions-ci-cd",
+                    "nginx"
+                ]
+            },
+            "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
+            "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
+            "features": [
+                "👤 User Authentication: Login / Register with email, Forgot Password, Secure Logout.",
+                "📋 Job Management: Listings, Search by name/fee/industry/location, Post Job, Apply for Jobs, Applicant List.",
+                "🤖 AI Chatbot Integration: Integrated ChatGPT API to assist users with job-related inquiries.",
+                "💳 Payment Management: E-Wallet Integration for seamless transactions with Transaction History.",
+                "📄 User Profile Management: View & Edit Profile, Account Information with subscription details."
             ],
+            "technicalDetails": {
+                "backend": [
+                    "Developed a high-performance backend ecosystem using .NET 8 supporting high volumes of transactional 'Time' exchanges.",
+                    "Engineered a bulletproof E-Wallet ledger system within PostgreSQL using optimistic concurrency.",
+                    "Automated CI/CD pipelines for seamless, zero-downtime deployments onto scalable DigitalOcean droplets."
+                ],
+                "frontend": [
+                    "Built a Progressive Web App (PWA) oriented SPA with Angular 18 focusing on lightning-fast job discovery.",
+                    "Deeply integrated Google Maps API for geospatial search, enabling users to find local freelance opportunities.",
+                    "Designed a polished dashboard layout employing TailwindCSS and PrimeNG for complex data grids."
+                ],
+                "mobile": [
+                    "Developed a native Android application using modern Kotlin standards and the declarative Jetpack Compose UI toolkit.",
+                    "Architected the mobile client with MVVM pattern alongside Android Architecture Components.",
+                    "Utilized Retrofit and Coroutines/Flow for asynchronous network requests ensuring smooth scrolling in job feeds."
+                ]
+            },
             "technologies": {
                 "backend": [
                     ".NET 8",
@@ -362,6 +307,10 @@
             "id": 1,
             "image": "",
             "title": "Adobe Migration Project",
+            "category": [
+                "backend"
+            ],
+            "links": [],
             "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
             "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
             "features": [
@@ -373,15 +322,9 @@
                 "backend": [
                     "Worked extensively with AEM Content Fragments and components.",
                     "Validated landing pages for data accuracy and consistency.",
-                    "Followed strictly governed Agile workflows for enterprise deployment.",
                     "Collaborated with cross-functional teams in a large-scale project."
                 ]
             },
-            "links": [],
-            "category": [
-                "service",
-                "migration"
-            ],
             "technologies": {
                 "backend": [
                     "Adobe Experience Manager (AEM)"
