@@ -1,0 +1,290 @@
+{
+    "filters": [
+        {
+            "label": "ALL",
+            "value": "all"
+        },
+        {
+            "label": "WEB",
+            "value": "web"
+        },
+        {
+            "label": "AI",
+            "value": "ai"
+        },
+        {
+            "label": "DESKTOP",
+            "value": "desktop"
+        },
+        {
+            "label": "MOBILE",
+            "value": "mobile"
+        },
+        {
+            "label": "ENTERPRISE",
+            "value": "enterprise"
+        }
+    ],
+    "items": [
+        {
+            "id": 5,
+            "featured": false,
+            "image": "/deca.png",
+            "title": "Deca Project",
+            "category": [
+                "web",
+                "ai"
+            ],
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Deca"
+                }
+            ],
+            "githubRepo": "ndmthuan97/Deca",
+            "githubStats": {
+                "stars": 0,
+                "language": "TypeScript",
+                "updatedAt": "2026-05-11T06:37:32Z",
+                "topics": []
+            },
+            "role": "Full-Stack Developer",
+            "year": "2025",
+            "status": "live",
+            "demoUrl": "",
+            "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
+            "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
+            "features": [
+                "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
+                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
+                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
+                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
+                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
+                "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
+            ],
+            "technologies": {
+                "backend": [
+                    "Node.js",
+                    "Next.js"
+                ],
+                "frontend": [
+                    "TypeScript",
+                    "TailwindCSS",
+                    "TanStack Query"
+                ],
+                "thirdParty": [
+                    "OpenAI",
+                    "Vercel"
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "featured": true,
+            "image": "/trava.png",
+            "title": "Trava Project",
+            "category": [
+                "web"
+            ],
+            "links": [
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/trava-backend"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/ndmthuan97/trava-frontend"
+                }
+            ],
+            "githubRepo": "ndmthuan97/trava-backend",
+            "githubStats": {
+                "stars": 0,
+                "language": "C#",
+                "updatedAt": "2026-03-06T15:41:46Z",
+                "topics": []
+            },
+            "role": "Backend Developer",
+            "year": "2024 — 2025",
+            "status": "live",
+            "demoUrl": "",
+            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
+            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
+            "features": [
+                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
+                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
+                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
+                "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
+                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
+            ],
+            "technologies": {
+                "backend": [
+                    ".NET",
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "frontend": [
+                    "Angular",
+                    "TailwindCSS",
+                    "PrimeNG"
+                ],
+                "thirdParty": [
+                    "Azure",
+                    "Vercel",
+                    "Swagger"
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "featured": true,
+            "image": "/phygen.png",
+            "title": "PhyGen Project",
+            "category": [
+                "web",
+                "ai"
+            ],
+            "links": [
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/PhyGen_BE"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/tuyenhttt/PhyGen_FE"
+                }
+            ],
+            "githubRepo": "ndmthuan97/PhyGen_BE",
+            "githubStats": {
+                "stars": 0,
+                "language": "C#",
+                "updatedAt": "2026-03-06T04:35:46Z",
+                "topics": []
+            },
+            "role": "Backend Developer",
+            "year": "2024",
+            "status": "live",
+            "demoUrl": "",
+            "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
+            "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
+            "features": [
+                "🏫 Curriculum Management: Flexible organization by Curriculum → Subject → Chapter → Topic → Section.",
+                "📝 Question Bank: Supports various question types, media attachments via Cloudinary, and categorization by difficulty.",
+                "⚙️ Automated Exam Generation: Builds detailed exam matrices and automatically synthesizes exams.",
+                "💳 Payment Integration: Supports secure transactions via the PayOS gateway.",
+                "🔐 Security & Authentication: Login/Registration with Email OTP, Role-Based Access Control (RBAC).",
+                "📄 Document Publishing: Supports exporting exams and documents to Word/PDF formats."
+            ],
+            "technologies": {
+                "backend": [
+                    ".NET",
+                    "PostgreSQL",
+                    "Azure",
+                    "ChatGPT",
+                    "Gemini",
+                    "PayOS"
+                ],
+                "frontend": [
+                    "React",
+                    "TailwindCSS"
+                ],
+                "thirdParty": [
+                    "Vercel"
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "image": "/timeswap.png",
+            "title": "TimeSwap Project",
+            "category": [
+                "web",
+                "mobile"
+            ],
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/tranduckhuy/time-swap"
+                },
+                {
+                    "label": "Mobile",
+                    "url": "https://github.com/SangTran13/time-swap-android"
+                }
+            ],
+            "githubRepo": "tranduckhuy/time-swap",
+            "githubStats": {
+                "stars": 1,
+                "language": "C#",
+                "updatedAt": "2025-08-15T22:51:29Z",
+                "topics": [
+                    "angular",
+                    "docker",
+                    "docker-compose",
+                    "dotnet",
+                    "github-actions-ci-cd",
+                    "nginx"
+                ]
+            },
+            "role": "Backend Developer",
+            "year": "2024",
+            "status": "live",
+            "demoUrl": "",
+            "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
+            "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
+            "features": [
+                "👤 User Authentication: Login / Register with email, Forgot Password, Secure Logout.",
+                "📋 Job Management: Listings, Search by name/fee/industry/location, Post Job, Apply for Jobs, Applicant List.",
+                "🤖 AI Chatbot Integration: Integrated ChatGPT API to assist users with job-related inquiries.",
+                "💳 Payment Management: E-Wallet Integration for seamless transactions with Transaction History.",
+                "📄 User Profile Management: View & Edit Profile, Account Information with subscription details."
+            ],
+            "technologies": {
+                "backend": [
+                    ".NET",
+                    "PostgreSQL"
+                ],
+                "frontend": [
+                    "Angular",
+                    "TailwindCSS",
+                    "PrimeNG"
+                ],
+                "mobile": [
+                    "Kotlin",
+                    "Jetpack Compose"
+                ],
+                "thirdParty": [
+                    "DigitalOcean",
+                    "Vercel",
+                    "Google Maps"
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "image": "",
+            "title": "Adobe Migration Project",
+            "category": [
+                "enterprise"
+            ],
+            "links": [],
+            "role": "Software Engineer",
+            "year": "2023",
+            "status": "archived",
+            "demoUrl": "",
+            "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
+            "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
+            "features": [
+                "📄 Large-Scale Migration: Migrated and validated thousands of landing pages from legacy CMS platforms.",
+                "✅ Content Consistency: Ensured structural integrity and content consistency across global enterprise environments.",
+                "🔄 Agile Governance: Followed strictly governed Agile workflows for enterprise deployment and collaboration."
+            ],
+            "technologies": {
+                "backend": [
+                    "Adobe Experience Manager"
+                ],
+                "thirdParty": [
+                    "Jira"
+                ]
+            }
+        }
+    ]
+}
