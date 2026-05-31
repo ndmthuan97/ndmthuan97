@@ -80,7 +80,7 @@
         },
         {
             "id": 4,
-            "featured": true,
+            "featured": false,
             "image": "/trava.png",
             "title": "Trava Project",
             "category": [
