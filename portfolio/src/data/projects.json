@@ -83,58 +83,6 @@
             }
         },
         {
-            "id": 5,
-            "featured": true,
-            "image": "/deca.png",
-            "title": "Deca Project",
-            "category": [
-                "web",
-                "ai"
-            ],
-            "links": [
-                {
-                    "label": "Github",
-                    "url": "https://github.com/ndmthuan97/Deca"
-                }
-            ],
-            "githubRepo": "ndmthuan97/Deca",
-            "githubStats": {
-                "stars": 0,
-                "language": "TypeScript",
-                "updatedAt": "2026-05-11T06:37:32Z",
-                "topics": []
-            },
-            "role": "Full-Stack Developer",
-            "year": "2025",
-            "status": "live",
-            "demoUrl": "",
-            "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
-            "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
-            "features": [
-                "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
-                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
-                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
-                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
-                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
-                "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
-            ],
-            "technologies": {
-                "backend": [
-                    "Node.js",
-                    "Next.js"
-                ],
-                "frontend": [
-                    "TypeScript",
-                    "TailwindCSS",
-                    "TanStack Query"
-                ],
-                "thirdParty": [
-                    "OpenAI",
-                    "Vercel"
-                ]
-            }
-        },
-        {
             "id": 3,
             "featured": true,
             "image": "/phygen.png",
@@ -188,6 +136,58 @@
                     "TailwindCSS"
                 ],
                 "thirdParty": [
+                    "Vercel"
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "featured": true,
+            "image": "/deca.png",
+            "title": "Deca Project",
+            "category": [
+                "web",
+                "ai"
+            ],
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/ndmthuan97/Deca"
+                }
+            ],
+            "githubRepo": "ndmthuan97/Deca",
+            "githubStats": {
+                "stars": 0,
+                "language": "TypeScript",
+                "updatedAt": "2026-05-11T06:37:32Z",
+                "topics": []
+            },
+            "role": "Full-Stack Developer",
+            "year": "2025",
+            "status": "live",
+            "demoUrl": "",
+            "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
+            "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
+            "features": [
+                "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
+                "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
+                "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
+                "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
+                "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
+                "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
+            ],
+            "technologies": {
+                "backend": [
+                    "Node.js",
+                    "Next.js"
+                ],
+                "frontend": [
+                    "TypeScript",
+                    "TailwindCSS",
+                    "TanStack Query"
+                ],
+                "thirdParty": [
+                    "OpenAI",
                     "Vercel"
                 ]
             }
