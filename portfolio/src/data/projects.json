@@ -28,7 +28,7 @@
     "items": [
         {
             "id": 5,
-            "featured": false,
+            "featured": true,
             "image": "/deca.png",
             "title": "Deca Project",
             "category": [
