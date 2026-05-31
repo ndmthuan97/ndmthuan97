@@ -11,14 +11,19 @@
             "href": "about"
         },
         {
+            "icon": "Briefcase",
+            "label": "Experience",
+            "href": "portfolio"
+        },
+        {
             "icon": "Wrench",
             "label": "Skills",
             "href": "skills"
         },
         {
-            "icon": "Briefcase",
-            "label": "Portfolio",
-            "href": "portfolio"
+            "icon": "GraduationCap",
+            "label": "Education",
+            "href": "education"
         },
         {
             "icon": "Mail",

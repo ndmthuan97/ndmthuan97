@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import portfolioData from "../data/portfolio.json";
+import portfolioData from "../data/projects.json";
 import { useReveal } from "../hooks/use-reveal";
 import type { PortfolioItem, PortfolioFilter, Category } from "../types/portfolio";
 import { MasonryCard } from "./portfolio/MasonryCard";
@@ -10,12 +10,7 @@ import { FilterTabs } from "./portfolio/FilterTabs";
 const portfolioItems = portfolioData.items as PortfolioItem[];
 const filters = portfolioData.filters as PortfolioFilter[];
 
-const PAGE_SIZE = 5;
-
-/** Index 0 on each page is always the wide featured card */
-function isFeaturedIndex(index: number) {
-  return index === 0;
-}
+const PAGE_SIZE = 3;
 
 export function PortfolioSection() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
@@ -31,15 +26,8 @@ export function PortfolioSection() {
             item.category.includes(activeFilter as Exclude<Category, "all">)
           );
 
-    // Float the pinned featured item to position 0 so it always gets col-span-2
-    const pinnedIdx = filtered.findIndex((i) => i.featured);
-    if (pinnedIdx > 0) {
-      const reordered = [...filtered];
-      const [pinned] = reordered.splice(pinnedIdx, 1);
-      reordered.unshift(pinned);
-      return reordered;
-    }
-    return filtered;
+    // Float featured projects to the front (page 1); others keep their order.
+    return [...filtered].sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
   }, [activeFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
@@ -75,6 +63,13 @@ export function PortfolioSection() {
     return c;
   }, []);
 
+  // Hide categories with no projects (e.g. "Desktop" until a desktop project exists).
+  // The category stays defined in the data — it's only hidden from the tab bar.
+  const visibleFilters = useMemo(
+    () => filters.filter((f) => f.value === "all" || (counts[f.value] ?? 0) > 0),
+    [counts]
+  );
+
   // Generate page number buttons (always show first, last, current ± 1, with ellipsis)
   const pageNumbers = useMemo(() => {
     if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -89,28 +84,23 @@ export function PortfolioSection() {
   }, [totalPages, safePage]);
 
   return (
-    <section id="portfolio" ref={ref} className="py-24 relative overflow-hidden">
-      {/* Ambient glows */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/3 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white/3 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="container mx-auto max-w-6xl relative z-10 px-4">
+    <section id="portfolio" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
+      <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <div
-          className={`text-center mb-16 relative transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          className={`relative mb-12 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <span
             aria-hidden="true"
-            className="text-6xl md:text-7xl font-bold text-white/8 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap select-none"
+            className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl"
           >
-            WORKS
+            WORK
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
-            MY <span className="text-white">PORTFOLIO</span>
+          <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
+            Experience
           </h2>
-          <div className="w-16 h-1 bg-white mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Filter Tabs */}
@@ -119,7 +109,7 @@ export function PortfolioSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <FilterTabs filters={filters} active={activeFilter} counts={counts} onChange={handleFilterChange} />
+          <FilterTabs filters={visibleFilters} active={activeFilter} counts={counts} onChange={handleFilterChange} />
         </div>
 
         {/* Empty state */}
@@ -130,16 +120,16 @@ export function PortfolioSection() {
           </div>
         )}
 
-        {/* Masonry Grid — 3 cols lg / 2 cols md / 1 col sm */}
+
+        {/* Full-width project rows */}
         {pageItems.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-auto">
+          <div className="flex flex-col gap-4">
             {pageItems.map((item, index) => (
               <MasonryCard
                 key={item.id}
                 item={item}
                 index={index}
                 isVisible={isVisible}
-                isFeatured={isFeaturedIndex(index)}
                 onSelect={() => setSelectedProject(item)}
               />
             ))}
@@ -154,8 +144,8 @@ export function PortfolioSection() {
             }`}
           >
             {/* Info */}
-            <p className="text-xs text-muted-foreground">
-              Page {safePage} of {totalPages} &nbsp;·&nbsp; {filteredItems.length} projects
+            <p className="mono-label text-muted-foreground normal-case tracking-normal">
+              Page {safePage} of {totalPages} · {filteredItems.length} projects
             </p>
 
             {/* Controls */}
@@ -165,8 +155,8 @@ export function PortfolioSection() {
                 onClick={() => goTo(safePage - 1)}
                 disabled={safePage === 1}
                 aria-label="Previous page"
-                className="p-2 rounded-[8px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/60
-                  text-muted-foreground hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]
+                className="p-2 rounded-lg ring-line bg-card text-muted-foreground
+                  hover:text-foreground hover:ring-strong cursor-pointer
                   motion-safe:transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronLeft size={16} />
@@ -184,11 +174,11 @@ export function PortfolioSection() {
                     onClick={() => goTo(p as number)}
                     aria-label={`Go to page ${p}`}
                     aria-current={p === safePage ? "page" : undefined}
-                    className={`min-w-[36px] h-9 px-2 rounded-[8px] text-sm font-semibold
+                    className={`min-w-[36px] h-9 px-2 rounded-lg text-sm font-medium cursor-pointer
                       motion-safe:transition-all motion-safe:duration-200 ${
                       p === safePage
-                        ? "bg-white text-[#0a0a0a] shadow-none"
-                        : "shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/60 text-muted-foreground hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
+                        ? "bg-foreground text-background"
+                        : "ring-line bg-card text-muted-foreground hover:text-foreground hover:ring-strong"
                     }`}
                   >
                     {p}
@@ -201,8 +191,8 @@ export function PortfolioSection() {
                 onClick={() => goTo(safePage + 1)}
                 disabled={safePage === totalPages}
                 aria-label="Next page"
-                className="p-2 rounded-[8px] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/60
-                  text-muted-foreground hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]
+                className="p-2 rounded-lg ring-line bg-card text-muted-foreground
+                  hover:text-foreground hover:ring-strong cursor-pointer
                   motion-safe:transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronRight size={16} />

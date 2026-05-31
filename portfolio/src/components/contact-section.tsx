@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { Mail, Github, Linkedin, MapPin, CheckCircle, XCircle } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, MapPin, CheckCircle, XCircle, ArrowUpRight } from "lucide-react";
 import contactData from "../data/contact.json";
 import { useReveal } from "../hooks/use-reveal";
-import { Button } from "./ui/button";
 
-const ICON_MAP: Record<string, React.ElementType> = { Mail, Github, Linkedin, MapPin };
+const ICON_MAP: Record<string, React.ElementType> = { Mail, Phone, Github, Linkedin, MapPin };
 
 type Status = "idle" | "success" | "error";
 
@@ -20,18 +19,16 @@ function Toast({ status, onClose }: { status: Status; onClose: () => void }) {
 
   const isSuccess = status === "success";
   return (
-    <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ${
-      isSuccess ? "bg-green-950/90 border-green-500/40 text-green-300" : "bg-red-950/90 border-red-500/40 text-red-300"
-    }`}>
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl shadow-card backdrop-blur-sm bg-background animate-in slide-in-from-bottom-4 fade-in duration-300">
       {isSuccess
-        ? <CheckCircle size={18} className="text-green-400 flex-shrink-0" />
-        : <XCircle size={18} className="text-red-400 flex-shrink-0" />}
-      <span className="text-sm font-medium">
+        ? <CheckCircle size={18} className="text-emerald-500 flex-shrink-0" />
+        : <XCircle size={18} className="text-red-500 flex-shrink-0" />}
+      <span className="text-sm font-medium text-foreground">
         {isSuccess
           ? "Email client opened! Click Send to deliver your message."
           : "Please fill in all fields before sending."}
       </span>
-      <button onClick={onClose} className="ml-2 opacity-60 hover:opacity-100 motion-safe:transition-opacity text-xs">✕</button>
+      <button onClick={onClose} className="ml-2 text-muted-foreground hover:text-foreground motion-safe:transition-colors text-xs cursor-pointer">✕</button>
     </div>
   );
 }
@@ -59,56 +56,49 @@ export function ContactSection() {
     setForm({ name: "", email: "", subject: "", message: "" });
   }, [form]);
 
+  const inputClass =
+    "w-full px-3.5 py-3 rounded-lg bg-secondary text-foreground placeholder:text-muted-foreground text-sm ring-line focus:ring-strong focus:outline-none motion-safe:transition-shadow";
+
   return (
-    <section id="contact" ref={ref} className="min-h-screen flex items-center py-20 relative overflow-hidden">
+    <section id="contact" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
       <Toast status={status} onClose={() => setStatus("idle")} />
 
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-white/5 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-white/3 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2" />
-
-      <div className="container mx-auto px-6 md:px-12 lg:px-20">
+      <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
-        <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-white/8 uppercase tracking-widest select-none whitespace-nowrap">
+        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
             CONTACT
           </span>
-          <h2 className="relative text-3xl md:text-4xl font-bold tracking-tight">
-            <span className="text-foreground">GET IN </span>
-            <span className="text-white">TOUCH</span>
+          <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
+            Contact
           </h2>
-          <div className="w-20 h-1 bg-white mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Intro */}
-        <div className={`mb-12 text-center max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <h3 className="text-2xl font-bold tracking-tight mb-3">{contactData.intro.title}</h3>
-          <p className="text-muted-foreground leading-relaxed">{contactData.intro.description}</p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-stretch">
-
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
           {/* Left: contact info */}
-          <div className={`lg:col-span-2 flex flex-col justify-between gap-3 ${isVisible ? "animate-in slide-in-from-left fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
+          <div className={`lg:col-span-2 flex flex-col gap-3 ${isVisible ? "animate-in slide-in-from-left fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
             style={{ animationDelay: "200ms" }}>
-            {contactData.contacts.map((contact, index) => {
+            {contactData.contacts.map((contact) => {
               const Icon = ICON_MAP[contact.icon];
               const isLink = !!contact.href;
               const Wrapper = isLink ? "a" : "div";
               const wrapperProps = isLink
-                ? { href: contact.href, target: contact.id !== "email" ? "_blank" : undefined, rel: contact.id !== "email" ? "noopener noreferrer" : undefined }
+                ? { href: contact.href as string, target: contact.id !== "email" ? "_blank" : undefined, rel: contact.id !== "email" ? "noopener noreferrer" : undefined }
                 : {};
               return (
                 <Wrapper key={contact.id} {...wrapperProps}
-                  className={`flex items-center gap-4 p-4 rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/50 backdrop-blur-sm motion-safe:transition-all motion-safe:duration-300 ${isLink ? "hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] hover:bg-[#111111]/80 cursor-pointer group" : ""}`}
-                  style={{ animationDelay: isVisible ? `${300 + index * 80}ms` : "0ms" }}
+                  className={`group flex items-center gap-4 p-4 rounded-xl surface ${isLink ? "surface-hover cursor-pointer" : ""}`}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 motion-safe:transition-colors">
+                  <div className="w-10 h-10 rounded-lg brand-soft flex items-center justify-center flex-shrink-0">
                     {Icon && <Icon size={18} />}
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{contact.label}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="mono-label text-muted-foreground text-[11px] mb-0.5">{contact.label}</p>
                     <p className="text-sm font-medium text-foreground truncate">{contact.value}</p>
                   </div>
+                  {isLink && (
+                    <ArrowUpRight size={16} className="text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-safe:transition-all flex-shrink-0" />
+                  )}
                 </Wrapper>
               );
             })}
@@ -116,34 +106,27 @@ export function ContactSection() {
 
           {/* Right: contact form */}
           <div className={`lg:col-span-3 ${isVisible ? "animate-in slide-in-from-right fade-in duration-700 fill-mode-backwards" : "opacity-0"}`}
-            style={{ animationDelay: "400ms" }}>
-            <div className="relative rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/60 backdrop-blur-sm overflow-hidden h-full">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-              <div className="p-6 md:p-8">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <span className="w-1 h-5 bg-white rounded-full inline-block" />
-                  Send Me a Message
-                </h3>
-                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-2 gap-4">
-                    <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required
-                      className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
-                    <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required
-                      className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
-                  </div>
-                  <input name="subject" type="text" placeholder="Subject" value={form.subject} onChange={handleChange} required
-                    className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors text-sm" />
-                  <textarea name="message" placeholder="Message" rows={6} value={form.message} onChange={handleChange} required
-                    className="w-full p-3 bg-[#111111]/80 border border-[#262626] rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white motion-safe:transition-colors resize-none text-sm" />
-                  <Button type="submit"
-                    className="w-full py-3 bg-white text-[#0a0a0a] font-bold rounded-lg hover:bg-[#e5e5e5] motion-safe:transition-all shadow-[0_0_0_1px_rgba(255,255,255,0.2)]">
-                    Send Message
-                  </Button>
-                </form>
-              </div>
+            style={{ animationDelay: "350ms" }}>
+            <div className="surface p-6 md:p-8 h-full">
+              <h3 className="font-display font-semibold text-lg mb-6 flex items-center gap-2.5">
+                <span className="w-1 h-5 bg-brand rounded-full inline-block" />
+                Send me a message
+              </h3>
+              <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input name="name" type="text" placeholder="Name" aria-label="Your name" value={form.name} onChange={handleChange} required className={inputClass} />
+                  <input name="email" type="email" placeholder="Email" aria-label="Your email" value={form.email} onChange={handleChange} required className={inputClass} />
+                </div>
+                <input name="subject" type="text" placeholder="Subject" aria-label="Subject" value={form.subject} onChange={handleChange} required className={inputClass} />
+                <textarea name="message" placeholder="Message" aria-label="Message" rows={6} value={form.message} onChange={handleChange} required className={`${inputClass} resize-none`} />
+                <button type="submit"
+                  className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-md bg-foreground text-background text-sm font-medium hover:opacity-90 motion-safe:transition-all cursor-pointer">
+                  Send message
+                  <ArrowUpRight size={16} />
+                </button>
+              </form>
             </div>
           </div>
-
         </div>
       </div>
     </section>

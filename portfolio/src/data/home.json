@@ -1,6 +1,12 @@
 {
     "name": "MINH THUAN",
-    "role": "Software Engineer",
-    "bio": "I am a Vietnam-based Software Engineer specializing in building scalable backend systems and high-performance frontend applications. With a strong foundation in APIs, databases, and system architecture, I focus on delivering clean, maintainable, and efficient solutions that create real business value. I am passionate about writing quality code, optimizing performance, and crafting seamless user experiences.",
+    "role": "Full-Stack Software Engineer",
+    "bio": "A software engineer from Gia Lai, Vietnam, with 3+ years building web products end to end.",
+    "highlights": [
+        "Backend-focused, comfortable across the full stack",
+        "Clean, maintainable code over quick hacks",
+        "Fast learner who picks up new tools as needed"
+    ],
+    "goal": "Looking to grow into a strong backend engineer on a team building products with real impact.",
     "profileImage": "/profile.JPG"
 }

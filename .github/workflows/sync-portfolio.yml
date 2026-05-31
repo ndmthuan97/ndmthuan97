@@ -1,34 +1,26 @@
 name: Sync Portfolio from GitHub
 
+# Enriches projects.json from the GitHub API and commits it back.
+# Deployment is handled by Vercel (auto-deploys on push). No build secrets here.
+
 on:
   push:
     branches: ["main"]
     paths:
-      - "portfolio/**"
+      - "portfolio/projects.config.json"
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
-  sync-and-deploy:
+  sync:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     defaults:
       run:
         working-directory: portfolio
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -41,32 +33,19 @@ jobs:
 
       - name: Run sync script
         env:
+          # Built-in, scoped Actions token — NOT a personal secret, never exposed to clients.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run sync
 
-      - name: Commit updated portfolio.json
+      - name: Commit updated projects.json
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet src/data/portfolio.json || (
-            git add src/data/portfolio.json &&
-            git commit -m "chore: sync portfolio from GitHub [skip ci]" &&
+          # No "[skip ci]" — this data commit SHOULD flow through the CI gate
+          # (ci.yml) so it gets built + deployed. It changes src/data/projects.json,
+          # not projects.config.json, so it will NOT re-trigger this sync (no loop).
+          git diff --quiet src/data/projects.json || (
+            git add src/data/projects.json &&
+            git commit -m "chore: sync projects from GitHub" &&
             git push
           )
-
-      - name: Build
-        env:
-          VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
-          VITE_GITHUB_PAT: ${{ secrets.VITE_GITHUB_PAT }}
-          VITE_GITHUB_REPO: ${{ secrets.VITE_GITHUB_REPO }}
-        run: npm run build
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: portfolio/dist
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

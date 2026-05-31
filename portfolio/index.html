@@ -3,31 +3,55 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/ndmthuan97/favicon.png" />
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+
+  <!-- Fonts: Space Grotesk (display) · Inter (UI/body) · JetBrains Mono (labels/code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Set theme before paint to avoid flash -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme");
+        var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
 
   <!-- Primary SEO -->
+  <!-- ⚠️ REPLACE https://ndmthuan97.vercel.app with your real Vercel domain (used by canonical + OG). -->
   <title>Minh Thuan — Portfolio</title>
   <meta name="description"
     content="Minh Thuan — Full-Stack Software Engineer specializing in .NET, React, Angular, and Android. Portfolio of production-grade backend systems, frontend apps, and mobile projects." />
   <meta name="author" content="Minh Thuan" />
   <meta name="keywords"
     content="software engineer, .NET, React, Angular, Android, portfolio, Vietnam, full-stack developer" />
+  <link rel="canonical" href="https://ndmthuan97.vercel.app/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ndmthuan97.github.io/ndmthuan97/" />
+  <meta property="og:url" content="https://ndmthuan97.vercel.app/" />
   <meta property="og:title" content="Minh Thuan — Portfolio" />
   <meta property="og:description"
     content="Full-Stack Software Engineer · .NET · React · Angular · Android. Building scalable systems and seamless user experiences." />
-  <meta property="og:image" content="https://ndmthuan97.github.io/ndmthuan97/og-cover.png" />
+  <meta property="og:image" content="https://ndmthuan97.vercel.app/profile.JPG" />
+  <meta property="og:image:alt" content="Minh Thuan — Software Engineer" />
   <meta property="og:site_name" content="Minh Thuan Portfolio" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Minh Thuan — Software Engineer Portfolio" />
   <meta name="twitter:description" content="Full-Stack Software Engineer · .NET · React · Angular · Android." />
-  <meta name="twitter:image" content="https://ndmthuan97.github.io/ndmthuan97/og-cover.png" />
+  <meta name="twitter:image" content="https://ndmthuan97.vercel.app/profile.JPG" />
 </head>
 
 <body>

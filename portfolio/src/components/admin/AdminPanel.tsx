@@ -1,11 +1,31 @@
-import { useState, useCallback, useRef } from "react";
-import { Plus, Trash2, Edit3, Star, FileInput, GitCommit, X, ChevronDown, Upload, Copy, Check } from "lucide-react";
-import initialData from "../../data/portfolio.json";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { Plus, Trash2, Edit3, Star, FileInput, GitCommit, X, ChevronDown, ChevronUp, Upload, Copy, Check, FolderGit2, User, FileText, Wrench, GraduationCap, Mail, LogOut } from "lucide-react";
+import initialData from "../../data/projects.json";
 import type { PortfolioItem } from "../../types/portfolio";
 import { assetPath } from "../../utils/asset-path";
-import { GITHUB_TOKEN, commitToGitHub } from "../../hooks/use-github";
+import { commitToGitHub } from "../../hooks/use-github";
+import { logout } from "../../lib/admin-session";
 import { BLANK_ITEM, ItemForm } from "./ItemForm";
+import { ContentSettings, type ContentSection } from "./content-settings";
 import { useToast, ToastStack } from "./toast";
+
+type AdminView = "projects" | ContentSection;
+
+const FEATURED_MAX = 3;
+
+const NAV_GROUPS: { heading: string; items: { key: AdminView; label: string; icon: typeof User }[] }[] = [
+  { heading: "Work", items: [{ key: "projects", label: "Projects", icon: FolderGit2 }] },
+  {
+    heading: "Page content",
+    items: [
+      { key: "home", label: "Home", icon: User },
+      { key: "about", label: "About", icon: FileText },
+      { key: "skills", label: "Skills", icon: Wrench },
+      { key: "education", label: "Education", icon: GraduationCap },
+      { key: "contact", label: "Contact", icon: Mail },
+    ],
+  },
+];
 
 // ─── Import JSON Modal ────────────────────────────────────────────────────────
 const JSON_SAMPLE = `[
@@ -14,24 +34,27 @@ const JSON_SAMPLE = `[
     "title": "Project Name",
     "description": "A short one-sentence description.",
     "image": "/project-image.png",
-    "category": ["frontend", "backend"],
+    "category": ["web", "ai"],
+    "role": "Full-Stack Developer",
+    "year": "2025",
+    "status": "live",
+    "demoUrl": "https://example.com",
     "overview": "2-3 sentences about the project...",
+    "highlights": [
+      "Short bullet shown on the card",
+      "Another quick-scan highlight"
+    ],
     "features": [
       "🔐 Authentication: JWT-based login",
       "📊 Dashboard: Real-time analytics"
     ],
     "links": [
-      { "label": "GitHub", "url": "https://github.com/user/repo" },
-      { "label": "Live Demo", "url": "https://example.com" }
+      { "label": "GitHub", "url": "https://github.com/user/repo" }
     ],
     "technologies": {
-      "frontend": ["React", "TypeScript", "Tailwind"],
-      "backend": [".NET 8", "PostgreSQL"],
+      "backend": [".NET", "PostgreSQL"],
+      "frontend": ["React", "TypeScript", "TailwindCSS"],
       "thirdParty": ["Vercel"]
-    },
-    "technicalDetails": {
-      "frontend": ["Built with React 19 and TypeScript..."],
-      "backend": ["REST API using .NET 8 minimal APIs..."]
     },
     "githubRepo": "username/repo-name"
   }
@@ -86,19 +109,19 @@ function ImportJsonModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] bg-foreground/40 dark:bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_24px_64px_rgba(0,0,0,0.7)] rounded-2xl flex flex-col max-h-[90dvh]"
+        className="w-full max-w-lg bg-card shadow-card rounded-2xl flex flex-col max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/8 shrink-0">
-          <h3 className="text-sm font-bold text-foreground">Import JSON</h3>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
+          <h3 className="text-sm font-semibold text-foreground">Import JSON</h3>
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-[#262626] rounded-[6px] motion-safe:transition-colors"
+            className="p-1.5 hover:bg-secondary rounded-md motion-safe:transition-colors cursor-pointer"
           >
             <X size={16} />
           </button>
@@ -107,28 +130,27 @@ function ImportJsonModal({
         <div className="overflow-y-auto p-5 space-y-4">
           {/* Paste section */}
           <div className="space-y-2">
-            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+            <label htmlFor="import-json-paste" className="mono-label text-muted-foreground">
               Paste JSON
             </label>
             <textarea
+              id="import-json-paste"
               value={pasteText}
               onChange={(e) => { setPasteText(e.target.value); setParseError(""); }}
               rows={10}
               placeholder={`[\n  { "title": "My Project", ... }\n]`}
-              className={`w-full bg-[#0a0a0a] rounded-[8px] px-3 py-2.5 text-[11px] text-foreground font-mono placeholder:text-[#444] focus:outline-none resize-none leading-relaxed motion-safe:transition-all ${
-                parseError
-                  ? "shadow-[0_0_0_1px_rgba(248,113,113,0.5)]"
-                  : "shadow-[0_0_0_1px_rgba(255,255,255,0.08)] focus:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]"
+              className={`w-full bg-secondary rounded-lg px-3 py-2.5 text-[11px] text-foreground font-mono placeholder:text-muted-foreground focus:outline-none resize-none leading-relaxed motion-safe:transition-all ${
+                parseError ? "ring-2 ring-red-500" : "ring-line focus:ring-strong"
               }`}
             />
-            {parseError && <p className="text-red-400 text-[11px]">{parseError}</p>}
+            {parseError && <p className="text-red-500 text-[11px]">{parseError}</p>}
           </div>
 
           {/* Divider */}
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-white/8" />
-            <span className="text-[10px] text-[#444] font-bold uppercase tracking-widest">or</span>
-            <div className="flex-1 h-px bg-white/8" />
+            <div className="flex-1 h-px bg-border" />
+            <span className="mono-label text-muted-foreground">or</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
           {/* File pick */}
@@ -142,7 +164,7 @@ function ImportJsonModal({
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] rounded-[8px] text-sm font-medium motion-safe:transition-all"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-secondary ring-line hover:ring-strong rounded-lg text-sm font-medium motion-safe:transition-all cursor-pointer"
             >
               <Upload size={14} />
               Choose JSON file
@@ -155,7 +177,7 @@ function ImportJsonModal({
               <button
                 type="button"
                 onClick={() => setShowSample((v) => !v)}
-                className="flex items-center gap-1.5 text-[11px] text-[#555] hover:text-[#888] motion-safe:transition-colors"
+                className="flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-foreground motion-safe:transition-colors cursor-pointer"
               >
                 <ChevronDown
                   size={13}
@@ -167,15 +189,15 @@ function ImportJsonModal({
                 <button
                   type="button"
                   onClick={handleCopySample}
-                  className="flex items-center gap-1 text-[11px] text-[#555] hover:text-white motion-safe:transition-colors"
+                  className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground motion-safe:transition-colors cursor-pointer"
                 >
-                  {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+                  {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
                   {copied ? "Copied!" : "Copy"}
                 </button>
               )}
             </div>
             {showSample && (
-              <pre className="text-[10px] text-[#666] font-mono leading-relaxed whitespace-pre-wrap break-words bg-[#0a0a0a] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] rounded-[8px] p-3 max-h-48 overflow-y-auto">
+              <pre className="text-[10px] text-muted-foreground font-mono leading-relaxed whitespace-pre-wrap break-words bg-secondary ring-line rounded-lg p-3 max-h-48 overflow-y-auto">
                 {JSON_SAMPLE}
               </pre>
             )}
@@ -183,17 +205,17 @@ function ImportJsonModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-5 py-4 border-t border-white/8 shrink-0">
+        <div className="flex items-center justify-end gap-3 px-5 py-4 border-t border-border shrink-0">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             Cancel
           </button>
           <button
             onClick={handlePasteImport}
             disabled={!pasteText.trim()}
-            className="flex items-center gap-2 px-5 py-2 bg-white hover:bg-white/90 text-[#0a0a0a] font-bold text-sm rounded-[6px] motion-safe:transition-all active:scale-95 disabled:opacity-40"
+            className="flex items-center gap-2 px-5 py-2 bg-foreground hover:opacity-90 text-background font-medium text-sm rounded-md motion-safe:transition-all active:scale-95 disabled:opacity-40 cursor-pointer"
           >
             Import
           </button>
@@ -209,7 +231,21 @@ export function AdminPanel() {
   const [editing, setEditing] = useState<PortfolioItem | null>(null);
   const [saving, setSaving] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [view, setView] = useState<AdminView>("projects");
+  // True when project edits/deletes/imports are not yet committed to GitHub.
+  const [dirty, setDirty] = useState(false);
   const { toasts, toast } = useToast();
+
+  // Warn before leaving/closing the tab while there are uncommitted changes.
+  useEffect(() => {
+    if (!dirty) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty]);
 
   const handleSave = useCallback((updated: PortfolioItem) => {
     setItems((prev) => {
@@ -221,31 +257,70 @@ export function AdminPanel() {
       }
       return [updated, ...prev];
     });
+    setDirty(true);
     setEditing(null);
   }, []);
 
   const handleDelete = (id: number, title: string) => {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
     setItems((prev) => prev.filter((i) => i.id !== id));
-    toast("info", `✓ Deleted "${title}"`);
+    setDirty(true);
+    toast("info", `✓ Deleted "${title}" — commit to save`);
+  };
+
+  const handleLogout = () => {
+    if (dirty && !window.confirm("You have uncommitted changes. Log out anyway?")) return;
+    logout();
+    window.location.hash = "";
+    window.location.reload();
   };
 
   const handleToggleFeatured = async (id: number) => {
     const target = items.find((i) => i.id === id);
     const alreadyFeatured = target?.featured;
-    const nextItems = items.map((i) => ({ ...i, featured: alreadyFeatured ? false : i.id === id }));
+    const featuredCount = items.filter((i) => i.featured).length;
+    if (!alreadyFeatured && featuredCount >= FEATURED_MAX) {
+      toast("error", `Tối đa ${FEATURED_MAX} dự án featured`, "Bỏ chọn 1 dự án trước khi thêm cái mới.");
+      return;
+    }
+    const nextItems = items.map((i) => (i.id === id ? { ...i, featured: !alreadyFeatured } : i));
     setItems(nextItems);
     const title = target?.title ?? "";
-    toast("info", alreadyFeatured ? `Unpinned "${title}"` : `⭐ "${title}" set as featured`);
-    if (!GITHUB_TOKEN) return;
+    toast("info", alreadyFeatured ? `Bỏ featured "${title}"` : `⭐ "${title}" đã featured (trang đầu)`);
     setSaving(true);
     const json = JSON.stringify({ filters: initialData.filters, items: nextItems }, null, 4);
     const result = await commitToGitHub(json);
     setSaving(false);
-    if (!result.ok) toast("error", "⚠ Featured not saved to GitHub", result.message);
+    // This commit writes the whole list, so any pending edits are now saved too.
+    if (result.ok) setDirty(false);
+    else toast("error", "⚠ Featured not saved to GitHub", result.message);
   };
 
   const buildJson = () => JSON.stringify({ filters: initialData.filters, items }, null, 4);
+
+  // Persist a reordered list to GitHub (used by drag-free move up/down).
+  const persistItems = async (nextItems: PortfolioItem[]) => {
+    setSaving(true);
+    const json = JSON.stringify({ filters: initialData.filters, items: nextItems }, null, 4);
+    const result = await commitToGitHub(json);
+    setSaving(false);
+    if (result.ok) setDirty(false);
+    else toast("error", "⚠ Order not saved to GitHub", result.message);
+  };
+
+  // Move a project one step toward the start ("up") or end ("down") of the list.
+  // Display order follows array order (featured float to the front, keeping their
+  // relative order), so this controls whether a project shows earlier or later.
+  const handleMove = (id: number, direction: "up" | "down") => {
+    const idx = items.findIndex((i) => i.id === id);
+    if (idx < 0) return;
+    const target = direction === "up" ? idx - 1 : idx + 1;
+    if (target < 0 || target >= items.length) return;
+    const next = [...items];
+    [next[idx], next[target]] = [next[target], next[idx]];
+    setItems(next);
+    void persistItems(next);
+  };
 
   const handleImportJson = (text: string) => {
     try {
@@ -262,7 +337,8 @@ export function AdminPanel() {
         return merged;
       });
       setShowImportModal(false);
-      toast("success", `✓ Imported ${incoming.length} project(s) from JSON`);
+      setDirty(true);
+      toast("success", `✓ Imported ${incoming.length} project(s) — commit to save`);
     } catch {
       toast("error", "Lỗi parse JSON — kiểm tra lại định dạng file");
     }
@@ -272,63 +348,138 @@ export function AdminPanel() {
     setSaving(true);
     const result = await commitToGitHub(buildJson());
     setSaving(false);
+    if (result.ok) setDirty(false);
     toast(result.ok ? "success" : "error", result.message);
   };
 
+  const activeLabel = NAV_GROUPS.flatMap((g) => g.items).find((i) => i.key === view)?.label ?? "";
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-white/8 bg-[#111111] sticky top-0 z-30">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+      <div className="border-b border-border bg-card/80 backdrop-blur-xl sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="text-base font-black text-foreground">Portfolio Admin</h1>
-            <p className="text-xs text-muted-foreground">{items.length} projects</p>
+            <h1 className="font-display text-base font-bold text-foreground">Portfolio Admin</h1>
+            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+              {view === "projects" ? `${items.length} projects` : `Editing: ${activeLabel}`}
+              {view === "projects" && dirty && (
+                <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> unsaved changes
+                </span>
+              )}
+            </p>
           </div>
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            <button
-              onClick={() => setEditing({ ...BLANK_ITEM, id: 0 })}
-              className="flex items-center gap-1.5 px-2.5 py-2 bg-white hover:bg-white/90 text-[#0a0a0a] text-sm font-bold rounded-[6px] motion-safe:transition-all active:scale-95"
-            >
-              <Plus size={14} />
-              <span className="hidden sm:inline">Add Project</span>
-            </button>
+            {view === "projects" && (
+              <>
+                <button
+                  onClick={() => setEditing({ ...BLANK_ITEM, id: 0 })}
+                  className="flex items-center gap-1.5 px-2.5 py-2 bg-foreground hover:opacity-90 text-background text-sm font-medium rounded-md motion-safe:transition-all active:scale-95 cursor-pointer"
+                >
+                  <Plus size={14} />
+                  <span className="hidden sm:inline">Add Project</span>
+                </button>
 
-            <button
-              onClick={() => setShowImportModal(true)}
-              className="flex items-center gap-1.5 px-2.5 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] text-sm font-medium rounded-[6px] motion-safe:transition-all"
-            >
-              <FileInput size={14} />
-              <span className="hidden sm:inline">Import JSON</span>
-            </button>
+                <button
+                  onClick={() => setShowImportModal(true)}
+                  className="flex items-center gap-1.5 px-2.5 py-2 bg-secondary ring-line hover:ring-strong text-sm font-medium rounded-md motion-safe:transition-all cursor-pointer"
+                >
+                  <FileInput size={14} />
+                  <span className="hidden sm:inline">Import JSON</span>
+                </button>
 
+                <button
+                  onClick={handleCommit}
+                  disabled={saving || !dirty}
+                  title={dirty ? "Commit changes to GitHub" : "No changes to commit"}
+                  className={`relative flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium rounded-md motion-safe:transition-all disabled:opacity-40 cursor-pointer ${
+                    dirty
+                      ? "bg-amber-500 hover:opacity-90 text-white ring-1 ring-amber-500"
+                      : "bg-secondary ring-line hover:ring-strong"
+                  }`}
+                >
+                  <GitCommit size={14} />
+                  <span className="hidden sm:inline">{saving ? "Saving..." : dirty ? "Commit*" : "Commit"}</span>
+                </button>
+              </>
+            )}
             <button
-              onClick={handleCommit}
-              disabled={saving || !GITHUB_TOKEN}
-              title={!GITHUB_TOKEN ? "Set VITE_GITHUB_PAT to enable direct commit" : "Commit to GitHub"}
-              className="flex items-center gap-1.5 px-2.5 py-2 bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)] hover:shadow-[0_0_0_1px_rgba(74,222,128,0.4)] text-sm font-medium rounded-[6px] motion-safe:transition-all disabled:opacity-40"
+              onClick={handleLogout}
+              title="Log out"
+              className="flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md motion-safe:transition-colors cursor-pointer"
             >
-              <GitCommit size={14} />
-              <span className="hidden sm:inline">{saving ? "Saving..." : "Commit"}</span>
+              <LogOut size={14} />
+              <span className="hidden sm:inline">Logout</span>
             </button>
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); window.location.hash = ""; window.location.reload(); }}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-2 hidden sm:block"
-            >
-              ← Back
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Item List */}
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-3">
-        {items.map((item) => (
+      {/* Sidebar + content */}
+      <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+        {/* Sidebar */}
+        <nav className="md:w-56 shrink-0 md:sticky md:top-24 self-start">
+          <div className="flex md:flex-col gap-4 md:gap-5 overflow-x-auto md:overflow-visible">
+            {NAV_GROUPS.map((group) => (
+              <div key={group.heading} className="md:space-y-1">
+                <p className="mono-label text-muted-foreground mb-1.5 hidden md:block">{group.heading}</p>
+                <div className="flex md:flex-col gap-1">
+                  {group.items.map((item) => {
+                    const Icon = item.icon;
+                    const active = view === item.key;
+                    return (
+                      <button
+                        key={item.key}
+                        onClick={() => setView(item.key)}
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap motion-safe:transition-colors cursor-pointer ${
+                          active
+                            ? "bg-secondary text-foreground ring-line"
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                        }`}
+                      >
+                        <Icon size={15} className={active ? "text-brand" : ""} />
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </nav>
+
+        {/* Content area */}
+        <div className="flex-1 min-w-0">
+          {view === "projects" ? (
+            <div className="space-y-3">
+              {items.map((item, index) => (
           <div
             key={item.id}
-            className="flex items-start gap-3 bg-[#111111] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)] rounded-xl p-3 sm:p-4 motion-safe:transition-all group"
+            className="flex items-start gap-3 surface surface-hover rounded-xl p-3 sm:p-4 group"
           >
-            <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-[6px] overflow-hidden bg-[#171717] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+            {/* Reorder controls */}
+            <div className="flex flex-col items-center gap-0.5 shrink-0 self-center">
+              <button
+                onClick={() => handleMove(item.id, "up")}
+                disabled={index === 0 || saving}
+                title="Move up (show earlier)"
+                className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary motion-safe:transition-colors disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <ChevronUp size={15} />
+              </button>
+              <span className="font-mono text-[10px] text-muted-foreground tabular-nums select-none">{index + 1}</span>
+              <button
+                onClick={() => handleMove(item.id, "down")}
+                disabled={index === items.length - 1 || saving}
+                title="Move down (show later)"
+                className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary motion-safe:transition-colors disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <ChevronDown size={15} />
+              </button>
+            </div>
+
+            <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden bg-secondary ring-line">
               {item.image ? (
                 <img src={assetPath(item.image)} alt={item.title} className="w-full h-full object-cover" />
               ) : (
@@ -340,9 +491,9 @@ export function AdminPanel() {
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
-                    <p className="font-bold text-foreground truncate text-sm">{item.title}</p>
+                    <p className="font-semibold text-foreground truncate text-sm">{item.title}</p>
                     {item.featured && (
-                      <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/15 text-amber-400 shadow-[0_0_0_1px_rgba(251,191,36,0.3)] rounded font-bold uppercase tracking-wide shrink-0">
+                      <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/15 text-amber-600 dark:text-amber-400 ring-1 ring-amber-500/30 rounded font-medium uppercase tracking-wide shrink-0">
                         Featured
                       </span>
                     )}
@@ -352,7 +503,7 @@ export function AdminPanel() {
                     {item.category.map((cat) => (
                       <span
                         key={cat}
-                        className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.2)] font-bold uppercase"
+                        className="font-mono text-[10px] px-1.5 py-0.5 rounded-full bg-secondary text-muted-foreground ring-line uppercase"
                       >
                         {cat}
                       </span>
@@ -363,10 +514,10 @@ export function AdminPanel() {
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={() => void handleToggleFeatured(item.id)}
-                    className={`p-2 rounded-[6px] motion-safe:transition-colors ${
+                    className={`p-2 rounded-md motion-safe:transition-colors cursor-pointer ${
                       item.featured
-                        ? "text-amber-400 bg-amber-500/10"
-                        : "text-muted-foreground hover:text-amber-400 hover:bg-amber-500/10 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                        ? "text-amber-500 bg-amber-500/10"
+                        : "text-muted-foreground hover:text-amber-500 hover:bg-amber-500/10 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                     }`}
                     title={item.featured ? "Unpin from featured" : "Set as featured"}
                   >
@@ -374,14 +525,14 @@ export function AdminPanel() {
                   </button>
                   <button
                     onClick={() => setEditing(item)}
-                    className="p-2 rounded-[6px] hover:bg-[#262626] text-muted-foreground hover:text-white motion-safe:transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                    className="p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground motion-safe:transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer"
                     title="Edit"
                   >
                     <Edit3 size={15} />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id, item.title)}
-                    className="p-2 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                    className="p-2 rounded-md hover:bg-red-500/10 text-muted-foreground hover:text-red-500 transition-colors md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer"
                     title="Delete"
                   >
                     <Trash2 size={15} />
@@ -392,12 +543,17 @@ export function AdminPanel() {
           </div>
         ))}
 
-        {items.length === 0 && (
-          <div className="text-center py-20 text-muted-foreground">
-            <p className="text-4xl mb-2">📂</p>
-            <p>No projects yet. Add one above.</p>
-          </div>
-        )}
+              {items.length === 0 && (
+                <div className="text-center py-20 text-muted-foreground">
+                  <p className="text-4xl mb-2">📂</p>
+                  <p>No projects yet. Add one above.</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <ContentSettings section={view} toast={toast} />
+          )}
+        </div>
       </div>
 
       {editing && (

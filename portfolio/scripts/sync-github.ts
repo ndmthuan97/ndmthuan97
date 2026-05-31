@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * sync-github.ts
- * Reads portfolio.config.json, enriches each item with GitHub API metadata,
- * and writes the result to src/data/portfolio.json.
+ * Reads projects.config.json, enriches each item with GitHub API metadata,
+ * and writes the result to src/data/projects.json.
  *
  * Usage:
  *   npm run sync                          # uses unauthenticated API (60 req/hr limit)
@@ -59,21 +59,23 @@ async function fetchRepo(repo: string): Promise<GitHubRepo | null> {
   }
 }
 
-// ── Filters (same as existing portfolio.json) ─────────────────────────────────
+// ── Filters (project domains) ─────────────────────────────────────────────────
 const FILTERS = [
   { label: "ALL", value: "all" },
-  { label: "BACKEND", value: "backend" },
-  { label: "FRONTEND", value: "frontend" },
+  { label: "WEB", value: "web" },
+  { label: "AI", value: "ai" },
+  { label: "DESKTOP", value: "desktop" },
   { label: "MOBILE", value: "mobile" },
+  { label: "ENTERPRISE", value: "enterprise" },
 ];
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
-  const configPath = path.join(ROOT, "portfolio.config.json");
-  const outputPath = path.join(ROOT, "src", "data", "portfolio.json");
+  const configPath = path.join(ROOT, "projects.config.json");
+  const outputPath = path.join(ROOT, "src", "data", "projects.json");
 
   if (!fs.existsSync(configPath)) {
-    console.error("❌ portfolio.config.json not found at", configPath);
+    console.error("❌ projects.config.json not found at", configPath);
     process.exit(1);
   }
 

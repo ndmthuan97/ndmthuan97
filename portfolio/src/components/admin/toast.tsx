@@ -19,17 +19,17 @@ export function useToast() {
 
 export function ToastStack({ toasts }: { toasts: ToastMsg[] }) {
   if (!toasts.length) return null;
-  const colors: Record<ToastMsg["type"], string> = {
-    success: "bg-[#0d2b1a] shadow-[0_0_0_1px_rgba(74,222,128,0.25)] text-green-300",
-    error:   "bg-[#2b0d0d] shadow-[0_0_0_1px_rgba(248,113,113,0.3)] text-red-300",
-    info:    "bg-[#111] shadow-[0_0_0_1px_rgba(255,255,255,0.12)] text-[#ccc]",
+  const accent: Record<ToastMsg["type"], string> = {
+    success: "text-emerald-600 dark:text-emerald-400",
+    error:   "text-red-600 dark:text-red-400",
+    info:    "text-muted-foreground",
   };
   return (
     <div className="fixed top-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none max-w-sm">
       {toasts.map((t) => (
-        <div key={t.id} className={`px-4 py-3 rounded-[8px] text-sm backdrop-blur-md ${colors[t.type]}`}>
-          <p className="font-semibold">{t.text}</p>
-          {t.detail && <p className="mt-1 text-[11px] opacity-75 leading-relaxed whitespace-pre-line">{t.detail}</p>}
+        <div key={t.id} className="px-4 py-3 rounded-lg text-sm bg-card shadow-card backdrop-blur-md">
+          <p className={`font-semibold ${accent[t.type]}`}>{t.text}</p>
+          {t.detail && <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed whitespace-pre-line">{t.detail}</p>}
         </div>
       ))}
     </div>

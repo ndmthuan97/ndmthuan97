@@ -1,5 +1,7 @@
 import skillsData from "../data/skills.json";
 import { useReveal } from "../hooks/use-reveal";
+import { iconSources } from "../lib/portfolio-helpers";
+import { TechIcon } from "./tech-icon";
 
 interface Skill {
   icon: string;
@@ -10,11 +12,12 @@ interface SkillCategory {
   skills: Skill[];
 }
 
-/** Human-readable display names for go-skill-icons slugs */
+/** Human-readable display names for icon slugs */
 const SKILL_DISPLAY_NAMES: Record<string, string> = {
   dotnet: ".NET",
   cs: "C#",
   java: "Java",
+  spring: "Spring",
   redis: "Redis",
   postgres: "PostgreSQL",
   sqlserver: "SQL Server",
@@ -41,47 +44,36 @@ export function SkillsSection() {
   const { isVisible, ref } = useReveal(0.05);
 
   return (
-    <section id="skills" ref={ref} className="min-h-screen flex items-center py-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/3 rounded-full blur-[120px] -z-10" />
-
+    <section id="skills" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
-        <div className={`text-center mb-16 relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span aria-hidden="true" className="text-6xl md:text-7xl font-bold text-white/8 uppercase tracking-wider absolute left-1/2 -translate-x-1/2 top-0 whitespace-nowrap">
-            EXPERTISE
+        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
+            STACK
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight pt-6 relative z-10">
-            MY <span className="text-white">SKILLS</span>
+          <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
+            Skills
           </h2>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-10">
           {skillCategories.map((category, idx) => (
             <div
               key={idx}
-              className={`text-center ${isVisible ? "animate-in fade-in slide-in-from-bottom duration-700 fill-mode-backwards" : "opacity-0"}`}
-              style={{ animationDelay: isVisible ? `${idx * 200}ms` : '0ms' }}
+              className={`grid md:grid-cols-[160px_1fr] gap-4 md:gap-8 items-start ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-backwards" : "opacity-0"}`}
+              style={{ animationDelay: isVisible ? `${idx * 150}ms` : "0ms" }}
             >
-              <h5 className="text-lg font-semibold text-muted-foreground mb-6">{category.title}</h5>
-              <div className="flex flex-wrap justify-center gap-4">
+              <h3 className="mono-label text-muted-foreground pt-2">{category.title}</h3>
+              <div className="flex flex-wrap gap-3.5">
                 {category.skills.map((skill, sIdx) => {
-                  const imgSrc = `https://go-skill-icons.vercel.app/api/icons?i=${skill.icon}`;
+                  const name = SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon;
                   return (
                     <div
                       key={sIdx}
-                      className={`w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden figma-skill-icon cursor-default group relative ${isVisible ? "animate-in zoom-in fade-in duration-500 fill-mode-backwards" : "opacity-0"}`}
-                      style={{ animationDelay: isVisible ? `${(idx * 200) + (sIdx * 50)}ms` : '0ms' }}
+                      title={name}
+                      className="inline-flex items-center justify-center"
                     >
-                      <img
-                        src={imgSrc}
-                        alt={SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon}
-                        className="w-full h-full object-contain p-2 md:p-3"
-                        onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0'; }}
-                      />
-                      {/* Tooltip */}
-                      <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#171717] text-white text-[10px] py-1 px-2 rounded-md shadow-[0_0_0_1px_rgba(255,255,255,0.08)] opacity-0 group-hover:opacity-100 motion-safe:transition-opacity whitespace-nowrap pointer-events-none z-10">
-                        {SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon}
-                      </span>
+                      <TechIcon name={name} srcs={iconSources(skill.icon)} size={38} />
                     </div>
                   );
                 })}

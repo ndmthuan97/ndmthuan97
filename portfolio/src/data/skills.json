@@ -6,9 +6,15 @@
                 { "icon": "dotnet" },
                 { "icon": "cs" },
                 { "icon": "java" },
-                { "icon": "redis" },
+                { "icon": "spring" }
+            ]
+        },
+        {
+            "title": "Database",
+            "skills": [
                 { "icon": "postgres" },
-                { "icon": "sqlserver" }
+                { "icon": "sqlserver" },
+                { "icon": "redis" }
             ]
         },
         {
@@ -16,22 +22,27 @@
             "skills": [
                 { "icon": "angular" },
                 { "icon": "typescript" },
+                { "icon": "js" },
                 { "icon": "html" },
                 { "icon": "css" },
-                { "icon": "js" },
                 { "icon": "tailwindcss" },
                 { "icon": "bootstrap" },
                 { "icon": "primeng" }
             ]
         },
         {
-            "title": "Others",
+            "title": "DevOps & Cloud",
             "skills": [
                 { "icon": "docker" },
-                { "icon": "git" },
-                { "icon": "github" },
                 { "icon": "azure" },
                 { "icon": "vercel" },
+                { "icon": "git" },
+                { "icon": "github" }
+            ]
+        },
+        {
+            "title": "Tools",
+            "skills": [
                 { "icon": "postman" },
                 { "icon": "figma" },
                 { "icon": "jira" }

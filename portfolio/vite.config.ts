@@ -5,8 +5,8 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Deploy target: GitHub Pages at /ndmthuan97/
-  base: "/ndmthuan97/",
+  // Deploy target: Vercel (served at root). Functions live in /api.
+  base: "/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

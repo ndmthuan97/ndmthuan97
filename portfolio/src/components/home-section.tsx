@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { Check } from "lucide-react";
 import homeData from "../data/home.json";
 import { useReveal } from "../hooks/use-reveal";
 import { assetPath } from "../utils/asset-path";
@@ -61,7 +61,7 @@ function LightningOverlay() {
     tmRef.current=setTimeout(strike,200);
     return ()=>{ if(tmRef.current) clearTimeout(tmRef.current); if(rafRef.current) cancelAnimationFrame(rafRef.current); };
   },[strike]);
-  return <canvas ref={cvRef} className="absolute inset-0 w-full h-full pointer-events-none z-20" style={{mixBlendMode:"screen"}}/>;
+  return <canvas ref={cvRef} aria-hidden="true" className="absolute inset-0 w-full h-full pointer-events-none z-20" style={{mixBlendMode:"screen"}}/>;
 }
 
 // ─── Glowing Short Meteors (Sao băng) ────────────────────────────────────────
@@ -77,14 +77,22 @@ function AtomicRings() {
     const bCtx=bCv.getContext("2d",{alpha:true}), fCtx=fCv.getContext("2d",{alpha:true});
     if(!bCtx||!fCtx) return;
 
-    type CS=[number,number,number,number];
-    const SETS:CS[][]=[
+    type CS=[number,number,number,number]; // [stop, r, g, b]
+    // Multi-colour gradient sets — original vivid rainbow palette (dark).
+    const DARK_SETS:CS[][]=[
       [[0,255,220,120],[.12,30,180,255],[.24,0,220,255],[.38,20,170,240],[.48,110,50,240],[.54,240,60,200],[.60,255,130,20],[.70,255,50,10],[.80,210,20,10],[.90,140,40,240],[1,255,220,120]],
       [[0,240,255,255],[.25,100,230,255],[.50,0,190,255],[.75,0,130,230],[1,240,255,255]],
       [[0,255,250,150],[.20,255,200,40],[.45,255,110,10],[.70,220,30,10],[.88,170,10,10],[1,255,250,150]],
       [[0,255,255,255],[.20,255,170,220],[.40,245,50,200],[.65,170,10,210],[.88,80,30,240],[1,255,255,255]],
       [[0,200,255,240],[.28,0,255,190],[.50,0,200,140],[.70,100,100,255],[.88,200,70,255],[1,200,255,240]],
-      [[0,255,240,60],[.30,255,255,200],[.55,180,230,255],[.78,40,160,255],[1,255,240,60]],
+    ];
+    // Deeper, saturated variants for light backgrounds.
+    const LIGHT_SETS:CS[][]=[
+      [[0,37,99,235],[.25,124,58,237],[.5,8,145,178],[.75,219,39,119],[1,37,99,235]],
+      [[0,124,58,237],[.33,37,99,235],[.66,8,145,178],[1,124,58,237]],
+      [[0,202,138,4],[.3,219,39,119],[.6,124,58,237],[1,202,138,4]],
+      [[0,8,145,178],[.33,13,148,136],[.66,37,99,235],[1,8,145,178]],
+      [[0,219,39,119],[.4,124,58,237],[.75,37,99,235],[1,219,39,119]],
     ];
     function lc(stops:CS[],t:number):[number,number,number]{
       const s=((t%1)+1)%1;
@@ -95,14 +103,32 @@ function AtomicRings() {
       const l=stops[stops.length-1]; return[l[1],l[2],l[3]];
     }
 
-    interface R{ plane:number;tilt:number;planeDrift:number;ePhase:number;eSpeed:number;cs:number;al:number;rF:number; }
-    const RINGS:R[]=[
-      {plane:0,          tilt:.35,planeDrift: .0003,ePhase:0,           eSpeed: .030,cs:0,al:.92,rF:1.00},
-      {plane:Math.PI*2/3,tilt:.40,planeDrift:-.0004,ePhase:Math.PI*.66, eSpeed:-.042,cs:2,al:.85,rF:.97},
-      {plane:Math.PI*4/3,tilt:.32,planeDrift: .0004,ePhase:Math.PI*1.33,eSpeed: .035,cs:1,al:.80,rF:1.03},
-      {plane:Math.PI/3,  tilt:.50,planeDrift:-.0003,ePhase:Math.PI*1.8, eSpeed:-.050,cs:3,al:.68,rF:.90},
-      {plane:Math.PI,    tilt:.28,planeDrift: .0005,ePhase:Math.PI*.4,  eSpeed: .060,cs:5,al:.55,rF:1.06},
+    // Theme detection → switch blend mode + palette live.
+    const isDarkNow = () => document.documentElement.classList.contains("dark");
+    let dark = isDarkNow();
+    const applyBlend = () => {
+      const mode = dark ? "screen" : "source-over";
+      bCv.style.mixBlendMode = mode; fCv.style.mixBlendMode = mode;
+    };
+    applyBlend();
+    const obs = new MutationObserver(() => {
+      const d = isDarkNow();
+      if (d !== dark) { dark = d; applyBlend(); }
+    });
+    obs.observe(document.documentElement, { attributes:true, attributeFilter:["class"] });
+
+    interface M{ plane:number;tilt:number;planeDrift:number;ePhase:number;eSpeed:number;ci:number;al:number;rF:number; }
+    const RINGS:M[]=[
+      {plane:0,          tilt:.34,planeDrift: .0003,ePhase:0,           eSpeed: .034,ci:0,al:1.00,rF:1.00},
+      {plane:Math.PI*2/3,tilt:.42,planeDrift:-.0004,ePhase:Math.PI*.66, eSpeed:-.046,ci:1,al:.92,rF:.96},
+      {plane:Math.PI*4/3,tilt:.30,planeDrift: .0004,ePhase:Math.PI*1.33,eSpeed: .040,ci:2,al:.86,rF:1.05},
+      {plane:Math.PI/3,  tilt:.52,planeDrift:-.0003,ePhase:Math.PI*1.8, eSpeed:-.055,ci:3,al:.74,rF:.90},
+      {plane:Math.PI,    tilt:.26,planeDrift: .0005,ePhase:Math.PI*.4,  eSpeed: .064,ci:4,al:.62,rF:1.08},
     ];
+    // Randomise each meteor's gradient on mount → distinct colours, fresh every load.
+    const palCount = DARK_SETS.length; // both palettes share the same length
+    const shuffled = Array.from({length:palCount}, (_,i)=>i).sort(()=>Math.random()-0.5);
+    RINGS.forEach((m,i)=>{ m.ci = shuffled[i % palCount]; });
 
     let lastT=performance.now(), fi=0;
 
@@ -120,85 +146,98 @@ function AtomicRings() {
       if(!W||!H){rafRef.current=requestAnimationFrame(render);return;}
 
       bCtx!.clearRect(0,0,W,H); fCtx!.clearRect(0,0,W,H);
-      bCtx!.globalCompositeOperation="screen"; fCtx!.globalCompositeOperation="screen";
+      const op = dark ? "screen" : "source-over";
+      bCtx!.globalCompositeOperation=op; fCtx!.globalCompositeOperation=op;
 
-      const cx=W*.5,cy=H*.5, baseR=Math.min(W,H)*.35, pulse=.88+Math.sin(fi*.038)*.12;
+      const palette = dark ? DARK_SETS : LIGHT_SETS;
+      const cx=W*.5,cy=H*.5, baseR=Math.min(W,H)*.35, pulse=.9+Math.sin(fi*.04)*.1;
 
       for(const ring of RINGS){
         ring.plane+=ring.planeDrift*dt;
         ring.ePhase+=ring.eSpeed*dt;
 
-        const R=baseR*ring.rF, wB=R*.05, stops=SETS[ring.cs];
+        const R=baseR*ring.rF, wB=R*.045;
+        const stops=palette[ring.ci];
+        const [cr,cg,cb]=lc(stops,0); // head/glow base colour (gradient start)
         const sinI=Math.sqrt(Math.max(0,1-ring.tilt*ring.tilt));
         const dir = Math.sign(ring.eSpeed) || 1;
 
         for(const ctx of[bCtx!,fCtx!]){
           ctx.save(); ctx.translate(cx,cy); ctx.rotate(ring.plane); ctx.scale(1,ring.tilt);
-          ctx.lineCap="butt"; ctx.lineJoin="round";
+          ctx.lineCap="round"; ctx.lineJoin="round";
         }
 
-        const trackSteps=60;
-        const tArc=(Math.PI*2)/trackSteps;
-        for(let i=0;i<trackSteps;i++){
-          const a0=i*tArc, a1=a0+tArc+.02, midA=a0+tArc/2;
+        // Faint orbit guide-line
+        for(let i=0;i<60;i++){
+          const a0=i*(Math.PI*2/60), a1=a0+(Math.PI*2/60)+.02, midA=a0+(Math.PI/60);
           const dz=Math.sin(midA)*sinI;
           const ctxToUse=dz>0?bCtx!:fCtx!;
-          const tFade = dz>0 ? Math.max(0, 0.20 - dz*0.2) : 0.35;
-          if (tFade <= 0) continue;
-          const cFrac=((midA%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/(Math.PI*2);
-          const [tr,tg,tb]=lc(stops,cFrac);
+          const tFade=(dz>0?0.10:0.16)*(dark?1:.7);
           ctxToUse.beginPath(); ctxToUse.arc(0,0,R,a0,a1);
-          ctxToUse.strokeStyle=`rgba(${tr},${tg},${tb},${tFade*ring.al})`;
-          ctxToUse.lineWidth=1.8; ctxToUse.stroke();
+          ctxToUse.strokeStyle=`rgba(${cr},${cg},${cb},${tFade*ring.al})`;
+          ctxToUse.lineWidth=1; ctxToUse.stroke();
         }
 
-        const TAIL_LEN=Math.PI*0.42;
-        const SEGS=30;
-        const step=TAIL_LEN/SEGS;
-
+        // Long tapering shooting-star tail (width thins toward the end,
+        // colour shifts hot-white near the head → core colour → fade out).
+        const TAIL_LEN=Math.PI*0.62, SEGS=44, stepA=TAIL_LEN/SEGS;
         for(let i=0;i<SEGS;i++){
-          const a1=ring.ePhase - dir*i*step;
-          const a0=a1 - dir*(step+.015);
-          const startA=dir>0?a0:a1;
-          const endA=dir>0?a1:a0;
+          const a1=ring.ePhase - dir*i*stepA;
+          const a0=a1 - dir*(stepA+.010);
+          const startA=dir>0?a0:a1, endA=dir>0?a1:a0;
           const midA=(a0+a1)/2;
           const dz=Math.sin(midA)*sinI;
-          const tFrac=1-(i/SEGS);
-          const tailFade=Math.pow(tFrac,2.5);
-          if(tailFade<.01) continue;
-          const cFrac=((midA%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/(Math.PI*2);
-          const[r,g,b]=lc(stops,cFrac);
+          const f=i/SEGS;                         // 0 = at head, 1 = tail end
+          const tailFade=Math.pow(1-f,1.7);       // brightness falloff
+          if(tailFade<.008) continue;
           const ctxToUse=dz>0?bCtx!:fCtx!;
-          const depthFade=(dz>0)?Math.max(0,1-dz*2.5):1;
+          const depthFade=(dz>0)?Math.max(0,1-dz*2.4):1;
           if(depthFade<=0) continue;
           const alpha=ring.al*pulse*tailFade*depthFade;
-          const br=Math.min(255,r+180), bg=Math.min(255,g+180), bb=Math.min(255,b+180);
-          ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
-          ctxToUse.strokeStyle=`rgba(${r},${g},${b},${alpha*.55})`;
-          ctxToUse.lineWidth=wB*3.8; ctxToUse.stroke();
-          ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
-          ctxToUse.strokeStyle=`rgba(${r},${g},${b},${alpha*.85})`;
-          ctxToUse.lineWidth=wB*1.5; ctxToUse.stroke();
-          ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
-          ctxToUse.strokeStyle=`rgba(${br},${bg},${bb},${alpha*1.0})`;
-          ctxToUse.lineWidth=Math.max(2.5,wB*.7); ctxToUse.stroke();
+          const taper=Math.pow(1-f,0.8);          // width thins toward the tail
+          // Multi-colour gradient running along the tail.
+          const [lr,lg,lb]=lc(stops,f);
+          if(dark){
+            ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
+            ctxToUse.strokeStyle=`rgba(${lr},${lg},${lb},${alpha*.28})`; ctxToUse.lineWidth=Math.max(1,wB*3.6*taper); ctxToUse.stroke();
+            ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
+            ctxToUse.strokeStyle=`rgba(${lr},${lg},${lb},${alpha})`; ctxToUse.lineWidth=Math.max(1,wB*1.25*taper); ctxToUse.stroke();
+          }else{
+            ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
+            ctxToUse.strokeStyle=`rgba(${lr},${lg},${lb},${alpha*.20})`; ctxToUse.lineWidth=Math.max(1,wB*2.6*taper); ctxToUse.stroke();
+            ctxToUse.beginPath(); ctxToUse.arc(0,0,R,startA,endA);
+            ctxToUse.strokeStyle=`rgba(${lr},${lg},${lb},${alpha*.8})`; ctxToUse.lineWidth=Math.max(1,wB*.9*taper); ctxToUse.stroke();
+          }
         }
 
+        // Bright head — fireball: outer glow + colour halo + white-hot core
         const hX=R*Math.cos(ring.ePhase), hY=R*Math.sin(ring.ePhase);
         const hdz=Math.sin(ring.ePhase)*sinI;
         const hCtx=hdz>0?bCtx!:fCtx!;
-        const hdFade=(hdz>0)?Math.max(0,1-hdz*2.5):1;
-
+        const hdFade=(hdz>0)?Math.max(0,1-hdz*2.4):1;
         if (hdFade > 0) {
-            const hFrac=((ring.ePhase%(Math.PI*2))+Math.PI*2)%(Math.PI*2)/(Math.PI*2);
-            const[hr,hg,hb]=lc(stops,hFrac);
             const hAl=ring.al*pulse*hdFade;
-            hCtx.beginPath(); hCtx.arc(hX,hY,wB*4.8,0,Math.PI*2);
-            const rG=hCtx.createRadialGradient(hX,hY,0,hX,hY,wB*4.8);
-            rG.addColorStop(0,`rgba(${hr},${hg},${hb},${hAl*1.0})`);rG.addColorStop(1,`rgba(${hr},${hg},${hb},0)`);
+            const glowR=wB*(dark?6:4);
+            // outer glow
+            hCtx.beginPath(); hCtx.arc(hX,hY,glowR,0,Math.PI*2);
+            const rG=hCtx.createRadialGradient(hX,hY,0,hX,hY,glowR);
+            rG.addColorStop(0,`rgba(${cr},${cg},${cb},${hAl*(dark?.85:.5)})`);
+            rG.addColorStop(.5,`rgba(${cr},${cg},${cb},${hAl*(dark?.35:.22)})`);
+            rG.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);
             hCtx.fillStyle=rG; hCtx.fill();
-            hCtx.beginPath(); hCtx.arc(hX,hY,wB*.85,0,Math.PI*2);
-            hCtx.fillStyle=`rgba(255,255,255,${hAl*1.0})`; hCtx.fill();
+            // bright core with hot-white centre
+            const coreR=wB*(dark?1.5:1.1);
+            hCtx.beginPath(); hCtx.arc(hX,hY,coreR,0,Math.PI*2);
+            const cG=hCtx.createRadialGradient(hX,hY,0,hX,hY,coreR);
+            if(dark){
+              cG.addColorStop(0,`rgba(255,255,255,${hAl})`);
+              cG.addColorStop(.55,`rgba(${Math.min(255,cr+120)},${Math.min(255,cg+120)},${Math.min(255,cb+120)},${hAl})`);
+              cG.addColorStop(1,`rgba(${cr},${cg},${cb},${hAl*.5})`);
+            }else{
+              cG.addColorStop(0,`rgba(${Math.min(255,cr+90)},${Math.min(255,cg+90)},${Math.min(255,cb+90)},${hAl})`);
+              cG.addColorStop(1,`rgba(${cr},${cg},${cb},${hAl})`);
+            }
+            hCtx.fillStyle=cG; hCtx.fill();
         }
 
         for(const ctx of[bCtx!,fCtx!]) ctx.restore();
@@ -206,77 +245,95 @@ function AtomicRings() {
       rafRef.current=requestAnimationFrame(render);
     }
     rafRef.current=requestAnimationFrame(render);
-    return()=>{ if(rafRef.current) cancelAnimationFrame(rafRef.current); };
+    return()=>{ if(rafRef.current) cancelAnimationFrame(rafRef.current); obs.disconnect(); };
   },[]);
 
   const cs: React.CSSProperties = {
     position:"absolute", top:"50%", left:"50%",
     transform:"translate(-50%,-50%)",
     width:"142.5%", height:"142.5%",
-    mixBlendMode:"screen", pointerEvents:"none",
+    pointerEvents:"none",
   };
   return (
     <>
-      <canvas ref={backRef}  style={{...cs, zIndex:1}} />
-      <canvas ref={frontRef} style={{...cs, zIndex:3}} />
+      <canvas ref={backRef}  aria-hidden="true" style={{...cs, zIndex:1}} />
+      <canvas ref={frontRef} aria-hidden="true" style={{...cs, zIndex:3}} />
     </>
   );
 }
 
-export function HeroSection({ onNavigate }: { onNavigate?: (section: string) => void }) {
-  const { name, role, bio } = homeData;
+export function HeroSection() {
+  const { name, role, bio, profileImage } = homeData;
+  const highlights = (homeData as { highlights?: string[] }).highlights ?? [];
+  const goal = (homeData as { goal?: string }).goal ?? "";
   const { isVisible, ref }  = useReveal(0.05);
 
-  return (
-    <section id="home" ref={ref} className="min-h-screen flex items-center relative overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 flex justify-center">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-7xl">
+  const displayName = name
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase()); // MINH THUAN -> Minh Thuan
 
-          <div className={`relative z-10 flex-shrink-0 ${isVisible?"animate-in zoom-in fade-in duration-1000":"opacity-0"}`}>
-            <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] flex items-center justify-center"
-              style={{ isolation: "isolate" }}>
-              <div className="absolute -inset-6 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,rgba(100,40,200,0.18)_0%,rgba(17,7,31,0)_100%)] blur-2xl pointer-events-none" style={{zIndex:0}} />
+  return (
+    <section id="home" ref={ref} className="min-h-screen flex items-center relative overflow-hidden pt-28 pb-16">
+      <div className="container mx-auto px-6 md:px-10 lg:px-20">
+        <div className="grid lg:grid-cols-2 items-center gap-12 lg:gap-16 w-full max-w-6xl mx-auto">
+
+          {/* ── Left: orbit portrait (effect preserved) ─────────── */}
+          <div className={`order-1 flex justify-center ${isVisible ? "animate-in zoom-in-95 fade-in duration-1000" : "opacity-0"}`}>
+            <div
+              className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] flex items-center justify-center"
+              style={{ isolation: "isolate" }}
+            >
               <AtomicRings />
               <div className="absolute rounded-full overflow-hidden bg-[#0a0a0a]"
-                style={{ width:"74%", height:"74%", zIndex:2 }}>
-                <img src={assetPath("/profile.JPG")} alt={`${name} - ${role}`}
+                style={{ width: "74%", height: "74%", zIndex: 2 }}>
+                <img src={assetPath(profileImage)} alt={`${name} - ${role}`}
                   className="w-full h-full object-cover object-[center_20%]" />
                 <LightningOverlay />
               </div>
             </div>
           </div>
 
-          <div className="flex-1 text-center lg:text-left z-10 max-w-2xl">
-            <div className={`relative mb-4 ${isVisible?"animate-in slide-in-from-right fade-in duration-1000 delay-300 fill-mode-backwards":"opacity-0"}`}>
-              <div className="flex items-center justify-center lg:justify-start gap-6">
-                <span className="w-12 h-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.4)] rounded-full flex-shrink-0"/>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-[#a1a1a1]">
-                  {`I'M ${name.toUpperCase()}`}
-                </h1>
-              </div>
-            </div>
-
-            {/* Role badge */}
-            <div className={`mb-6 flex justify-center lg:justify-start ${isVisible?"animate-in slide-in-from-right fade-in duration-1000 delay-400 fill-mode-backwards":"opacity-0"}`}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/8 text-white text-sm font-semibold tracking-widest uppercase">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                {role}
+          {/* ── Right: copy ──────────────────────────────────────── */}
+          <div className="order-2 text-center lg:text-left">
+            {/* Name */}
+            <h1 className={`font-display font-bold tracking-tight text-[2.5rem] leading-[1.05] md:text-6xl lg:text-[4rem] mb-5 flex flex-wrap items-baseline justify-center lg:justify-start gap-x-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-100 fill-mode-backwards" : "opacity-0"}`}>
+              <span className="text-foreground">Hi, I&apos;m</span>
+              <span className="bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400 bg-clip-text text-transparent">
+                {displayName}.
               </span>
-            </div>
+            </h1>
 
-            <p className={`text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8 whitespace-pre-line ${isVisible?"animate-in slide-in-from-left fade-in duration-1000 delay-500 fill-mode-backwards":"opacity-0"}`}>
+            {/* Bio — personal intro */}
+            <p className={`text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-6 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-backwards" : "opacity-0"}`}>
               {bio}
             </p>
 
-            <div className={isVisible?"animate-in fade-in slide-in-from-bottom duration-1000 delay-700 fill-mode-backwards":"opacity-0"}>
-              <button type="button" onClick={()=>onNavigate?.("about")}
-                className="group inline-flex items-center gap-3 px-2 py-2 pr-6 rounded-full border border-white/15 bg-[#111111]/40 backdrop-blur-sm text-foreground font-semibold tracking-widest text-sm uppercase hover:border-white/30 hover:bg-[#111111]/80 motion-safe:transition-all motion-safe:duration-300">
-                <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#e5e5e5] motion-safe:transition-all motion-safe:duration-300">
-                  <ArrowRight className="w-4 h-4 text-[#0a0a0a] group-hover:translate-x-0.5 motion-safe:transition-transform motion-safe:duration-300"/>
-                </span>
-                <span className="text-muted-foreground group-hover:text-white motion-safe:transition-colors motion-safe:duration-300">MORE ABOUT ME</span>
-              </button>
-            </div>
+            {/* Highlights */}
+            {highlights.length > 0 && (
+              <ul className={`space-y-2.5 mb-7 max-w-xl mx-auto lg:mx-0 text-left ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-300 fill-mode-backwards" : "opacity-0"}`}>
+                {highlights.map((h, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full brand-soft shrink-0">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
+                    <span className="text-foreground/80 text-sm leading-relaxed">{h}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Goal — objective */}
+            {goal && (
+              <div className={`max-w-xl mx-auto lg:mx-0 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-[400ms] fill-mode-backwards" : "opacity-0"}`}>
+                <p className="mono-label text-muted-foreground mb-2">My goal</p>
+                <div className="flex items-start gap-3 text-left">
+                  <span className="mt-1 w-1 self-stretch rounded-full bg-brand shrink-0" />
+                  <p className="text-foreground/90 text-base leading-relaxed italic">
+                    {goal}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>

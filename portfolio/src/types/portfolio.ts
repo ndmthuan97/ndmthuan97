@@ -1,4 +1,6 @@
-export type Category = "all" | "backend" | "frontend" | "mobile" | "service" | "migration";
+export type Category = "all" | "web" | "ai" | "desktop" | "mobile" | "enterprise";
+
+export type ProjectStatus = "live" | "wip" | "archived";
 
 export interface PortfolioLink {
   label: string;
@@ -10,9 +12,14 @@ export interface PortfolioItem {
   image: string;
   title: string;
   description: string;
+  role?: string;        // e.g. "Full-Stack Developer"
+  year?: string;        // e.g. "2025" or "2024 — 2025"
+  status?: ProjectStatus; // "live" | "wip" | "archived"
+  demoUrl?: string;     // optional live demo link
   featured?: boolean;
   overview?: string;
-  features?: string[];
+  highlights?: string[]; // 3–4 concise bullets shown on the card for quick scanning
+  features?: string[];   // detailed feature list shown in the modal
   githubRepo?: string; // legacy single repo — use githubRepos when multiple
   githubRepos?: string[]; // multiple repos (e.g. separate frontend + backend)
   githubStats?: {
@@ -30,6 +37,7 @@ export interface PortfolioItem {
   technologies?: {
     backend?: string[];
     frontend?: string[];
+    desktop?: string[];
     mobile?: string[];
     thirdParty?: string[];
   };

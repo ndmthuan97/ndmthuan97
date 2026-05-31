@@ -1,4 +1,11 @@
 {
+    "summary": "I'm a backend-focused Software Engineer who enjoys turning complex requirements into clean, maintainable systems. My core strength is designing scalable APIs and databases with .NET, Clean Architecture, and CQRS — and I'm just as comfortable shipping the full stack with Angular or React when a project needs it.",
+    "highlights": [
+        "Scalable backend systems with .NET, Clean Architecture & CQRS",
+        "Relational & in-memory data: PostgreSQL, SQL Server, Redis",
+        "Full-stack delivery with Angular, React & TailwindCSS",
+        "Practical AI integration into real-world products"
+    ],
     "stats": [
         {
             "value": "3",
@@ -8,43 +15,31 @@
         {
             "value": "12",
             "suffix": "+",
-            "label": "COMPLETED PROJECTS"
+            "label": "PROJECTS COMPLETED"
         },
         {
-            "value": "100",
-            "suffix": "%",
-            "label": "PERCENT DEDICATION"
+            "value": "20",
+            "suffix": "+",
+            "label": "TECHNOLOGIES"
         },
         {
-            "value": "24/7",
-            "label": "AVAILABLE"
+            "value": "3",
+            "label": "CORE DOMAINS"
         }
     ],
     "personalInfo": [
         {
-            "label": "Full Name:",
-            "value": "Nguyễn Đào Minh Thuận"
+            "label": "Location",
+            "value": "Gia Lai, Vietnam"
         },
         {
-            "label": "Freelance:",
-            "value": "Available",
-            "highlight": true
-        },
-        {
-            "label": "Phone:",
-            "value": "+84385908264"
-        },
-        {
-            "label": "Email:",
-            "value": "ndmthuan.97@mail.com"
-        },
-        {
-            "label": "Languages:",
+            "label": "Languages",
             "value": "Vietnamese, English"
         },
         {
-            "label": "Address:",
-            "value": "Tup Phuoc Tay, Gia Lai, Vietnam"
+            "label": "Availability",
+            "value": "Open to work",
+            "highlight": true
         }
     ]
 }

@@ -1,193 +1,128 @@
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { ArrowUpRight, Calendar, Sparkles } from "lucide-react";
 import { assetPath } from "../../utils/asset-path";
+import { cardHighlights, categoryBadgeClass, getTechIcons } from "../../lib/portfolio-helpers";
+import { TechIcon } from "../tech-icon";
 import type { PortfolioItem } from "../../types/portfolio";
 
-function getCategoryStyle(cat: string) {
-  if (cat === "backend")  return "bg-blue-500/15 text-blue-400 border-blue-500/30";
-  if (cat === "frontend") return "bg-violet-500/15 text-violet-400 border-violet-500/30";
-  if (cat === "mobile")   return "bg-cyan-500/15 text-cyan-400 border-cyan-500/30";
-  if (cat === "devops")   return "bg-orange-500/15 text-orange-400 border-orange-500/30";
-  if (cat === "ai")       return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30";
-  return "bg-white/10 text-white border-white/20";
+function CatBadges({ cats }: { cats: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {cats.map((cat) => (
+        <span key={cat} className={`font-mono text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-full ${categoryBadgeClass(cat)}`}>
+          {cat}
+        </span>
+      ))}
+    </div>
+  );
 }
 
-function getAllTechs(item: PortfolioItem): string[] {
-  const t = item.technologies;
-  if (!t) return [];
-  return [...new Set([...(t.backend ?? []), ...(t.frontend ?? []), ...(t.mobile ?? []), ...(t.thirdParty ?? [])])];
+function TechIcons({ item }: { item: PortfolioItem }) {
+  const icons = getTechIcons(item);
+  if (icons.length === 0) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {icons.map((t) => (
+        <div
+          key={t.slug}
+          title={t.name}
+          className="inline-flex items-center justify-center"
+        >
+          <TechIcon name={t.name} srcs={t.srcs} size={30} />
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export function MasonryCard({
   item,
   index,
   isVisible,
-  isFeatured,
   onSelect,
 }: {
   item: PortfolioItem;
   index: number;
   isVisible: boolean;
-  isFeatured: boolean;
   onSelect: () => void;
 }) {
   const [imgLoaded, setImgLoaded] = useState(false);
-  const techs = getAllTechs(item).slice(0, 5);
-  const extraTechs = getAllTechs(item).length - 5;
+  const highlights = cardHighlights(item);
 
-  const baseClass = `group relative overflow-hidden rounded-xl cursor-pointer
-    shadow-[0_0_0_1px_rgba(255,255,255,0.08)] bg-[#111111]/70 backdrop-blur-sm
-    hover:shadow-[0_0_0_1px_rgba(255,255,255,0.22)] hover:-translate-y-0.5
-    motion-safe:transition-all motion-safe:duration-300
-    ${isVisible ? "animate-in fade-in slide-in-from-bottom duration-600 fill-mode-backwards" : "opacity-0"}`;
+  const baseClass = `group surface surface-hover relative overflow-hidden cursor-pointer
+    ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-backwards" : "opacity-0"}`;
 
   const delay = `${Math.min(index * 80, 400)}ms`;
 
-  if (isFeatured) {
-    return (
-      <article
-        role="button" tabIndex={0} onClick={onSelect}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-        aria-label={`View featured project: ${item.title}`}
-        className={`${baseClass} col-span-1 md:col-span-2 lg:col-span-2`}
-        style={{ animationDelay: delay }}
-      >
-        {/* Featured badge */}
-        <div className="absolute top-3 left-3 z-20">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 border border-white/20 rounded-full text-white text-[9px] font-black uppercase tracking-widest backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            Featured
-          </span>
-        </div>
-
-        <div className="flex flex-col md:flex-row">
-          {/* Image — taller for featured */}
-          <div className="relative md:w-[52%] h-52 md:h-72 overflow-hidden bg-[#0d0d0d] flex-shrink-0">
-            {!imgLoaded && (
-              <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-[#111] via-[#1a1a1a] to-[#111]" />
-            )}
-            <img
-              src={assetPath(item.image || "/default.png")}
-              alt={item.title}
-              onLoad={() => setImgLoaded(true)}
-              onError={(e) => { setImgLoaded(true); (e.target as HTMLImageElement).src = assetPath("/default.png"); }}
-              className={`w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-105 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent md:to-[#111111]/80 pointer-events-none hidden md:block" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 to-transparent pointer-events-none md:hidden" />
-          </div>
-
-          {/* Content */}
-          <div className="md:w-[48%] p-6 md:p-8 flex flex-col justify-center gap-3">
-            <div className="flex flex-wrap gap-1.5">
-              {item.category.map((cat) => (
-                <Badge key={cat} variant="outline" className={`text-[10px] font-bold uppercase tracking-wide ${getCategoryStyle(cat)}`}>
-                  {cat}
-                </Badge>
-              ))}
-            </div>
-
-            <div>
-              <h3 className="text-2xl md:text-3xl font-black tracking-tight text-foreground group-hover:text-white motion-safe:transition-colors motion-safe:duration-300 mb-2">
-                {item.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">{item.description}</p>
-            </div>
-
-            {techs.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {techs.map((tech) => (
-                  <span key={tech} className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] text-muted-foreground font-medium">
-                    {tech}
-                  </span>
-                ))}
-                {extraTechs > 0 && (
-                  <span className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] text-muted-foreground font-medium">
-                    +{extraTechs} more
-                  </span>
-                )}
-              </div>
-            )}
-
-            <div className="flex items-center gap-3 pt-1 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 text-white text-sm font-semibold group-hover:gap-2 motion-safe:transition-all motion-safe:duration-200">
-                View Details <ExternalLink size={13} />
-              </span>
-              {item.links.slice(0, 2).map((link) => (
-                <a
-                  key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-xs text-muted-foreground hover:text-white motion-safe:transition-colors shadow-[0_0_0_1px_rgba(255,255,255,0.08)] px-3 py-1 rounded-full hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </article>
-    );
-  }
-
-  // ─── Compact card ────────────────────────────────────────────────────────────
   return (
     <article
       role="button" tabIndex={0} onClick={onSelect}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
       aria-label={`View project: ${item.title}`}
-      className={`${baseClass} col-span-1`}
+      className={`${baseClass} flex flex-col p-6 md:p-7`}
       style={{ animationDelay: delay }}
     >
-      {/* Image */}
-      <div className="relative h-44 overflow-hidden bg-[#0d0d0d]">
-        {!imgLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-[#111] via-[#1a1a1a] to-[#111]" />
-        )}
-        <img
-          src={assetPath(item.image || "/default.png")}
-          alt={item.title}
-          onLoad={() => setImgLoaded(true)}
-          onError={(e) => { setImgLoaded(true); (e.target as HTMLImageElement).src = assetPath("/default.png"); }}
-          className={`w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-110 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
-        />
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-[#0a0a0a]/65 opacity-0 group-hover:opacity-100 motion-safe:transition-opacity motion-safe:duration-300 flex items-center justify-center">
-          <span className="text-white font-medium tracking-wide px-4 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.2)] rounded-full bg-[#171717]/60 backdrop-blur-sm text-xs">
-            View Details
-          </span>
+      {/* Header: thumbnail × (title over category) */}
+      <div className="flex items-start gap-4">
+        <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-secondary ring-line flex-shrink-0">
+          {!imgLoaded && <div className="absolute inset-0 animate-pulse bg-secondary" />}
+          <img
+            src={assetPath(item.image || "/default.png")}
+            alt={item.title}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={(e) => { setImgLoaded(true); (e.target as HTMLImageElement).src = assetPath("/default.png"); }}
+            className={`w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+          />
         </div>
-        {/* Gradient bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/70 via-transparent to-transparent pointer-events-none" />
-      </div>
-
-      <div className="p-5">
-        <div className="flex flex-wrap gap-1.5 mb-2.5">
-          {item.category.map((cat) => (
-            <Badge key={cat} variant="outline" className={`text-[10px] font-bold uppercase tracking-wide ${getCategoryStyle(cat)}`}>
-              {cat}
-            </Badge>
-          ))}
-        </div>
-        <h3 className="text-base font-bold mb-1.5 group-hover:text-white motion-safe:transition-colors leading-snug">
-          {item.title}
-        </h3>
-        <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">{item.description}</p>
-
-        {techs.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-3">
-            {techs.slice(0, 3).map((tech) => (
-              <span key={tech} className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.07)] text-muted-foreground">
-                {tech}
-              </span>
-            ))}
-            {(extraTechs + Math.max(0, techs.length - 3)) > 0 && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.07)] text-muted-foreground">
-                +{extraTechs + Math.max(0, techs.length - 3)}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="font-display font-bold text-xl md:text-2xl leading-tight tracking-tight text-foreground">
+              {item.title}
+            </h3>
+            <div className="flex items-center gap-2 shrink-0">
+              {item.year && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 brand-soft rounded-full font-mono text-[10px] font-medium">
+                  <Calendar size={11} />
+                  {item.year}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            <CatBadges cats={item.category} />
+            {item.role && (
+              <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
+                <Sparkles size={12} className="text-brand" />
+                {item.role}
               </span>
             )}
           </div>
-        )}
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mt-4">{item.description}</p>
+
+      {/* Quick highlights — scannable bullets */}
+      {highlights.length > 0 && (
+        <ul className="mt-3 pl-5 md:pl-6 flex flex-col gap-1.5">
+          {highlights.map((h, i) => (
+            <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand/50 mt-1.5 shrink-0" />
+              <span className="leading-snug line-clamp-1">{h}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Footer */}
+      <div className="mt-auto pt-5 flex items-center justify-between gap-3 flex-wrap">
+        <TechIcons item={item} />
+        <span className="inline-flex items-center gap-1 text-foreground text-sm font-medium group-hover:gap-1.5 motion-safe:transition-all shrink-0">
+          Details <ArrowUpRight size={15} />
+        </span>
       </div>
     </article>
   );

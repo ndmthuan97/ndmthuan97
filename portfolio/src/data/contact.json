@@ -1,8 +1,4 @@
 {
-    "intro": {
-        "title": "Let's Work Together!",
-        "description": "I'm currently available for freelance projects and open to new opportunities. If you have a project in mind or just want to say hi, feel free to contact me!"
-    },
     "contacts": [
         {
             "id": "email",
@@ -10,6 +6,13 @@
             "label": "Email",
             "value": "ndmthuan.97@gmail.com",
             "href": "mailto:ndmthuan.97@gmail.com"
+        },
+        {
+            "id": "phone",
+            "icon": "Phone",
+            "label": "Phone",
+            "value": "+84 385 908 264",
+            "href": null
         },
         {
             "id": "linkedin",

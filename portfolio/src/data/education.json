@@ -1,0 +1,48 @@
+{
+    "items": [
+        {
+            "school": "FPT Quy Nhon University",
+            "degree": "Bachelor of Software Engineering",
+            "period": "2021 — 2025",
+            "location": "Quy Nhon City, Vietnam",
+            "url": "https://qnu.fpt.edu.vn",
+            "logo": "/education.jpg",
+            "description": "Specialized in software engineering with a focus on backend architecture, databases, and system design. Built multiple full-stack capstone projects from requirements to deployment.",
+            "highlights": ["GPA: 3.1/4.0", "Software Engineering"],
+            "coursework": [
+                "Data Structures & Algorithms",
+                "Database Systems",
+                "Software Architecture",
+                "Web Development",
+                "Operating Systems",
+                "Computer Networks"
+            ],
+            "achievements": [
+                "Capstone Project — Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically."
+            ]
+        }
+    ],
+    "certifications": [
+        {
+            "name": "Project Management Principles and Practices",
+            "issuer": "Coursera",
+            "year": "9-2024",
+            "credentialUrl": "https://coursera.org/share/767f82acfe87c57a2d39ebf4c7340339",
+            "image": "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~UIS3SXPUA1UW/CERTIFICATE_LANDING_PAGE~UIS3SXPUA1UW.jpeg"
+        },
+        {
+            "name": "Software Development Lifecycle",
+            "issuer": "Coursera",
+            "year": "9-2023",
+            "credentialUrl": "https://coursera.org/share/3aa4f563b5122ab7409bbff30b6c2149",
+            "image": "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~UEP7TYENC8U6/CERTIFICATE_LANDING_PAGE~UEP7TYENC8U6.jpeg"
+        },
+        {
+            "name": "Computer Communications",
+            "issuer": "Coursera",
+            "year": "1-2023",
+            "credentialUrl": "https://coursera.org/share/63454821934e0c440e4360b8a6651808",
+            "image": "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~DRCEGW53T9PJ/CERTIFICATE_LANDING_PAGE~DRCEGW53T9PJ.jpeg"
+        }
+    ]
+}
