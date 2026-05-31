@@ -27,62 +27,6 @@
     ],
     "items": [
         {
-            "id": 4,
-            "featured": true,
-            "image": "/trava.png",
-            "title": "Trava Project",
-            "category": [
-                "web"
-            ],
-            "links": [
-                {
-                    "label": "Backend",
-                    "url": "https://github.com/ndmthuan97/trava-backend"
-                },
-                {
-                    "label": "Frontend",
-                    "url": "https://github.com/ndmthuan97/trava-frontend"
-                }
-            ],
-            "githubRepo": "ndmthuan97/trava-backend",
-            "githubStats": {
-                "stars": 0,
-                "language": "C#",
-                "updatedAt": "2026-03-06T15:41:46Z",
-                "topics": []
-            },
-            "role": "Backend Developer",
-            "year": "2024 — 2025",
-            "status": "live",
-            "demoUrl": "",
-            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
-            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
-            "features": [
-                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
-                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
-                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
-                "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
-                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
-            ],
-            "technologies": {
-                "backend": [
-                    ".NET",
-                    "PostgreSQL",
-                    "Redis"
-                ],
-                "frontend": [
-                    "Angular",
-                    "TailwindCSS",
-                    "PrimeNG"
-                ],
-                "thirdParty": [
-                    "Azure",
-                    "Vercel",
-                    "Swagger"
-                ]
-            }
-        },
-        {
             "id": 3,
             "featured": true,
             "image": "/phygen.png",
@@ -137,6 +81,62 @@
                 ],
                 "thirdParty": [
                     "Vercel"
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "featured": true,
+            "image": "/trava.png",
+            "title": "Trava Project",
+            "category": [
+                "web"
+            ],
+            "links": [
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/trava-backend"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/ndmthuan97/trava-frontend"
+                }
+            ],
+            "githubRepo": "ndmthuan97/trava-backend",
+            "githubStats": {
+                "stars": 0,
+                "language": "C#",
+                "updatedAt": "2026-03-06T15:41:46Z",
+                "topics": []
+            },
+            "role": "Backend Developer",
+            "year": "2024 — 2025",
+            "status": "live",
+            "demoUrl": "",
+            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
+            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
+            "features": [
+                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
+                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
+                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
+                "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
+                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
+            ],
+            "technologies": {
+                "backend": [
+                    ".NET",
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "frontend": [
+                    "Angular",
+                    "TailwindCSS",
+                    "PrimeNG"
+                ],
+                "thirdParty": [
+                    "Azure",
+                    "Vercel",
+                    "Swagger"
                 ]
             }
         },
