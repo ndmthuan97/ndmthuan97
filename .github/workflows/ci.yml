@@ -3,7 +3,6 @@ name: CI & Deploy
 # Runs the same checks Vercel runs (tsc -b && vite build) BEFORE anything is
 # deployed, so a broken build is caught in CI instead of failing on Vercel.
 # The deploy job only runs after `ci` succeeds — never in parallel.
-# Test push: verifying Vercel Git auto-deploy is disabled (only the Action deploys).
 
 on:
   push:
