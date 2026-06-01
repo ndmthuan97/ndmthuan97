@@ -1,11 +1,13 @@
 {
-    "summary": "I'm a backend-focused Software Engineer who enjoys turning complex requirements into clean, maintainable systems. My core strength is designing scalable APIs and databases with .NET, Clean Architecture, and CQRS — and I'm just as comfortable shipping the full stack with Angular or React when a project needs it.",
+    "summary": "I'm a Software Engineer focused on backend development, with 3+ years designing and shipping production systems end to end. I build scalable, well-structured APIs in .NET and Java/Spring, and move comfortably into the full stack and mobile whenever a product calls for it.",
     "highlights": [
-        "Scalable backend systems with .NET, Clean Architecture & CQRS",
-        "Relational & in-memory data: PostgreSQL, SQL Server, Redis",
-        "Full-stack delivery with Angular, React & TailwindCSS",
-        "Practical AI integration into real-world products"
+        "Scalable backend APIs in .NET & Spring Boot — Clean Architecture, CQRS, RBAC",
+        "Solid data layer: PostgreSQL, SQL Server, Redis & EF Core",
+        "Full-stack & mobile delivery with React, Vue, Angular & React Native",
+        "Security-minded: JWT auth, per-user data ownership & rate limiting",
+        "Pragmatic AI integration into real-world products"
     ],
+    "closing": "What guides my work is clean, maintainable code, clear ownership boundaries, and features that hold up under real users. I'm now looking to grow as a backend engineer on a team building products with real impact.",
     "stats": [
         {
             "value": "3",
@@ -15,16 +17,25 @@
         {
             "value": "12",
             "suffix": "+",
-            "label": "PROJECTS COMPLETED"
+            "label": "PROJECTS DELIVERED"
         },
         {
-            "value": "20",
+            "value": "2",
+            "label": "PRODUCTION APPS"
+        },
+        {
+            "value": "500",
             "suffix": "+",
-            "label": "TECHNOLOGIES"
+            "label": "USERS SERVED"
         },
         {
-            "value": "3",
-            "label": "CORE DOMAINS"
+            "value": "5",
+            "label": "INDUSTRY DOMAINS"
+        },
+        {
+            "value": "100",
+            "suffix": "+",
+            "label": "REST API ENDPOINTS"
         }
     ],
     "personalInfo": [
@@ -38,7 +49,7 @@
         },
         {
             "label": "Availability",
-            "value": "Open to work",
+            "value": "On Site - Remote",
             "highlight": true
         }
     ]

@@ -25,6 +25,7 @@ const CATEGORY_STYLES: Record<string, { base: string; muted: string }> = {
   desktop:    { base: "bg-rose-500 text-white",    muted: "text-rose-600 dark:text-rose-400 bg-rose-500/10 ring-1 ring-rose-500/20" },
   mobile:     { base: "bg-cyan-500 text-white",    muted: "text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 ring-1 ring-cyan-500/20" },
   enterprise: { base: "bg-violet-500 text-white",  muted: "text-violet-600 dark:text-violet-400 bg-violet-500/10 ring-1 ring-violet-500/20" },
+  freelance:  { base: "bg-orange-500 text-white",  muted: "text-orange-600 dark:text-orange-400 bg-orange-500/10 ring-1 ring-orange-500/20" },
 };
 
 const FALLBACK = { base: "bg-foreground text-background", muted: "text-muted-foreground bg-secondary ring-line" };
@@ -101,6 +102,9 @@ const DEVICON: Record<string, string> = {
   sqlserver: "microsoftsqlserver/microsoftsqlserver-original",
   azure: "azure/azure-original",
   primeng: "primeng/primeng-original",
+  vue: "vuejs/vuejs-original",
+  vite: "vitejs/vitejs-original",
+  firebase: "firebase/firebase-plain",
 };
 // internal slug → Simple Icons slug — ONLY for logos Devicon doesn't carry.
 const SIMPLEICONS: Record<string, string> = {
@@ -114,6 +118,10 @@ const FAVICON: Record<string, string> = {
   payos: "payos.vn",
   aem: "business.adobe.com",
   openai: "chatgpt.com",
+  // Brand-coloured favicons — used instead of Simple Icons for logos whose
+  // monochrome mark would vanish on the dark card frame (e.g. Expo).
+  expo: "expo.dev",
+  primevue: "primevue.org",
 };
 
 /**
@@ -196,6 +204,12 @@ const TECH_ICON_SLUGS: Record<string, string> = {
   "Google Maps": "gmaps",
   "PayOS": "payos",
   "Adobe Experience Manager": "aem",
+  "Vue": "vue",
+  "Vite": "vite",
+  "PrimeVue": "primevue",
+  "React Native": "react",
+  "Expo": "expo",
+  "Firebase": "firebase",
 };
 
 export interface TechIcon {

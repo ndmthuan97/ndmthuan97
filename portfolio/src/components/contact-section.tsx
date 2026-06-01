@@ -65,8 +65,8 @@ export function ContactSection() {
 
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
-        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
+        <div className={`relative mb-14 text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-1/2 -translate-x-1/2 text-7xl md:text-8xl">
             CONTACT
           </span>
           <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">

@@ -4,6 +4,7 @@ import { assetPath } from "../../utils/asset-path";
 import { cardHighlights, categoryBadgeClass, getTechIcons } from "../../lib/portfolio-helpers";
 import { TechIcon } from "../tech-icon";
 import { ProjectTypeBadge } from "./ProjectTypeBadge";
+import { RealUsersBadge } from "./RealUsersBadge";
 import type { PortfolioItem } from "../../types/portfolio";
 
 function CatBadges({ cats }: { cats: string[] }) {
@@ -65,7 +66,7 @@ export function MasonryCard({
     >
       {/* Header: thumbnail × (title over category) */}
       <div className="flex items-start gap-4">
-        <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-secondary ring-line flex-shrink-0">
+        <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-secondary ring-line flex-shrink-0">
           {!imgLoaded && <div className="absolute inset-0 animate-pulse bg-secondary" />}
           <img
             src={assetPath(item.image || "/default.png")}
@@ -77,7 +78,7 @@ export function MasonryCard({
             className={`w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
           />
         </div>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 flex flex-col gap-2">
           <div className="flex items-start justify-between gap-3">
             <h3 className="font-display font-bold text-xl md:text-2xl leading-tight tracking-tight text-foreground">
               {item.title}
@@ -91,16 +92,21 @@ export function MasonryCard({
               )}
             </div>
           </div>
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <CatBadges cats={item.category} />
             <ProjectTypeBadge type={item.projectType} />
-            {item.role && (
-              <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
-                <Sparkles size={12} className="text-brand" />
-                {item.role}
-              </span>
-            )}
           </div>
+          {(item.hasRealUsers || item.role) && (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+              <RealUsersBadge active={item.hasRealUsers} />
+              {item.role && (
+                <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
+                  <Sparkles size={12} className="text-brand" />
+                  <span><span className="font-semibold text-foreground/70">Role:</span> {item.role}</span>
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

@@ -31,8 +31,66 @@
     ],
     "items": [
         {
+            "id": 7,
+            "title": "AuChau",
+            "featured": true,
+            "image": "/auchau.png",
+            "category": [
+                "web",
+                "mobile",
+                "freelance"
+            ],
+            "role": "Backend & Mobile Developer",
+            "year": "4/2026 - 6/2026",
+            "projectType": "team",
+            "hasRealUsers": true,
+            "demoUrl": "",
+            "description": "AuChau is an English-center management platform — a Vue admin web portal plus a React Native Student & Parent app on a shared ASP.NET Core backend with JWT auth and Firebase push notifications.",
+            "overview": "AuChau is a learning-management platform for an English center, spanning a Vue web portal for staff/admin (managing students, classes, schedules, and tuition) and a React Native (Expo) mobile app for Students and Parents — all served by a shared ASP.NET Core 9 + PostgreSQL backend. My role was Backend and Mobile: I designed the dedicated /api/mobile layer (schedules, exams, attendance, leave-request CRUD, tuition, notifications) and built the Expo app for both roles. A core focus was strict per-user data ownership — every studentId/parentId is verified server-side so no user can reach another's academic or financial records — alongside JWT access/refresh sessions and Firebase Cloud Messaging push.",
+            "highlights": [
+                "Vue admin portal + React Native app on one ASP.NET Core backend",
+                "Dedicated /api/mobile layer: schedules, exams, attendance, tuition",
+                "Per-user ownership checks on every student/parent record",
+                "JWT access/refresh sessions + Firebase Cloud Messaging push"
+            ],
+            "features": [
+                "🌐 Admin Web Portal (Vue): Staff manage students, parents, classes, schedules, and tuition through a PrimeVue dashboard with FullCalendar scheduling and Excel export.",
+                "📱 Student & Parent App (React Native / Expo): Role-aware mobile client with a parent child-selector and Vietnamese / English (i18n) UI.",
+                "🔐 Authentication & Roles: JWT login with access/refresh tokens and an identity endpoint, with distinct Student and Parent access.",
+                "👨‍👩‍👧 Parent–Child Linking: Parents see only their linked children via Family relationships; every record is ownership-checked server-side.",
+                "🗓️ Schedule, Attendance & Exams: Daily/weekly class sessions with teacher, room, time slot, status, per-session attendance, and exam schedules.",
+                "🎬 Courses & Video Lessons: Course/class overview, an online-learning area, and YouTube-based video lessons with weekly progress tracking.",
+                "🧾 Leave Requests (CRUD): Parents create, view, edit, and delete leave requests for linked children, scoped to ownership with audit logging.",
+                "💵 Tuition & Scores: View tuition records and scores grouped by class and assessment component, by student or parent, with pagination.",
+                "🔔 Notifications & Push: In-app notification inbox with read state, plus device-token registration for Firebase Cloud Messaging."
+            ],
+            "links": [],
+            "technologies": {
+                "backend": [
+                    ".NET",
+                    "PostgreSQL"
+                ],
+                "frontend": [
+                    "Vue",
+                    "Vite",
+                    "PrimeVue",
+                    "TailwindCSS"
+                ],
+                "mobile": [
+                    "React Native",
+                    "Expo",
+                    "TypeScript",
+                    "TanStack Query"
+                ],
+                "thirdParty": [
+                    "Firebase",
+                    "Swagger"
+                ]
+            }
+        },
+        {
             "id": 6,
-            "title": "Tapo Project",
+            "title": "Tapo",
             "image": "/tapo.png",
             "category": [
                 "web"
@@ -99,7 +157,7 @@
         {
             "id": 4,
             "image": "/trava.png",
-            "title": "Trava Project",
+            "title": "Trava",
             "category": [
                 "web"
             ],
@@ -154,7 +212,8 @@
         {
             "id": 3,
             "image": "/phygen.png",
-            "title": "PhyGen Project",
+            "title": "PhyGen",
+            "featured": true,
             "category": [
                 "web",
                 "ai"
@@ -211,7 +270,7 @@
         {
             "id": 2,
             "image": "/timeswap.png",
-            "title": "TimeSwap Project",
+            "title": "TimeSwap",
             "category": [
                 "web",
                 "mobile"
@@ -277,7 +336,7 @@
         {
             "id": 1,
             "image": "",
-            "title": "Adobe Migration Project",
+            "title": "Adobe Migration",
             "category": [
                 "enterprise"
             ],
@@ -285,7 +344,8 @@
             "role": "Software Engineer",
             "year": "3/2023 - 7/2024",
             "demoUrl": "",
-            "projectType": "company",
+            "projectType": "",
+            "hasRealUsers": true,
             "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
             "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
             "features": [

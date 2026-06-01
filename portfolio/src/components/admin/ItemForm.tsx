@@ -574,6 +574,18 @@ export function ItemForm({
               </select>
             </div>
 
+            {/* Real users */}
+            <label htmlFor="item-real-users" className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                id="item-real-users"
+                type="checkbox"
+                checked={!!draft.hasRealUsers}
+                onChange={(e) => update("hasRealUsers", e.target.checked || undefined)}
+                className="h-4 w-4 rounded accent-emerald-500 cursor-pointer"
+              />
+              <span className="mono-label text-muted-foreground">Has real users</span>
+            </label>
+
             {/* Role + Year */}
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-2">

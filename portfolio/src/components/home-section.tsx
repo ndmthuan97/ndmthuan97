@@ -273,7 +273,7 @@ export function HeroSection() {
     .replace(/\b\w/g, (c) => c.toUpperCase()); // MINH THUAN -> Minh Thuan
 
   return (
-    <section id="home" ref={ref} className="min-h-screen flex items-center relative overflow-hidden pt-28 pb-16">
+    <section id="home" ref={ref} className="min-h-screen flex items-center relative overflow-hidden pt-12 md:pt-28 pb-16">
       <div className="container mx-auto px-6 md:px-10 lg:px-20">
         <div className="grid lg:grid-cols-2 items-center gap-12 lg:gap-16 w-full max-w-6xl mx-auto">
 

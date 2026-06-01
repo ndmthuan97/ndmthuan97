@@ -23,7 +23,7 @@ export function FilterTabs({ filters, active, counts, onChange }: FilterTabsProp
   }, [active, filters]);
 
   return (
-    <div className="relative flex justify-start mb-10">
+    <div className="relative flex justify-center mb-10">
       <div className="relative flex gap-1 p-1 bg-secondary ring-line rounded-full overflow-x-auto">
         {/* Sliding indicator */}
         <div

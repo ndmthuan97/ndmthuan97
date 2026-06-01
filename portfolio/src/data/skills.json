@@ -1,51 +1,56 @@
 {
     "skillCategories": [
         {
-            "title": "Backend",
+            "title": "Mobile",
+            "skills": [
+                { "icon": "react", "name": "React Native" },
+                { "icon": "expo" },
+                { "icon": "kotlin" },
+                { "icon": "androidstudio", "name": "Jetpack Compose" }
+            ]
+        },
+        {
+            "title": "Backend & Database",
             "skills": [
                 { "icon": "dotnet" },
                 { "icon": "cs" },
                 { "icon": "java" },
-                { "icon": "spring" }
-            ]
-        },
-        {
-            "title": "Database",
-            "skills": [
+                { "icon": "spring" },
                 { "icon": "postgres" },
                 { "icon": "sqlserver" },
                 { "icon": "redis" }
             ]
         },
         {
+            "title": "DevOps & Tools",
+            "skills": [
+                { "icon": "docker" },
+                { "icon": "azure" },
+                { "icon": "vercel" },
+                { "icon": "firebase" },
+                { "icon": "git" },
+                { "icon": "github" },
+                { "icon": "swagger" },
+                { "icon": "postman" },
+                { "icon": "figma" },
+                { "icon": "jira" }
+            ]
+        },
+        {
             "title": "Frontend",
             "skills": [
+                { "icon": "react" },
                 { "icon": "angular" },
+                { "icon": "vue" },
                 { "icon": "typescript" },
                 { "icon": "js" },
                 { "icon": "html" },
                 { "icon": "css" },
                 { "icon": "tailwindcss" },
-                { "icon": "bootstrap" },
-                { "icon": "primeng" }
-            ]
-        },
-        {
-            "title": "DevOps & Cloud",
-            "skills": [
-                { "icon": "docker" },
-                { "icon": "azure" },
-                { "icon": "vercel" },
-                { "icon": "git" },
-                { "icon": "github" }
-            ]
-        },
-        {
-            "title": "Tools",
-            "skills": [
-                { "icon": "postman" },
-                { "icon": "figma" },
-                { "icon": "jira" }
+                { "icon": "primeng" },
+                { "icon": "primevue" },
+                { "icon": "tanstack" },
+                { "icon": "vite" }
             ]
         }
     ]

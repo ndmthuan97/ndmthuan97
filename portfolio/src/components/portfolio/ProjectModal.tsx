@@ -4,6 +4,7 @@ import { assetPath } from "../../utils/asset-path";
 import { categoryStyle, getTechIcons } from "../../lib/portfolio-helpers";
 import { TechIcon } from "../tech-icon";
 import { ProjectTypeBadge } from "./ProjectTypeBadge";
+import { RealUsersBadge } from "./RealUsersBadge";
 import type { PortfolioItem } from "../../types/portfolio";
 
 export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
@@ -104,11 +105,12 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                 <ProjectTypeBadge type={item.projectType} size={12} />
               </div>
 
-              {/* Meta: role · year */}
-              {(item.role || item.year) && (
+              {/* Meta: role · year · real users */}
+              {(item.role || item.year || item.hasRealUsers) && (
                 <div className="flex flex-wrap justify-center sm:justify-start items-center gap-x-3 gap-y-1 font-mono text-[11px] text-muted-foreground">
-                  {item.role && <span>{item.role}</span>}
-                  {item.year && <span>· {item.year}</span>}
+                  {item.role && <span><span className="font-semibold text-foreground/70">Role:</span> {item.role}</span>}
+                  {item.year && <span><span className="font-semibold text-foreground/70">Year:</span> {item.year}</span>}
+                  <RealUsersBadge active={item.hasRealUsers} size={12} />
                 </div>
               )}
             </div>

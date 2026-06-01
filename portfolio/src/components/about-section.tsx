@@ -15,7 +15,7 @@ interface PersonalInfo {
 }
 
 export function AboutSection() {
-  const { summary, highlights } = aboutData as { summary: string; highlights: string[] };
+  const { summary, highlights, closing } = aboutData as { summary: string; highlights: string[]; closing?: string };
   const stats = aboutData.stats as StatItem[];
   const personalInfo = aboutData.personalInfo as PersonalInfo[];
   const { isVisible, ref } = useReveal(0.05);
@@ -24,8 +24,8 @@ export function AboutSection() {
     <section id="about" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
-        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
+        <div className={`relative mb-14 text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-1/2 -translate-x-1/2 text-7xl md:text-8xl">
             RESUME
           </span>
           <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
@@ -36,12 +36,13 @@ export function AboutSection() {
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           {/* Left: summary + highlights + info */}
           <div className={`lg:col-span-3 ${isVisible ? "animate-in slide-in-from-left fade-in duration-700 fill-mode-backwards delay-200" : "opacity-0"}`}>
-            <p className="text-foreground/90 text-lg leading-relaxed mb-8 max-w-2xl">
+            {/* Opening */}
+            <p className="text-foreground/90 text-lg leading-relaxed mb-6 max-w-2xl">
               {summary}
             </p>
 
             {/* Highlights */}
-            <ul className="space-y-3 mb-10">
+            <ul className="space-y-3 mb-6">
               {highlights.map((h, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full brand-soft shrink-0">
@@ -51,6 +52,13 @@ export function AboutSection() {
                 </li>
               ))}
             </ul>
+
+            {/* Closing */}
+            {closing && (
+              <p className="text-muted-foreground leading-relaxed mb-10 max-w-2xl">
+                {closing}
+              </p>
+            )}
 
             {/* Compact info */}
             <dl className="flex flex-wrap gap-x-10 gap-y-4">

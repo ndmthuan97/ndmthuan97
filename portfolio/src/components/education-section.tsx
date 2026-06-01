@@ -11,7 +11,6 @@ interface EducationItem {
   location: string;
   description: string;
   highlights: string[];
-  url?: string;
   logo?: string;
   coursework?: string[];
   achievements?: string[];
@@ -48,8 +47,8 @@ export function EducationSection() {
     <section id="education" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
-        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
+        <div className={`relative mb-14 text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-1/2 -translate-x-1/2 text-7xl md:text-8xl">
             STUDY
           </span>
           <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
@@ -81,19 +80,7 @@ export function EducationSection() {
                 <div className="flex-1 p-5 md:p-6">
                   <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
                     <h3 className="font-display font-semibold text-lg text-foreground">
-                      {edu.url ? (
-                        <a
-                          href={edu.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 hover:text-brand transition-colors"
-                        >
-                          {edu.school}
-                          <ExternalLink size={14} className="opacity-60" />
-                        </a>
-                      ) : (
-                        edu.school
-                      )}
+                      {edu.school}
                     </h3>
                     <span className="mono-label text-muted-foreground shrink-0">{edu.period}</span>
                   </div>

@@ -5,6 +5,7 @@ import { TechIcon } from "./tech-icon";
 
 interface Skill {
   icon: string;
+  name?: string; // optional label override (e.g. icon "react" shown as "React Native")
 }
 
 interface SkillCategory {
@@ -37,6 +38,17 @@ const SKILL_DISPLAY_NAMES: Record<string, string> = {
   postman: "Postman",
   figma: "Figma",
   jira: "Jira",
+  react: "React",
+  vue: "Vue",
+  vite: "Vite",
+  primevue: "PrimeVue",
+  tanstack: "TanStack Query",
+  kotlin: "Kotlin",
+  androidstudio: "Android Studio",
+  expo: "Expo",
+  digitalocean: "DigitalOcean",
+  firebase: "Firebase",
+  swagger: "Swagger",
 };
 
 export function SkillsSection() {
@@ -47,8 +59,8 @@ export function SkillsSection() {
     <section id="skills" ref={ref} className="py-24 md:py-32 px-6 md:px-10 lg:px-20 relative">
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Header */}
-        <div className={`relative mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <span aria-hidden="true" className="section-watermark absolute -top-10 left-0 text-7xl md:text-8xl">
+        <div className={`relative mb-14 text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span aria-hidden="true" className="section-watermark absolute -top-10 left-1/2 -translate-x-1/2 text-7xl md:text-8xl">
             STACK
           </span>
           <h2 className="font-display font-bold tracking-tight text-3xl md:text-4xl text-foreground">
@@ -56,17 +68,17 @@ export function SkillsSection() {
           </h2>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-12">
           {skillCategories.map((category, idx) => (
             <div
               key={idx}
-              className={`grid md:grid-cols-[160px_1fr] gap-4 md:gap-8 items-start ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-backwards" : "opacity-0"}`}
+              className={`flex flex-col items-center gap-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-backwards" : "opacity-0"}`}
               style={{ animationDelay: isVisible ? `${idx * 150}ms` : "0ms" }}
             >
-              <h3 className="mono-label text-muted-foreground pt-2">{category.title}</h3>
-              <div className="flex flex-wrap gap-3.5">
+              <h3 className="mono-label text-muted-foreground">{category.title}</h3>
+              <div className="flex flex-wrap justify-center gap-3.5">
                 {category.skills.map((skill, sIdx) => {
-                  const name = SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon;
+                  const name = skill.name ?? SKILL_DISPLAY_NAMES[skill.icon] ?? skill.icon;
                   return (
                     <div
                       key={sIdx}
