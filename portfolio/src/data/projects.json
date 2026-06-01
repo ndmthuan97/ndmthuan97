@@ -27,6 +27,68 @@
     ],
     "items": [
         {
+            "id": 6,
+            "title": "Tapo Project",
+            "image": "/tapo.png",
+            "category": [
+                "web"
+            ],
+            "role": "Full-Stack Developer",
+            "year": "2026",
+            "projectType": "personal",
+            "status": "wip",
+            "demoUrl": "",
+            "description": "Tapo is a full-stack B2C e-commerce platform for laptop retail, with JWT auth, real-time chat, payment integration, and Dockerized deployment.",
+            "overview": "Tapo is a single-store B2C e-commerce platform specialising in laptops, built as a full-stack learning project to apply production-ready Java + React patterns end to end. The backend is a Spring Boot API (Docker + Nginx) backed by Supabase PostgreSQL and Upstash Redis, while the React SPA ships real-time chat, payments, and a full admin dashboard. It covers the complete retail flow — catalog, cart, orders, reviews, returns, vouchers, flash sales, and inventory — across four RBAC roles.",
+            "highlights": [
+                "JWT + Google OAuth2 auth with RBAC across 4 roles",
+                "Real-time customer–staff chat over WebSocket (STOMP)",
+                "PayOS payments, vouchers, and stock-limited flash sales",
+                "Spring Boot + React, Dockerized with 200+ backend tests"
+            ],
+            "features": [
+                "🔐 Authentication: JWT + Refresh Token (Redis), Google OAuth2, email verification, and RBAC across Admin / Sales / Warehouse / Customer roles.",
+                "🛍️ Shopping & Orders: Product catalog with search & filter, cart, and full order lifecycle (PENDING → DELIVERED) with PayOS payment.",
+                "💬 Real-time Chat: WebSocket (STOMP) live chat between customers and support staff.",
+                "⭐ Reviews & Returns: 1–5 star reviews with admin approve/reject, plus a customer return-request workflow.",
+                "🏷️ Vouchers & Flash Sale: Fixed / percentage discounts with usage limits, and stock-limited flash-sale campaigns with countdown timers.",
+                "📦 Inventory: Stock import/export, auto-deduction on delivery, and low-stock alerts for warehouse staff.",
+                "📊 Admin Dashboard: Revenue charts, order statistics, blog & banner management, and user administration.",
+                "🌐 i18n & Instalments: Vietnamese / English UI (react-i18next) and a 6 / 12 / 18 / 24-month instalment calculator."
+            ],
+            "links": [
+                {
+                    "label": "Backend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Backend"
+                },
+                {
+                    "label": "Frontend",
+                    "url": "https://github.com/ndmthuan97/Tapo_Frontend"
+                }
+            ],
+            "githubRepo": "ndmthuan97/Tapo_Backend",
+            "technologies": {
+                "backend": [
+                    "Java",
+                    "Spring",
+                    "PostgreSQL",
+                    "Redis",
+                    "Docker"
+                ],
+                "frontend": [
+                    "React",
+                    "TypeScript",
+                    "TailwindCSS",
+                    "TanStack Query"
+                ],
+                "thirdParty": [
+                    "PayOS",
+                    "Swagger",
+                    "Vercel"
+                ]
+            }
+        },
+        {
             "id": 4,
             "image": "/trava.png",
             "title": "Trava Project",
@@ -50,7 +112,7 @@
                 "updatedAt": "2026-03-06T15:41:46Z",
                 "topics": []
             },
-            "role": "Backend Developer",
+            "role": "Backend, Frontend Developer",
             "year": "2024 — 2025",
             "status": "live",
             "demoUrl": "",
