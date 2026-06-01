@@ -33,8 +33,8 @@
             "category": [
                 "web"
             ],
-            "role": "Full-Stack Developer",
-            "year": "2026",
+            "role": "Backend, Frontend Developer",
+            "year": "3/2026 - 6/2026",
             "projectType": "personal",
             "status": "wip",
             "demoUrl": "",
@@ -66,7 +66,7 @@
                     "url": "https://github.com/ndmthuan97/Tapo_Frontend"
                 }
             ],
-            "githubRepo": "ndmthuan97/Tapo_Backend",
+            "githubRepo": "ndmthuan97/Tapo",
             "technologies": {
                 "backend": [
                     "Java",
@@ -86,7 +86,12 @@
                     "Swagger",
                     "Vercel"
                 ]
-            }
+            },
+            "githubRepos": [
+                "ndmthuan97/Tapo",
+                "ndmthuan97/Tapo_Backend",
+                "ndmthuan97/Tapo_Frontend"
+            ]
         },
         {
             "id": 4,
@@ -162,7 +167,7 @@
                     "url": "https://github.com/tuyenhttt/PhyGen_FE"
                 }
             ],
-            "githubRepo": "ndmthuan97/PhyGen_BE",
+            "githubRepo": "ndmthuan97/PhyGen",
             "githubStats": {
                 "stars": 0,
                 "language": "C#",
@@ -170,7 +175,7 @@
                 "topics": []
             },
             "role": "Backend Developer",
-            "year": "2024",
+            "year": "5/2025 - 8/2025",
             "status": "live",
             "demoUrl": "",
             "projectType": "team",
