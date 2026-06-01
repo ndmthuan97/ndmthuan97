@@ -3,6 +3,7 @@ import { ArrowUpRight, Calendar, Sparkles } from "lucide-react";
 import { assetPath } from "../../utils/asset-path";
 import { cardHighlights, categoryBadgeClass, getTechIcons } from "../../lib/portfolio-helpers";
 import { TechIcon } from "../tech-icon";
+import { ProjectTypeBadge } from "./ProjectTypeBadge";
 import type { PortfolioItem } from "../../types/portfolio";
 
 function CatBadges({ cats }: { cats: string[] }) {
@@ -92,6 +93,7 @@ export function MasonryCard({
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <CatBadges cats={item.category} />
+            <ProjectTypeBadge type={item.projectType} />
             {item.role && (
               <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
                 <Sparkles size={12} className="text-brand" />

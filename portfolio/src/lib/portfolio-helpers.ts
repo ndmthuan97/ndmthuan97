@@ -1,5 +1,22 @@
-import type { PortfolioItem } from "../types/portfolio";
+import type { PortfolioItem, ProjectType } from "../types/portfolio";
 import { assetPath } from "../utils/asset-path";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Project type — how the project was undertaken (personal / team / company / freelance)
+// ─────────────────────────────────────────────────────────────────────────────
+/** Display label + soft pill classes for each project type. `icon` is a Lucide name. */
+const PROJECT_TYPE_META: Record<ProjectType, { label: string; icon: string; badge: string }> = {
+  personal:  { label: "Personal", icon: "User",      badge: "text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 ring-1 ring-indigo-500/20" },
+  team:      { label: "Team",     icon: "Users",     badge: "text-amber-600 dark:text-amber-400 bg-amber-500/10 ring-1 ring-amber-500/20" },
+  company:   { label: "Company",  icon: "Briefcase", badge: "text-sky-600 dark:text-sky-400 bg-sky-500/10 ring-1 ring-sky-500/20" },
+  freelance: { label: "Freelance", icon: "Clock",    badge: "text-teal-600 dark:text-teal-400 bg-teal-500/10 ring-1 ring-teal-500/20" },
+};
+
+/** Resolve a project type to its {label, icon, badge}; returns null for unknown/missing. */
+export function projectTypeMeta(type?: string): { label: string; icon: string; badge: string } | null {
+  if (!type) return null;
+  return PROJECT_TYPE_META[type as ProjectType] ?? null;
+}
 
 /** Per-category color sets. `base` = solid pill (modal links), `muted` = soft pill (cards/badges). */
 const CATEGORY_STYLES: Record<string, { base: string; muted: string }> = {

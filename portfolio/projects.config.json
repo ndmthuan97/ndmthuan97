@@ -2,53 +2,6 @@
   "_comment": "Source of truth. Run 'npm run sync' to enrich from GitHub API → src/data/portfolio.json",
   "items": [
     {
-      "id": 5,
-      "githubRepo": "ndmthuan97/Deca",
-      "title": "Deca Project",
-      "image": "/deca.png",
-      "category": [
-        "web",
-        "ai"
-      ],
-      "links": [
-        {
-          "label": "Github",
-          "url": "https://github.com/ndmthuan97/Deca"
-        }
-      ],
-      "override": {
-        "role": "Full-Stack Developer",
-        "year": "2025",
-        "status": "live",
-        "demoUrl": "",
-        "description": "Deca is an intelligent English learning platform that combines spaced repetition, AI-powered feedback, and interactive listening practice to accelerate vocabulary and phrase acquisition.",
-        "overview": "Deca is a personal English learning tool I built to explore AI integration in education. The app focuses on practical phrase learning through structured topic management, listening comprehension exercises, and real-time pronunciation feedback — inspired by how native speakers actually learn through context and repetition.",
-        "features": [
-          "📚 Topic & Phrase Management: Organize vocabulary into topics with full CRUD support, bulk import, and filtering.",
-          "🎧 Listening Practice Mode: Audio playback with progress tracking; users transcribe what they hear, with intelligent answer normalization.",
-          "💡 Smart Hint System: Progressive word-by-word hints, color-coded diff visualization (correct/hinted/hidden).",
-          "🔤 Pronunciation Cards: Click any word to view IPA (UK/US), listen to accent-specific pronunciation.",
-          "🤖 AI Integration: AI-assisted phrase suggestions and learning feedback.",
-          "⌨️ Keyboard Shortcut Support: Hotkey bindings for hands-free study flow."
-        ],
-        "technologies": {
-          "backend": [
-            "Node.js",
-            "Next.js"
-          ],
-          "frontend": [
-            "TypeScript",
-            "TailwindCSS",
-            "TanStack Query"
-          ],
-          "thirdParty": [
-            "OpenAI",
-            "Vercel"
-          ]
-        }
-      }
-    },
-    {
       "id": 4,
       "githubRepo": "ndmthuan97/trava-backend",
       "title": "Trava Project",
@@ -71,6 +24,7 @@
         "year": "2024 — 2025",
         "status": "live",
         "demoUrl": "",
+        "projectType": "personal",
         "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
         "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
         "features": [
@@ -123,6 +77,7 @@
         "year": "2024",
         "status": "live",
         "demoUrl": "",
+        "projectType": "team",
         "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
         "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
         "features": [
@@ -176,6 +131,7 @@
         "year": "2024",
         "status": "live",
         "demoUrl": "",
+        "projectType": "team",
         "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
         "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
         "features": [
@@ -220,6 +176,7 @@
         "year": "2023",
         "status": "archived",
         "demoUrl": "",
+        "projectType": "company",
         "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
         "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
         "features": [

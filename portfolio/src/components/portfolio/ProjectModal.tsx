@@ -3,6 +3,7 @@ import { X, ExternalLink, FileText, Sparkles, Layers } from "lucide-react";
 import { assetPath } from "../../utils/asset-path";
 import { categoryStyle, getTechIcons } from "../../lib/portfolio-helpers";
 import { TechIcon } from "../tech-icon";
+import { ProjectTypeBadge } from "./ProjectTypeBadge";
 import type { PortfolioItem } from "../../types/portfolio";
 
 export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
@@ -90,8 +91,8 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                 {item.title}
               </h3>
 
-              {/* Category badges */}
-              <div className="flex flex-wrap justify-center sm:justify-start gap-1.5">
+              {/* Category badges + project type */}
+              <div className="flex flex-wrap justify-center sm:justify-start items-center gap-1.5">
                 {item.category.map((cat) => (
                   <span
                     key={cat}
@@ -100,6 +101,7 @@ export function ProjectModal({ item, onClose }: { item: PortfolioItem; onClose: 
                     {cat}
                   </span>
                 ))}
+                <ProjectTypeBadge type={item.projectType} size={12} />
               </div>
 
               {/* Meta: role · year */}

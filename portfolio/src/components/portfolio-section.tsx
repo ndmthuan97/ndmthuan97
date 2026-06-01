@@ -47,8 +47,14 @@ export function PortfolioSection() {
 
   const goTo = (page: number) => {
     setCurrentPage(page);
-    // Scroll back up to portfolio section smoothly
-    document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Defer the scroll until AFTER React commits the new page. Scrolling
+    // synchronously here would animate against the old layout, then the
+    // re-render (different card count per page) shifts the layout and cancels
+    // the smooth scroll mid-flight. scroll-padding-top (index.css) clears the
+    // fixed nav.
+    requestAnimationFrame(() => {
+      document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   const counts = useMemo(() => {

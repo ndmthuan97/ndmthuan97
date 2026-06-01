@@ -557,6 +557,23 @@ export function ItemForm({
               />
             </div>
 
+            {/* Project type */}
+            <div className="space-y-2">
+              <label htmlFor="item-project-type" className="mono-label text-muted-foreground">Project Type</label>
+              <select
+                id="item-project-type"
+                value={draft.projectType ?? ""}
+                onChange={(e) => update("projectType", e.target.value || undefined)}
+                className="w-full bg-secondary ring-line rounded-md px-2.5 py-1.5 text-xs text-foreground focus:ring-strong outline-none motion-safe:transition-all cursor-pointer"
+              >
+                <option value="">— none —</option>
+                <option value="personal">Personal</option>
+                <option value="team">Team</option>
+                <option value="company">Company</option>
+                <option value="freelance">Freelance</option>
+              </select>
+            </div>
+
             {/* Links */}
             <div className="space-y-2 flex-1">
               <label htmlFor="item-links" className="mono-label text-muted-foreground">Links (JSON)</label>
