@@ -37,7 +37,6 @@ const JSON_SAMPLE = `[
     "category": ["web", "ai"],
     "role": "Full-Stack Developer",
     "year": "2025",
-    "status": "live",
     "demoUrl": "https://example.com",
     "overview": "2-3 sentences about the project...",
     "highlights": [

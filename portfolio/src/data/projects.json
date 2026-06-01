@@ -21,6 +21,10 @@
             "value": "mobile"
         },
         {
+            "label": "FREELANCE",
+            "value": "freelance"
+        },
+        {
             "label": "ENTERPRISE",
             "value": "enterprise"
         }
@@ -36,7 +40,6 @@
             "role": "Backend, Frontend Developer",
             "year": "3/2026 - 6/2026",
             "projectType": "personal",
-            "status": "wip",
             "demoUrl": "",
             "description": "Tapo is a full-stack B2C e-commerce platform for laptop retail, with JWT auth, real-time chat, payment integration, and Dockerized deployment.",
             "overview": "Tapo is a single-store B2C e-commerce platform specialising in laptops, built as a full-stack learning project to apply production-ready Java + React patterns end to end. The backend is a Spring Boot API (Docker + Nginx) backed by Supabase PostgreSQL and Upstash Redis, while the React SPA ships real-time chat, payments, and a full admin dashboard. It covers the complete retail flow — catalog, cart, orders, reviews, returns, vouchers, flash sales, and inventory — across four RBAC roles.",
@@ -118,8 +121,7 @@
                 "topics": []
             },
             "role": "Backend, Frontend Developer",
-            "year": "2024 — 2025",
-            "status": "live",
+            "year": "12/2025 — 2/2026",
             "demoUrl": "",
             "projectType": "personal",
             "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
@@ -176,7 +178,6 @@
             },
             "role": "Backend Developer",
             "year": "5/2025 - 8/2025",
-            "status": "live",
             "demoUrl": "",
             "projectType": "team",
             "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
@@ -240,8 +241,7 @@
                 ]
             },
             "role": "Backend Developer",
-            "year": "2024",
-            "status": "live",
+            "year": "12/2024 - 3/2025",
             "demoUrl": "",
             "projectType": "team",
             "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
@@ -283,8 +283,7 @@
             ],
             "links": [],
             "role": "Software Engineer",
-            "year": "2023",
-            "status": "archived",
+            "year": "3/2023 - 7/2024",
             "demoUrl": "",
             "projectType": "company",
             "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",

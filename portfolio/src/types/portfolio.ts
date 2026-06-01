@@ -1,7 +1,5 @@
 export type Category = "all" | "web" | "ai" | "desktop" | "mobile" | "enterprise";
 
-export type ProjectStatus = "live" | "wip" | "archived";
-
 /** How the project was undertaken — shown as a badge on the card/modal. */
 export type ProjectType = "personal" | "team" | "company" | "freelance";
 
@@ -18,7 +16,6 @@ export interface PortfolioItem {
   role?: string;        // e.g. "Full-Stack Developer"
   year?: string;        // e.g. "2025" or "2024 — 2025"
   projectType?: ProjectType; // "personal" | "team" | "company" | "freelance"
-  status?: ProjectStatus; // "live" | "wip" | "archived"
   demoUrl?: string;     // optional live demo link
   featured?: boolean;
   overview?: string;

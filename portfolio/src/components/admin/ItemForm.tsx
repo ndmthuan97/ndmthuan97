@@ -574,6 +574,42 @@ export function ItemForm({
               </select>
             </div>
 
+            {/* Role + Year */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-2">
+                <label htmlFor="item-role" className="mono-label text-muted-foreground">Role</label>
+                <input
+                  id="item-role"
+                  value={draft.role ?? ""}
+                  onChange={(e) => update("role", e.target.value || undefined)}
+                  placeholder="Full-Stack Developer"
+                  className="w-full bg-secondary ring-line rounded-md px-2.5 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:ring-strong outline-none motion-safe:transition-all"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="item-year" className="mono-label text-muted-foreground">Year</label>
+                <input
+                  id="item-year"
+                  value={draft.year ?? ""}
+                  onChange={(e) => update("year", e.target.value || undefined)}
+                  placeholder="2025"
+                  className="w-full bg-secondary ring-line rounded-md px-2.5 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:ring-strong outline-none motion-safe:transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Demo URL */}
+            <div className="space-y-2">
+              <label htmlFor="item-demo-url" className="mono-label text-muted-foreground">Demo URL</label>
+              <input
+                id="item-demo-url"
+                value={draft.demoUrl ?? ""}
+                onChange={(e) => update("demoUrl", e.target.value || undefined)}
+                placeholder="https://example.com"
+                className="w-full bg-secondary ring-line rounded-md px-2.5 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:ring-strong outline-none motion-safe:transition-all"
+              />
+            </div>
+
             {/* Links */}
             <div className="space-y-2 flex-1">
               <label htmlFor="item-links" className="mono-label text-muted-foreground">Links (JSON)</label>

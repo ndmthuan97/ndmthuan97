@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "sync": "tsx scripts/sync-github.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
