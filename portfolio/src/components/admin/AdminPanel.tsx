@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Plus, Trash2, Edit3, Star, FileInput, GitCommit, X, ChevronDown, ChevronUp, Upload, Copy, Check, FolderGit2, User, FileText, Wrench, GraduationCap, Mail, LogOut } from "lucide-react";
+import { Plus, Trash2, Edit3, Star, FileInput, GitCommit, X, ChevronDown, ChevronUp, Upload, Copy, Check, FolderGit2, User, Wrench, GraduationCap, Mail, LogOut } from "lucide-react";
 import initialData from "../../data/projects.json";
 import type { PortfolioItem } from "../../types/portfolio";
 import { assetPath } from "../../utils/asset-path";
@@ -18,8 +18,7 @@ const NAV_GROUPS: { heading: string; items: { key: AdminView; label: string; ico
   {
     heading: "Page content",
     items: [
-      { key: "home", label: "Home", icon: User },
-      { key: "about", label: "About", icon: FileText },
+      { key: "about", label: "About", icon: User },
       { key: "skills", label: "Skills", icon: Wrench },
       { key: "education", label: "Education", icon: GraduationCap },
       { key: "contact", label: "Contact", icon: Mail },

@@ -1,43 +1,15 @@
 {
-    "summary": "I'm a Software Engineer focused on backend development, with 3+ years designing and shipping production systems end to end. I build scalable, well-structured APIs in .NET and Java/Spring, and move comfortably into the full stack and mobile whenever a product calls for it.",
+    "name": "MINH THUAN",
+    "role": "Full-Stack Software Engineer",
+    "bio": "A software engineer from Gia Lai, Vietnam, with 3+ years building web products end to end.",
     "highlights": [
-        "Scalable backend APIs in .NET & Spring Boot — Clean Architecture, CQRS, RBAC",
-        "Solid data layer: PostgreSQL, SQL Server, Redis & EF Core",
-        "Full-stack & mobile delivery with React, Vue, Angular & React Native",
+        "Backend-focused: scalable APIs in .NET & Spring Boot — Clean Architecture, CQRS, RBAC",
+        "Solid data layer with PostgreSQL, SQL Server, Redis & EF Core",
+        "Full-stack & mobile delivery using React, Vue, Angular & React Native",
         "Security-minded: JWT auth, per-user data ownership & rate limiting",
-        "Pragmatic AI integration into real-world products"
+        "Clean, maintainable code with pragmatic AI integration into real products"
     ],
-    "closing": "What guides my work is clean, maintainable code, clear ownership boundaries, and features that hold up under real users. I'm now looking to grow as a backend engineer on a team building products with real impact.",
-    "stats": [
-        {
-            "value": "3",
-            "suffix": "+",
-            "label": "YEARS OF EXPERIENCE"
-        },
-        {
-            "value": "12",
-            "suffix": "+",
-            "label": "PROJECTS DELIVERED"
-        },
-        {
-            "value": "2",
-            "label": "PRODUCTION APPS"
-        },
-        {
-            "value": "500",
-            "suffix": "+",
-            "label": "USERS SERVED"
-        },
-        {
-            "value": "5",
-            "label": "INDUSTRY DOMAINS"
-        },
-        {
-            "value": "100",
-            "suffix": "+",
-            "label": "REST API ENDPOINTS"
-        }
-    ],
+    "goal": "Looking to grow into a strong backend engineer on a team building products with real impact.",
     "personalInfo": [
         {
             "label": "Location",
@@ -52,5 +24,6 @@
             "value": "On Site - Remote",
             "highlight": true
         }
-    ]
+    ],
+    "profileImage": "/profile.JPG"
 }

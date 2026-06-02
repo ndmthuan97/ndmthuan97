@@ -4,7 +4,6 @@ import { getRepo, getFileSha, putFile } from "./_github.js";
 // Only these data files may be written from the admin panel.
 const ALLOWED_FILES: Record<string, string> = {
   projects:  "portfolio/src/data/projects.json",
-  home:       "portfolio/src/data/home.json",
   about:      "portfolio/src/data/about.json",
   skills:     "portfolio/src/data/skills.json",
   contact:    "portfolio/src/data/contact.json",

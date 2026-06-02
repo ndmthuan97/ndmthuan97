@@ -1,11 +1,6 @@
 {
     "navItems": [
         {
-            "icon": "Home",
-            "label": "Home",
-            "href": "home"
-        },
-        {
             "icon": "User",
             "label": "About",
             "href": "about"

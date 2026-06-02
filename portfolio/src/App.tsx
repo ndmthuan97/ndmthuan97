@@ -1,5 +1,4 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { HeroSection } from './components/home-section'
 import { AboutSection } from './components/about-section'
 import { SkillsSection } from './components/skills-section'
 import { ContactSection } from './components/contact-section'
@@ -10,11 +9,11 @@ import { TopNav } from './components/top-nav'
 const AdminGate = lazy(() => import('./components/admin/AdminGate').then(m => ({ default: m.AdminGate })));
 const AdminPanel = lazy(() => import('./components/admin/AdminPanel').then(m => ({ default: m.AdminPanel })));
 
-const SECTIONS = ['home', 'about', 'portfolio', 'skills', 'education', 'contact'];
+const SECTIONS = ['about', 'portfolio', 'skills', 'education', 'contact'];
 
 // ── Sub-component: Main portfolio view ────────────────────────────────────────
 function PortfolioApp() {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('about');
 
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -44,7 +43,6 @@ function PortfolioApp() {
       <div className="relative z-10">
         <TopNav activeSection={activeSection} onNavigate={handleNavigate} />
         <main>
-          <HeroSection />
           <AboutSection />
           <PortfolioSection />
           <SkillsSection />

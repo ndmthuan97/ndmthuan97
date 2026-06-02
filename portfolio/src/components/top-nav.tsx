@@ -33,9 +33,9 @@ export function TopNav({
           >
             {/* Brand */}
             <button
-              onClick={() => handle("home")}
+              onClick={() => handle("about")}
               className="group flex items-center gap-2.5 cursor-pointer"
-              aria-label="Go to home"
+              aria-label="Go to top"
             >
               <img
                 src={assetPath("/favicon.jpg")}

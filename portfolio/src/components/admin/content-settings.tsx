@@ -1,20 +1,11 @@
 import { useState } from "react";
-import { Save, Plus, Trash2, Sparkles } from "lucide-react";
-import homeData from "../../data/home.json";
+import { Save, Plus, Trash2 } from "lucide-react";
 import aboutData from "../../data/about.json";
 import skillsData from "../../data/skills.json";
 import contactData from "../../data/contact.json";
 import educationData from "../../data/education.json";
 import { commitToGitHub } from "../../hooks/use-github";
-import { generateAbout, hasAI } from "../../hooks/use-ai-generation";
 import type { ToastMsg } from "./toast";
-
-/** Comma-joined skill display names, used as AI context for the About section. */
-function skillsContext(): string {
-  return (skillsData.skillCategories as { skills: { icon: string }[] }[])
-    .flatMap((c) => c.skills.map((s) => s.icon))
-    .join(", ");
-}
 
 type Toast = (type: ToastMsg["type"], text: string, detail?: string) => void;
 
@@ -89,139 +80,40 @@ function useSectionSave(file: string, toast: Toast) {
   return { saving, save };
 }
 
-// ─── Home ───────────────────────────────────────────────────────────────────
-function HomeForm({ toast }: { toast: Toast }) {
-  const { saving, save } = useSectionSave("home", toast);
-  const h = homeData as { name: string; role: string; bio: string; highlights?: string[]; goal?: string; profileImage: string };
+// ─── About ──────────────────────────────────────────────────────────────────
+type Info = { label: string; value: string; highlight?: boolean };
+
+function AboutForm({ toast }: { toast: Toast }) {
+  const { saving, save } = useSectionSave("about", toast);
+  const h = aboutData as {
+    name: string; role: string; bio: string; highlights?: string[]; goal?: string;
+    personalInfo?: Info[]; profileImage: string;
+  };
   const [name, setName] = useState(h.name);
   const [role, setRole] = useState(h.role);
   const [bio, setBio] = useState(h.bio);
   const [highlights, setHighlights] = useState((h.highlights ?? []).join("\n"));
   const [goal, setGoal] = useState(h.goal ?? "");
+  const [info, setInfo] = useState<Info[]>(h.personalInfo ?? []);
   const [profileImage, setProfileImage] = useState(h.profileImage);
-  return (
-    <div className="space-y-4">
-      <Field id="home-name" label="Name" value={name} onChange={setName} placeholder="MINH THUAN" />
-      <Field id="home-role" label="Role" value={role} onChange={setRole} placeholder="Software Engineer" />
-      <Field id="home-bio" label="Bio — personal intro (who you are)" textarea rows={4} value={bio} onChange={setBio} />
-      <Field id="home-highlights" label="Highlights (one per line)" textarea rows={3} value={highlights} onChange={setHighlights} />
-      <Field id="home-goal" label="Goal — career objective" textarea rows={3} value={goal} onChange={setGoal} />
-      <Field id="home-img" label="Profile image path" value={profileImage} onChange={setProfileImage} placeholder="/profile.JPG" />
-      <SaveBar
-        onSave={() => save({
-          name,
-          role,
-          bio,
-          highlights: highlights.split("\n").map((s) => s.trim()).filter(Boolean),
-          goal,
-          profileImage,
-        })}
-        saving={saving}
-      />
-    </div>
-  );
-}
 
-// ─── About ──────────────────────────────────────────────────────────────────
-type Stat = { value: string; suffix?: string; label: string };
-type Info = { label: string; value: string; highlight?: boolean };
-
-function AboutForm({ toast }: { toast: Toast }) {
-  const { saving, save } = useSectionSave("about", toast);
-  const [summary, setSummary] = useState<string>((aboutData as { summary?: string }).summary ?? "");
-  const [highlights, setHighlights] = useState<string>(((aboutData as { highlights?: string[] }).highlights ?? []).join("\n"));
-  const [stats, setStats] = useState<Stat[]>(aboutData.stats as Stat[]);
-  const [info, setInfo] = useState<Info[]>(aboutData.personalInfo as Info[]);
-  const [aiHint, setAiHint] = useState("");
-  const [generating, setGenerating] = useState(false);
-
-  const upStat = (i: number, k: keyof Stat, v: string) =>
-    setStats((p) => p.map((s, idx) => (idx === i ? { ...s, [k]: v } : s)));
   const upInfo = (i: number, k: keyof Info, v: string | boolean) =>
     setInfo((p) => p.map((s, idx) => (idx === i ? { ...s, [k]: v } : s)));
 
-  const handleGenerate = async () => {
-    setGenerating(true);
-    try {
-      const res = await generateAbout({
-        hint: aiHint,
-        role: (homeData as { role?: string }).role ?? "Software Engineer",
-        skills: skillsContext(),
-        current: summary,
-      });
-      setSummary(res.summary ?? summary);
-      if (Array.isArray(res.highlights) && res.highlights.length) {
-        setHighlights(res.highlights.join("\n"));
-      }
-      toast("success", `✨ Drafted via ${res._provider}`);
-    } catch (e) {
-      toast("error", "⚠ AI assist failed", e instanceof Error ? e.message : "Unknown error");
-    }
-    setGenerating(false);
-  };
-
   return (
-    <div className="space-y-6">
-      {/* AI assist */}
-      {hasAI() && (
-        <div className="rounded-lg ring-line bg-background p-4 space-y-3">
-          <div className="flex items-center gap-2">
-            <Sparkles size={14} className="text-brand" />
-            <span className="mono-label text-muted-foreground">AI assist</span>
-          </div>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            Optionally add a hint (e.g. <em>"emphasize backend &amp; AI, open to remote work"</em>), then let AI draft your summary + highlights. You can edit the result before saving.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              value={aiHint}
-              onChange={(e) => setAiHint(e.target.value)}
-              placeholder="What to emphasize (optional)"
-              className={inputCls}
-            />
-            <button
-              type="button"
-              onClick={handleGenerate}
-              disabled={generating}
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 brand-soft ring-line hover:ring-strong rounded-md text-sm font-medium motion-safe:transition-all disabled:opacity-50 cursor-pointer shrink-0"
-            >
-              <Sparkles size={14} className={generating ? "animate-spin" : ""} />
-              {generating ? "Drafting…" : "Draft with AI"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      <Field id="about-summary" label="Summary" textarea rows={4} value={summary} onChange={setSummary} />
-      <Field
-        id="about-highlights"
-        label="Highlights (one per line)"
-        textarea
-        rows={4}
-        value={highlights}
-        onChange={setHighlights}
-      />
-
-      <div className="space-y-3">
-        <p className="mono-label text-muted-foreground">Stats</p>
-        {stats.map((s, i) => (
-          <RowCard key={i} onRemove={() => setStats((p) => p.filter((_, x) => x !== i))}>
-            <div className="grid grid-cols-3 gap-3">
-              <Field id={`stat-v-${i}`} label="Value" value={s.value} onChange={(v) => upStat(i, "value", v)} placeholder="3" />
-              <Field id={`stat-s-${i}`} label="Suffix" value={s.suffix ?? ""} onChange={(v) => upStat(i, "suffix", v)} placeholder="+" />
-              <Field id={`stat-l-${i}`} label="Label" value={s.label} onChange={(v) => upStat(i, "label", v)} placeholder="YEARS" />
-            </div>
-          </RowCard>
-        ))}
-        <AddButton label="Add stat" onClick={() => setStats((p) => [...p, { value: "", suffix: "", label: "" }])} />
-      </div>
+    <div className="space-y-4">
+      <Field id="about-name" label="Name" value={name} onChange={setName} placeholder="MINH THUAN" />
+      <Field id="about-role" label="Role" value={role} onChange={setRole} placeholder="Software Engineer" />
+      <Field id="about-bio" label="Bio — personal intro (who you are)" textarea rows={4} value={bio} onChange={setBio} />
+      <Field id="about-highlights" label="Highlights / key strengths (one per line)" textarea rows={5} value={highlights} onChange={setHighlights} />
+      <Field id="about-goal" label="Goal — career objective" textarea rows={3} value={goal} onChange={setGoal} />
 
       <div className="space-y-3">
         <p className="mono-label text-muted-foreground">Personal Information</p>
         {info.map((s, i) => (
           <RowCard key={i} onRemove={() => setInfo((p) => p.filter((_, x) => x !== i))}>
             <div className="grid grid-cols-2 gap-3">
-              <Field id={`info-l-${i}`} label="Label" value={s.label} onChange={(v) => upInfo(i, "label", v)} placeholder="Email:" />
+              <Field id={`info-l-${i}`} label="Label" value={s.label} onChange={(v) => upInfo(i, "label", v)} placeholder="Location" />
               <Field id={`info-v-${i}`} label="Value" value={s.value} onChange={(v) => upInfo(i, "value", v)} />
             </div>
             <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
@@ -233,12 +125,16 @@ function AboutForm({ toast }: { toast: Toast }) {
         <AddButton label="Add info row" onClick={() => setInfo((p) => [...p, { label: "", value: "" }])} />
       </div>
 
+      <Field id="about-img" label="Profile image path" value={profileImage} onChange={setProfileImage} placeholder="/profile.JPG" />
       <SaveBar
         onSave={() => save({
-          summary,
+          name,
+          role,
+          bio,
           highlights: highlights.split("\n").map((s) => s.trim()).filter(Boolean),
-          stats,
+          goal,
           personalInfo: info,
+          profileImage,
         })}
         saving={saving}
       />
@@ -413,13 +309,12 @@ function EducationForm({ toast }: { toast: Toast }) {
 }
 
 // ─── Section renderer ─────────────────────────────────────────────────────────
-export type ContentSection = "home" | "about" | "skills" | "education" | "contact";
+export type ContentSection = "about" | "skills" | "education" | "contact";
 
 export function ContentSettings({ section, toast }: { section: ContentSection; toast: Toast }) {
   return (
     <div className="space-y-4">
       <div className="surface p-5 md:p-6">
-        {section === "home" && <HomeForm toast={toast} />}
         {section === "about" && <AboutForm toast={toast} />}
         {section === "skills" && <SkillsForm toast={toast} />}
         {section === "education" && <EducationForm toast={toast} />}
