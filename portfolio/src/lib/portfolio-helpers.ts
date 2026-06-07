@@ -64,7 +64,8 @@ export function cardHighlights(item: PortfolioItem, max = 4): string[] {
  * Edit src/data/icons.json to add/change icons — both frontend and API read from it.
  * TechIcon component handles fallback to a text chip if the image fails.
  */
-import ICONS from "../data/icons.json";
+import _ICONS from "../data/icons.json";
+const ICONS: Record<string, string> = _ICONS;
 
 /** Candidate image URLs for a slug (single entry, or empty → text chip). */
 export function iconSources(slug: string): string[] {
