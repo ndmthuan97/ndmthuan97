@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Save, Plus, Trash2 } from "lucide-react";
 import aboutData from "../../data/about.json";
 import skillsData from "../../data/skills.json";
+import iconsData from "../../data/icons.json";
 import contactData from "../../data/contact.json";
 import educationData from "../../data/education.json";
 import { commitToGitHub } from "../../hooks/use-github";
@@ -143,39 +144,128 @@ function AboutForm({ toast }: { toast: Toast }) {
 }
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
-type Cat = { title: string; icons: string };
+type SkillEntry = { icon: string; name?: string };
+type CatDraft = { title: string; skills: SkillEntry[] };
+
+function iconPreviewUrl(slug: string, iconsMap: Record<string, string>): string | null {
+  const value = iconsMap[slug];
+  if (!value) return null;
+  if (value.startsWith("http")) return value;
+  return `https://www.google.com/s2/favicons?domain=${value}&sz=128`;
+}
 
 function SkillsForm({ toast }: { toast: Toast }) {
-  const { saving, save } = useSectionSave("skills", toast);
-  const [cats, setCats] = useState<Cat[]>(
-    (skillsData.skillCategories as { title: string; skills: { icon: string }[] }[]).map((c) => ({
+  const { saving: savingSkills, save: saveSkills } = useSectionSave("skills", toast);
+  const { saving: savingIcons, save: saveIcons } = useSectionSave("icons", toast);
+  const saving = savingSkills || savingIcons;
+
+  const [cats, setCats] = useState<CatDraft[]>(
+    (skillsData.skillCategories as { title: string; skills: SkillEntry[] }[]).map((c) => ({
       title: c.title,
-      icons: c.skills.map((s) => s.icon).join(", "),
+      skills: c.skills.map((s) => ({ icon: s.icon, name: s.name })),
     }))
   );
-  const up = (i: number, k: keyof Cat, v: string) =>
-    setCats((p) => p.map((c, idx) => (idx === i ? { ...c, [k]: v } : c)));
+  const [iconsMap, setIconsMap] = useState<Record<string, string>>({ ...iconsData });
 
-  const onSave = () =>
-    save({
+  const updateCatTitle = (ci: number, title: string) =>
+    setCats((p) => p.map((c, i) => (i === ci ? { ...c, title } : c)));
+  const updateSkill = (ci: number, si: number, field: keyof SkillEntry, value: string) =>
+    setCats((p) => p.map((c, i) =>
+      i === ci ? { ...c, skills: c.skills.map((s, j) => j === si ? { ...s, [field]: value || undefined } : s) } : c
+    ));
+  const addSkill = (ci: number) =>
+    setCats((p) => p.map((c, i) => i === ci ? { ...c, skills: [...c.skills, { icon: "" }] } : c));
+  const removeSkill = (ci: number, si: number) =>
+    setCats((p) => p.map((c, i) => i === ci ? { ...c, skills: c.skills.filter((_, j) => j !== si) } : c));
+
+  const onSave = async () => {
+    const skillsPayload = {
       skillCategories: cats.map((c) => ({
         title: c.title,
-        skills: c.icons.split(",").map((s) => s.trim()).filter(Boolean).map((icon) => ({ icon })),
+        skills: c.skills.filter((s) => s.icon.trim()).map((s) => {
+          const entry: SkillEntry = { icon: s.icon.trim() };
+          if (s.name?.trim()) entry.name = s.name.trim();
+          return entry;
+        }),
       })),
-    });
+    };
+    await Promise.all([saveSkills(skillsPayload), saveIcons(iconsMap)]);
+  };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <p className="text-xs text-muted-foreground">
-        Icons use <a href="https://simpleicons.org" target="_blank" rel="noopener noreferrer" className="text-brand underline">Simple Icons</a> slugs (e.g. <code className="font-mono">dotnet, react, postgres</code>), comma-separated. Missing logos fall back to the brand favicon, then a text chip.
+        Each skill needs a <strong>slug</strong> (e.g. <code className="font-mono">react</code>) and an <strong>icon source</strong> — either a website domain (Google Favicon) or a direct image URL.
       </p>
-      {cats.map((c, i) => (
-        <RowCard key={i} onRemove={() => setCats((p) => p.filter((_, x) => x !== i))}>
-          <Field id={`cat-t-${i}`} label="Category title" value={c.title} onChange={(v) => up(i, "title", v)} placeholder="Backend" />
-          <Field id={`cat-i-${i}`} label="Icon slugs" textarea rows={2} value={c.icons} onChange={(v) => up(i, "icons", v)} placeholder="dotnet, cs, postgres" />
+
+      {cats.map((cat, ci) => (
+        <RowCard key={ci} onRemove={() => setCats((p) => p.filter((_, i) => i !== ci))}>
+          <Field id={`cat-t-${ci}`} label="Category title" value={cat.title}
+            onChange={(v) => updateCatTitle(ci, v)} placeholder="Backend & Database" />
+
+          <div className="space-y-2 mt-3">
+            <p className="mono-label text-muted-foreground">Skills</p>
+            {cat.skills.map((skill, si) => {
+              const preview = skill.icon.trim() ? iconPreviewUrl(skill.icon.trim(), iconsMap) : null;
+              const hasSource = !!iconsMap[skill.icon.trim()];
+              return (
+                <div key={si} className="flex items-start gap-2 rounded-md bg-secondary/50 p-2.5">
+                  {/* Icon preview */}
+                  <div className="w-8 h-8 rounded flex items-center justify-center bg-background ring-line shrink-0 mt-0.5">
+                    {preview ? (
+                      <img src={preview} alt={skill.icon} className="w-5 h-5 object-contain" />
+                    ) : (
+                      <span className="text-[9px] text-muted-foreground font-mono">?</span>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        value={skill.icon}
+                        onChange={(e) => updateSkill(ci, si, "icon", e.target.value)}
+                        placeholder="slug (e.g. react)"
+                        className={`${inputCls} text-xs`}
+                      />
+                      <input
+                        value={skill.name ?? ""}
+                        onChange={(e) => updateSkill(ci, si, "name", e.target.value)}
+                        placeholder="Display name (optional)"
+                        className={`${inputCls} text-xs`}
+                      />
+                    </div>
+                    {/* Icon source — always editable */}
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] text-muted-foreground whitespace-nowrap shrink-0">
+                        {hasSource ? "📍" : "⚠️"}
+                      </span>
+                      <input
+                        value={iconsMap[skill.icon.trim()] ?? ""}
+                        onChange={(e) => {
+                          const slug = skill.icon.trim();
+                          if (!slug) return;
+                          setIconsMap((m) => ({ ...m, [slug]: e.target.value }));
+                        }}
+                        placeholder={skill.icon.trim() ? "domain or https://... URL" : "enter slug first"}
+                        disabled={!skill.icon.trim()}
+                        className={`${inputCls} text-[11px] ${!hasSource && skill.icon.trim() ? "ring-amber-500/50" : ""}`}
+                      />
+                    </div>
+                  </div>
+
+                  <button type="button" onClick={() => removeSkill(ci, si)} title="Remove skill"
+                    className="p-1 rounded text-muted-foreground hover:text-red-500 hover:bg-red-500/10 motion-safe:transition-colors cursor-pointer shrink-0 mt-0.5">
+                    <Trash2 size={13} />
+                  </button>
+                </div>
+              );
+            })}
+            <AddButton label="Add skill" onClick={() => addSkill(ci)} />
+          </div>
         </RowCard>
       ))}
-      <AddButton label="Add category" onClick={() => setCats((p) => [...p, { title: "", icons: "" }])} />
+
+      <AddButton label="Add category" onClick={() => setCats((p) => [...p, { title: "", skills: [] }])} />
       <SaveBar onSave={onSave} saving={saving} />
     </div>
   );

@@ -6,6 +6,7 @@ const ALLOWED_FILES: Record<string, string> = {
   projects:  "portfolio/src/data/projects.json",
   about:      "portfolio/src/data/about.json",
   skills:     "portfolio/src/data/skills.json",
+  icons:      "portfolio/src/data/icons.json",
   contact:    "portfolio/src/data/contact.json",
   education:  "portfolio/src/data/education.json",
 };
