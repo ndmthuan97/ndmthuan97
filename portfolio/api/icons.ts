@@ -2,13 +2,18 @@
 // Returns a composite SVG image of tech skill icons.
 // Reuses the same slug → CDN mapping from the portfolio frontend.
 import type { VercelReq, VercelRes } from "./_lib.js";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 // ── Slug → icon source (shared with portfolio frontend) ────────────────────
 // Value can be:
 //   • a domain name  → resolved via Google Favicon Service (e.g. "react.dev")
 //   • a full URL     → used directly (e.g. "https://cdn.example.com/icon.png")
 // Edit src/data/icons.json to add/change icons — both API and frontend read from it.
-import ICONS from "../src/data/icons.json";
+// Runtime read so Vercel's file tracer bundles it into the serverless function.
+const ICONS: Record<string, string> = JSON.parse(
+  readFileSync(join(__dirname, "..", "src", "data", "icons.json"), "utf-8")
+);
 
 /** Resolve a slug to an icon URL, or null if unknown. */
 function resolveIconUrl(slug: string): string | null {
