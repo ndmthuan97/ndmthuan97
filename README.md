@@ -7,18 +7,21 @@
 <img src="images/banner.gif" align="right" width="50%" style="border-radius:12px; margin-left:25px;" />
 
 ### 🧑‍💻 About me
+
 <p>
-Professional Software Engineer with years of experience in developing robust and scalable software solutions. 
-My main focus is backend architecture, system design, and performance optimization.
+Software Engineer from Vietnam with 2+ years of hands-on experience shipping web and mobile products end to end.
+Backend-focused — I design APIs, data layers, and auth systems — but comfortable owning frontend and mobile delivery when the team needs it.
 </p>
 
 <ul>
-  <li>💻 <b>Experience:</b> Specialized in <b>Backend Developer</b> and cloud infrastructure (Azure)</li>
-  <li>🚀 <b>Focus:</b> Building reliable backend systems and scalable web applications</li>
-  <li>🎯 <b>Goal:</b> Contributing to open-source projects and mentoring junior developers</li>
+  <li>💻 <b>Focus:</b> Backend architecture — API design, data modeling, authentication & access control</li>
+  <li>🌐 <b>Range:</b> Comfortable owning full-stack and mobile delivery when the team needs it</li>
+  <li>🏢 <b>Background:</b> Enterprise migration, freelance product delivery, and team capstone projects</li>
+  <li>🎯 <b>Goal:</b> Joining a product team where I can deepen my backend craft and build software with real-world impact</li>
 </ul>
 
 ### 🛠️ Technologies <a href="https://ndmthuan97.github.io/" target="_blank" rel="noopener noreferrer"><img src="https://komarev.com/ghpvc/?username=ndmthuan97&label=Profile%20views&color=0e75b6&style=flat" align="right" /></a>
+
 </br>
 
 <div align="center">
@@ -29,7 +32,8 @@ My main focus is backend architecture, system design, and performance optimizati
   <img src="https://go-skill-icons.vercel.app/api/icons?i=docker,git,github,azure,vercel,redis,nginx,rabbitmq,postman,figma,jira" />
 </div>
 
-### 📊 Statistics  
+### 📊 Statistics
+
 </br>
 
 <div align="center">
@@ -49,7 +53,8 @@ My main focus is backend architecture, system design, and performance optimizati
   <img src="images/github.gif" width="200" />
 </div>
 
-### 📧 Connect with me  
+### 📧 Connect with me
+
 </br>
 
 <div align="center">
