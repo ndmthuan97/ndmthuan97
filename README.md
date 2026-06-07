@@ -25,11 +25,11 @@ Backend-focused — I design APIs, data layers, and auth systems — but comfort
 </br>
 
 <div align="center">
-  <img src="https://go-skill-icons.vercel.app/api/icons?i=dotnet,cs,spring,java,postgres,sqlserver" />
+  <img src="https://ndmthuan97.vercel.app/api/icons?i=dotnet,cs,spring,java,postgres,sqlserver" />
   <br/><br/>
-  <img src="https://go-skill-icons.vercel.app/api/icons?i=angular,react,ts,html,css,js,tailwind,bootstrap" />
+  <img src="https://ndmthuan97.vercel.app/api/icons?i=angular,react,vue,typescript,html,css,js,tailwindcss,bootstrap" />
   <br/><br/>
-  <img src="https://go-skill-icons.vercel.app/api/icons?i=docker,git,github,azure,vercel,redis,nginx,rabbitmq,postman,figma,jira" />
+  <img src="https://ndmthuan97.vercel.app/api/icons?i=docker,git,github,azure,vercel,firebase,redis,nginx,rabbitmq,postman,figma,jira" />
 </div>
 
 ### 📊 Statistics

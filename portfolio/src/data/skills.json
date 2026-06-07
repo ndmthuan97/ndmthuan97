@@ -10,7 +10,7 @@
             ]
         },
         {
-            "title": "Backend & Database",
+            "title": "Backend",
             "skills": [
                 { "icon": "dotnet" },
                 { "icon": "cs" },
@@ -19,6 +19,21 @@
                 { "icon": "postgres" },
                 { "icon": "sqlserver" },
                 { "icon": "redis" }
+            ]
+        },
+        {
+            "title": "Frontend",
+            "skills": [
+                { "icon": "react" },
+                { "icon": "angular" },
+                { "icon": "vue" },
+                { "icon": "typescript" },
+                { "icon": "js" },
+                { "icon": "html" },
+                { "icon": "css" },
+                { "icon": "tailwindcss" },
+                { "icon": "primeng" },
+                { "icon": "vite" }
             ]
         },
         {
@@ -34,23 +49,6 @@
                 { "icon": "postman" },
                 { "icon": "figma" },
                 { "icon": "jira" }
-            ]
-        },
-        {
-            "title": "Frontend",
-            "skills": [
-                { "icon": "react" },
-                { "icon": "angular" },
-                { "icon": "vue" },
-                { "icon": "typescript" },
-                { "icon": "js" },
-                { "icon": "html" },
-                { "icon": "css" },
-                { "icon": "tailwindcss" },
-                { "icon": "primeng" },
-                { "icon": "primevue" },
-                { "icon": "tanstack" },
-                { "icon": "vite" }
             ]
         }
     ]

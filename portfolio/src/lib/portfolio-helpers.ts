@@ -1,5 +1,4 @@
 import type { PortfolioItem, ProjectType } from "../types/portfolio";
-import { assetPath } from "../utils/asset-path";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Project type — how the project was undertaken (personal / team / company / freelance)
@@ -58,93 +57,21 @@ export function cardHighlights(item: PortfolioItem, max = 4): string[] {
 }
 
 /**
- * Tech-icon resolver — one consistent look (Devicon's coloured logos).
- *
- * Order tried per slug (first that loads wins; <img onError> advances):
- *   1. ICON_OVERRIDES — manual URL / local file (highest priority).
- *   2. Devicon CDN    — primary, the unified flat-colour logo style.
- *   3. Simple Icons   — silent fallback for logos Devicon lacks / 404s.
- *   4. Brand favicon  — last image attempt for trademarked logos.
- *   5. Text chip      — handled in <TechIcon> when nothing resolves.
+ * Tech-icon resolver.
+ * Maps each slug to an icon source. Value can be:
+ *   • a domain name  → resolved via Google Favicon Service (e.g. "react.dev")
+ *   • a full URL     → used directly (e.g. "https://cdn.example.com/icon.png")
+ * Edit src/data/icons.json to add/change icons — both frontend and API read from it.
+ * TechIcon component handles fallback to a text chip if the image fails.
  */
-// internal slug → Devicon path ("folder/file" under /icons, no extension).
-const DEVICON: Record<string, string> = {
-  dotnet: "dotnetcore/dotnetcore-original",
-  cs: "csharp/csharp-original",
-  java: "java/java-original",
-  spring: "spring/spring-original",
-  postgres: "postgresql/postgresql-original",
-  redis: "redis/redis-original",
-  angular: "angular/angular-original",
-  typescript: "typescript/typescript-original",
-  js: "javascript/javascript-original",
-  html: "html5/html5-original",
-  css: "css3/css3-original",
-  tailwindcss: "tailwindcss/tailwindcss-original",
-  bootstrap: "bootstrap/bootstrap-original",
-  docker: "docker/docker-original",
-  vercel: "vercel/vercel-original",
-  git: "git/git-original",
-  github: "github/github-original",
-  postman: "postman/postman-original",
-  figma: "figma/figma-original",
-  jira: "jira/jira-original",
-  nextjs: "nextjs/nextjs-original",
-  nodejs: "nodejs/nodejs-original",
-  react: "react/react-original",
-  mysql: "mysql/mysql-original",
-  mongodb: "mongodb/mongodb-original",
-  kotlin: "kotlin/kotlin-original",
-  androidstudio: "androidstudio/androidstudio-original",
-  digitalocean: "digitalocean/digitalocean-original",
-  swagger: "swagger/swagger-original",
-  githubactions: "github/github-original",
-  sqlserver: "microsoftsqlserver/microsoftsqlserver-original",
-  azure: "azure/azure-original",
-  primeng: "primeng/primeng-original",
-  vue: "vuejs/vuejs-original",
-  vite: "vitejs/vitejs-original",
-  firebase: "firebase/firebase-plain",
-};
-// internal slug → Simple Icons slug — ONLY for logos Devicon doesn't carry.
-const SIMPLEICONS: Record<string, string> = {
-  tanstack: "reactquery",
-  gemini: "googlegemini",
-  gmaps: "googlemaps",
-};
-// Brand favicons — ONLY for logos neither CDN above carries.
-const FAVICON: Record<string, string> = {
-  aws: "aws.amazon.com",
-  payos: "payos.vn",
-  aem: "business.adobe.com",
-  openai: "chatgpt.com",
-  // Brand-coloured favicons — used instead of Simple Icons for logos whose
-  // monochrome mark would vanish on the dark card frame (e.g. Expo).
-  expo: "expo.dev",
-  primevue: "primevue.org",
-};
+import ICONS from "../data/icons.json";
 
-/**
- * Manual icon overrides — take priority over the CDN. The value can be:
- *   • a full URL        →  "https://site.com/logo.svg"  (used as-is)
- *   • a local filename  →  "sqlserver.svg"  (loads from public/icons/)
- * Use for logos the CDN lacks or renders poorly (SQL Server, PrimeNG, PayOS…).
- */
-const ICON_OVERRIDES: Record<string, string> = {
-};
-
-/** Ordered list of candidate image URLs for a slug (may be empty → text chip). */
+/** Candidate image URLs for a slug (single entry, or empty → text chip). */
 export function iconSources(slug: string): string[] {
-  const srcs: string[] = [];
-  const override = ICON_OVERRIDES[slug];
-  if (override) srcs.push(/^https?:\/\//.test(override) ? override : assetPath(`/icons/${override}`));
-  const dv = DEVICON[slug];
-  if (dv) srcs.push(`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${dv}.svg`);
-  const si = SIMPLEICONS[slug];
-  if (si) srcs.push(`https://cdn.simpleicons.org/${si}`);
-  const fav = FAVICON[slug];
-  if (fav) srcs.push(`https://www.google.com/s2/favicons?domain=${fav}&sz=64`);
-  return srcs;
+  const value = ICONS[slug];
+  if (!value) return [];
+  if (value.startsWith("http")) return [value];
+  return [`https://www.google.com/s2/favicons?domain=${value}&sz=128`];
 }
 
 /** Deduplicated flat list of all technologies across stacks. */
