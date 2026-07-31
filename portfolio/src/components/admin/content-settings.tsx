@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, FileText, Upload } from "lucide-react";
 import aboutData from "../../data/about.json";
 import skillsData from "../../data/skills.json";
 import iconsData from "../../data/icons.json";
 import contactData from "../../data/contact.json";
 import educationData from "../../data/education.json";
 import { commitToGitHub } from "../../hooks/use-github";
+import { authedFetch } from "../../lib/admin-session";
+import { assetPath } from "../../utils/asset-path";
 import type { ToastMsg } from "./toast";
 
 type Toast = (type: ToastMsg["type"], text: string, detail?: string) => void;
@@ -87,14 +89,12 @@ type Info = { label: string; value: string; highlight?: boolean };
 function AboutForm({ toast }: { toast: Toast }) {
   const { saving, save } = useSectionSave("about", toast);
   const h = aboutData as {
-    name: string; role: string; bio: string; highlights?: string[]; goal?: string;
+    name: string; role: string; bio: string;
     personalInfo?: Info[]; profileImage: string;
   };
   const [name, setName] = useState(h.name);
   const [role, setRole] = useState(h.role);
   const [bio, setBio] = useState(h.bio);
-  const [highlights, setHighlights] = useState((h.highlights ?? []).join("\n"));
-  const [goal, setGoal] = useState(h.goal ?? "");
   const [info, setInfo] = useState<Info[]>(h.personalInfo ?? []);
   const [profileImage, setProfileImage] = useState(h.profileImage);
 
@@ -105,9 +105,7 @@ function AboutForm({ toast }: { toast: Toast }) {
     <div className="space-y-4">
       <Field id="about-name" label="Name" value={name} onChange={setName} placeholder="MINH THUAN" />
       <Field id="about-role" label="Role" value={role} onChange={setRole} placeholder="Software Engineer" />
-      <Field id="about-bio" label="Bio — personal intro (who you are)" textarea rows={4} value={bio} onChange={setBio} />
-      <Field id="about-highlights" label="Highlights / key strengths (one per line)" textarea rows={5} value={highlights} onChange={setHighlights} />
-      <Field id="about-goal" label="Goal — career objective" textarea rows={3} value={goal} onChange={setGoal} />
+      <Field id="about-bio" label="Bio — personal intro (one bullet per line)" textarea rows={8} value={bio} onChange={setBio} />
 
       <div className="space-y-3">
         <p className="mono-label text-muted-foreground">Personal Information</p>
@@ -132,13 +130,144 @@ function AboutForm({ toast }: { toast: Toast }) {
           name,
           role,
           bio,
-          highlights: highlights.split("\n").map((s) => s.trim()).filter(Boolean),
-          goal,
           personalInfo: info,
           profileImage,
         })}
         saving={saving}
       />
+    </div>
+  );
+}
+
+// ─── CV / résumé ──────────────────────────────────────────────────────────────
+// The server always writes uploads to public/CV.pdf, so the public "/CV.pdf"
+// link keeps working and each upload REPLACES the previous CV.
+const CV_PATH = "/CV.pdf";
+const MAX_CV_MB = 10; // keep in sync with MAX_PDF_BYTES in api/_upload-rules.ts
+
+/** Reads a File as bare base64 (drops the data-URL prefix). */
+function readAsBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve((reader.result as string).split(",")[1]);
+    reader.onerror = () => reject(new Error("Could not read that file"));
+    reader.readAsDataURL(file);
+  });
+}
+
+/** Turns an /api/upload failure into something an admin can act on — never internals. */
+function uploadErrorDetail(status: number, serverMessage?: string): string {
+  if (status === 400) return serverMessage ?? "The file was rejected — make sure it is a valid PDF.";
+  if (status === 413) return `Too large. Compress the PDF (under ~4MB is safest, hard limit ${MAX_CV_MB}MB) and retry.`;
+  if (status === 500) return "Uploads are not configured on the server yet.";
+  if (status === 502) return "GitHub refused the write — check the token permissions, then retry.";
+  return `Unexpected response (HTTP ${status}). Try again in a moment.`;
+}
+
+function CvForm({ toast }: { toast: Toast }) {
+  const [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
+  // Cache-buster for the preview link: the file name never changes, so without it
+  // the admin can be shown a copy cached from before the last replace.
+  const [stamp, setStamp] = useState(() => Date.now());
+
+  // Client-side gate is UX only — the server re-validates type, magic bytes and size.
+  const pick = (f: File | null) => {
+    if (!f) return;
+    if (!f.name.toLowerCase().endsWith(".pdf")) {
+      toast("error", "⚠ PDF files only", `"${f.name}" is not a .pdf — export your CV as PDF first.`);
+      return;
+    }
+    if (f.size > MAX_CV_MB * 1024 * 1024) {
+      toast("error", `⚠ File too large (max ${MAX_CV_MB}MB)`, `"${f.name}" is ${(f.size / 1024 / 1024).toFixed(1)}MB — compress it and try again.`);
+      return;
+    }
+    setFile(f);
+  };
+
+  const replaceCv = async () => {
+    if (!file) return;
+    // Overwriting the live CV is not undoable from the UI — confirm first.
+    if (!window.confirm(`Replace the live CV with "${file.name}"?\n\nThe current CV.pdf is overwritten in the repo and cannot be restored from here.`)) return;
+
+    setBusy(true);
+    try {
+      const contentBase64 = await readAsBase64(file);
+      const res = await authedFetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Name is ignored by the server (it forces CV.pdf) but keeps the ".pdf" signal.
+        body: JSON.stringify({ filename: "CV.pdf", contentBase64 }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string };
+      if (res.ok && data.ok) {
+        setFile(null);
+        setStamp(Date.now());
+        toast("success", "✓ CV replaced — the site will redeploy shortly");
+      } else {
+        toast("error", "⚠ CV upload failed", uploadErrorDetail(res.status, data.message));
+      }
+    } catch (e) {
+      // Only surface messages this file authored (session expiry / file read);
+      // anything else is reported generically so no internals reach the UI.
+      const msg = e instanceof Error && /session expired|could not read/i.test(e.message)
+        ? e.message
+        : "Network problem — check your connection and try again.";
+      toast("error", "⚠ CV upload failed", msg);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="space-y-1.5">
+        <p className="mono-label text-muted-foreground">Live CV</p>
+        <a
+          href={`${assetPath(CV_PATH)}?v=${stamp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-brand underline underline-offset-4 motion-safe:transition-colors"
+        >
+          <FileText size={14} /> Open {CV_PATH}
+        </a>
+        <p className="text-xs text-muted-foreground">
+          Opens the file visitors get right now. A 404 means no CV has been published yet.
+        </p>
+      </div>
+
+      <div className="space-y-1.5">
+        <label htmlFor="cv-file" className="mono-label text-muted-foreground">
+          New CV — PDF, max {MAX_CV_MB}MB
+        </label>
+        <input
+          id="cv-file"
+          type="file"
+          accept="application/pdf"
+          disabled={busy}
+          onChange={(e) => { pick(e.target.files?.[0] ?? null); e.target.value = ""; }}
+          className={`${inputCls} cursor-pointer file:mr-3 file:rounded file:border-0 file:bg-foreground file:px-3 file:py-1 file:text-xs file:font-medium file:text-background file:cursor-pointer`}
+        />
+        {file && (
+          <p className="text-xs text-muted-foreground">
+            Selected: <span className="text-foreground font-medium">{file.name}</span> ({(file.size / 1024 / 1024).toFixed(1)}MB)
+          </p>
+        )}
+      </div>
+
+      <p className="text-xs text-amber-600 dark:text-amber-400">
+        Uploading overwrites <code className="font-mono">public/CV.pdf</code> — the previous CV only survives in the git history of the repo.
+      </p>
+
+      <div className="flex justify-end">
+        <button
+          onClick={() => void replaceCv()}
+          disabled={!file || busy}
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground hover:opacity-90 text-background font-medium text-sm rounded-md motion-safe:transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <Upload size={15} /> {busy ? "Uploading…" : "Replace CV"}
+        </button>
+      </div>
     </div>
   );
 }
@@ -410,6 +539,12 @@ export function ContentSettings({ section, toast }: { section: ContentSection; t
         {section === "education" && <EducationForm toast={toast} />}
         {section === "contact" && <ContactForm toast={toast} />}
       </div>
+      {section === "about" && (
+        <div className="surface p-5 md:p-6 space-y-4">
+          <h3 className="text-sm font-semibold text-foreground">CV / Résumé</h3>
+          <CvForm toast={toast} />
+        </div>
+      )}
       <p className="text-xs text-muted-foreground">
         Each section saves to its own data file and commits to GitHub. Changes go live after Vercel redeploys (~1 min).
       </p>

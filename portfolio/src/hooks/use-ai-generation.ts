@@ -1,6 +1,7 @@
 // AI content generation for the admin panel.
 // The actual Groq/Gemini calls happen server-side (/api/ai); no API key in the bundle.
 import { authedFetch, hasAIConfigured } from "../lib/admin-session";
+import type { PortfolioItem } from "../types/portfolio";
 
 /** Whether the server has at least one AI provider key configured (known after login). */
 export function hasAI(): boolean {
@@ -10,18 +11,13 @@ export function hasAI(): boolean {
 export interface AIGenResult {
   description: string;
   overview: string;
+  businessContext?: string;
+  roleSummary?: string;
+  responsibilities?: string[];
   features: string[];
-  technicalDetails?: {
-    backend?: string[];
-    frontend?: string[];
-    mobile?: string[];
-  };
-  technologies?: {
-    backend?: string[];
-    frontend?: string[];
-    mobile?: string[];
-    thirdParty?: string[];
-  };
+  highlights?: string[];
+  impact?: string[];
+  technologies?: PortfolioItem["technologies"];
 }
 
 type GithubRepoData = {
@@ -53,11 +49,11 @@ export async function generateProjectContent(
 }
 
 export interface AboutGenResult {
-  summary: string;
-  highlights: string[];
+  /** 3 paragraphs separated by blank lines — same shape as about.json's `bio`. */
+  bio: string;
 }
 
-/** AI-assist the About section: returns a first-person summary + 4 highlights. */
+/** AI-assist the About section: returns a first-person 3-paragraph bio. */
 export async function generateAbout(
   input: { hint?: string; role?: string; skills?: string; current?: string },
   signal?: AbortSignal

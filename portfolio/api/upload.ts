@@ -1,5 +1,6 @@
 import { requireAuth, getBody, type VercelReq, type VercelRes } from "./_lib.js";
-import { getRepo, putFile } from "./_github.js";
+import { getRepo, getFileSha, putFile } from "./_github.js";
+import { validateUpload } from "./_upload-rules.js";
 
 export default async function handler(req: VercelReq, res: VercelRes) {
   if (req.method !== "POST") {
@@ -14,35 +15,32 @@ export default async function handler(req: VercelReq, res: VercelRes) {
     return;
   }
 
-  const { filename, contentBase64 } = await getBody<{ filename?: string; contentBase64?: string }>(req);
-  if (!filename || !contentBase64) {
-    res.status(400).json({ ok: false, message: "Missing 'filename' or 'contentBase64'" });
+  const { filename, contentBase64 } = await getBody<{ filename?: unknown; contentBase64?: unknown }>(req);
+
+  // Type/extension/size/magic-byte rules live in _upload-rules.ts (see its self-check).
+  // A ".pdf" upload always lands on public/CV.pdf, replacing the previous CV.
+  const check = validateUpload(filename, contentBase64);
+  if (!check.ok) {
+    res.status(check.status).json({ ok: false, message: check.message });
     return;
   }
 
-  // Only allow image extensions.
-  const ALLOWED = ["png", "jpg", "jpeg", "webp", "gif", "svg", "avif"];
-  const ext = filename.split(".").pop()?.toLowerCase() ?? "";
-  if (!ALLOWED.includes(ext)) {
-    res.status(400).json({ ok: false, message: `Unsupported file type ".${ext}" (images only)` });
-    return;
-  }
+  const repoPath = `portfolio/public/${check.name}`;
+  // The Contents API needs the current blob sha to REPLACE a file and answers 409
+  // without it. null (file absent on the remote) is the create case. The CV always
+  // reuses the same name, so replacing is its normal path.
+  const sha = await getFileSha(repo, repoPath);
+  const message =
+    check.kind === "pdf" ? "chore: replace CV via admin panel" : `chore: upload project image ${check.name}`;
 
-  // Cap decoded size at ~5MB (base64 is ~4/3 of raw bytes).
-  const MAX_BYTES = 5 * 1024 * 1024;
-  const approxBytes = Math.floor((contentBase64.length * 3) / 4);
-  if (approxBytes > MAX_BYTES) {
-    res.status(413).json({ ok: false, message: "Image too large (max 5MB)" });
-    return;
-  }
-
-  // Sanitize: strip path separators, keep a safe base name.
-  const safe = filename.replace(/[^a-z0-9._-]/gi, "-");
-  const repoPath = `portfolio/public/${safe}`;
-  const result = await putFile(repo, repoPath, contentBase64, `chore: upload project image ${safe}`);
+  const result = await putFile(repo, repoPath, check.content, message, sha);
   if (!result.ok) {
     res.status(502).json(result);
     return;
   }
-  res.status(200).json({ ok: true, path: `/${safe}`, message: "Uploaded!" });
+  res.status(200).json({
+    ok: true,
+    path: `/${check.name}`,
+    message: check.kind === "pdf" ? "CV replaced!" : "Uploaded!",
+  });
 }

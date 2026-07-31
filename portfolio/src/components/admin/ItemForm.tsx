@@ -71,6 +71,7 @@ export function ItemForm({
   const [pickerTab, setPickerTab] = useState<"all" | "owner" | "contributed">("all");
   const [linksError, setLinksError] = useState("");
   const [techError, setTechError] = useState("");
+  const [challengeError, setChallengeError] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const githubDataListRef = useRef<GithubRepoData[]>([]);
@@ -684,6 +685,51 @@ export function ItemForm({
               />
             </div>
 
+            {/* Business context */}
+            <div className="space-y-1.5">
+              <label htmlFor="item-business-context" className="mono-label text-muted-foreground">
+                Business Context <span className="normal-case font-normal text-muted-foreground">(why it was built, what it replaced)</span>
+              </label>
+              <textarea
+                id="item-business-context"
+                value={draft.businessContext ?? ""}
+                onChange={(e) => update("businessContext", e.target.value)}
+                rows={4}
+                placeholder="What problem the project existed to solve, and what process it changed..."
+                className={inputCls() + " leading-relaxed"}
+              />
+            </div>
+
+            {/* Role summary */}
+            <div className="space-y-1.5">
+              <label htmlFor="item-role-summary" className="mono-label text-muted-foreground">
+                My Role <span className="normal-case font-normal text-muted-foreground">(team context + what you owned)</span>
+              </label>
+              <textarea
+                id="item-role-summary"
+                value={draft.roleSummary ?? ""}
+                onChange={(e) => update("roleSummary", e.target.value)}
+                rows={3}
+                placeholder="Solo, or on a team of N — and which parts were yours..."
+                className={inputCls() + " leading-relaxed"}
+              />
+            </div>
+
+            {/* Responsibilities */}
+            <div className="space-y-1.5">
+              <label htmlFor="item-responsibilities" className="mono-label text-muted-foreground">
+                Responsibilities <span className="normal-case font-normal text-muted-foreground">(one per line — only what you did directly)</span>
+              </label>
+              <textarea
+                id="item-responsibilities"
+                value={(draft.responsibilities ?? []).join("\n")}
+                onChange={(e) => update("responsibilities", e.target.value.split("\n").filter(Boolean))}
+                rows={5}
+                placeholder={"Designed the API layer\nBuilt the mobile client\nSet up deployment"}
+                className={inputCls() + " leading-relaxed"}
+              />
+            </div>
+
             {/* Highlights */}
             <div className="space-y-1.5">
               <label htmlFor="item-highlights" className="mono-label text-muted-foreground">
@@ -713,6 +759,49 @@ export function ItemForm({
                 placeholder={"🔐 Authentication: JWT-based login\n📊 Dashboard: Real-time analytics\n..."}
                 className={inputCls() + " font-mono leading-relaxed"}
               />
+            </div>
+
+            {/* Impact */}
+            <div className="space-y-1.5">
+              <label htmlFor="item-impact" className="mono-label text-muted-foreground">
+                Impact / Results <span className="normal-case font-normal text-muted-foreground">(one per line)</span>
+              </label>
+              <textarea
+                id="item-impact"
+                value={(draft.impact ?? []).join("\n")}
+                onChange={(e) => update("impact", e.target.value.split("\n").filter(Boolean))}
+                rows={4}
+                placeholder={"Live in production, used daily by X\nCut a manual step from an evening to a nightly job"}
+                className={inputCls() + " leading-relaxed"}
+              />
+            </div>
+
+            {/* Challenges — JSON rather than a sub-form: it is an array of objects
+                and the Technologies field below already establishes this pattern. */}
+            <div className="space-y-1.5">
+              <label htmlFor="item-challenges" className="mono-label text-muted-foreground">
+                Challenges &amp; Solutions <span className="normal-case font-normal text-muted-foreground">(JSON — title, problem, solution, result)</span>
+              </label>
+              <textarea
+                id="item-challenges"
+                defaultValue={JSON.stringify(draft.challenges ?? [], null, 2)}
+                onChange={(e) => {
+                  const raw = e.target.value.trim();
+                  if (!raw) { update("challenges", undefined); setChallengeError(""); return; }
+                  try {
+                    const parsed = JSON.parse(raw);
+                    if (!Array.isArray(parsed)) { setChallengeError("Must be an array"); return; }
+                    update("challenges", parsed);
+                    setChallengeError("");
+                  } catch { setChallengeError("Invalid JSON"); }
+                }}
+                rows={8}
+                placeholder={'[\n  {\n    "title": "...",\n    "problem": "...",\n    "solution": "...",\n    "result": "..."\n  }\n]'}
+                className={`w-full bg-secondary rounded-md px-3 py-2.5 text-[11px] text-foreground focus:outline-none resize-none font-mono leading-relaxed motion-safe:transition-all ${
+                  challengeError ? "ring-2 ring-red-500" : "ring-line focus:ring-strong"
+                }`}
+              />
+              {challengeError && <p className="text-red-500 text-[10px]">{challengeError}</p>}
             </div>
 
             {/* Technologies */}

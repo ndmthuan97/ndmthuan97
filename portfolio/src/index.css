@@ -171,6 +171,11 @@ a { color: inherit; text-decoration: inherit; }
 }
 .ring-line   { box-shadow: 0 0 0 1px var(--ring-line); }
 .ring-strong { box-shadow: 0 0 0 1px var(--ring-strong); }
+/* `ring-strong` is a hand-written class, not a Tailwind utility, so Tailwind
+   generates no `hover:` variant for it — every `hover:ring-strong` in the
+   codebase was inert until this rule existed. Declared here rather than fixed
+   at each call site because ~18 components already write it. */
+.hover\:ring-strong:hover { box-shadow: 0 0 0 1px var(--ring-strong); }
 .shadow-card { box-shadow: var(--shadow-card); }
 
 /* ── Dot-grid page background (works both themes) ──────────────── */
@@ -186,6 +191,82 @@ a { color: inherit; text-decoration: inherit; }
 .brand-soft {
   background: color-mix(in srgb, var(--brand) 12%, transparent);
   color: var(--brand);
+}
+/* Gradient CTA pill — the gradient itself is applied with Tailwind utilities in
+   the markup so it stays visibly the same ramp as the hero name. `color` lives
+   here as a class so it beats the unlayered `a { color: inherit }` above on
+   specificity, with no `!important` needed. */
+.gradient-pill {
+  color: #fff;
+  box-shadow: 0 4px 16px -6px color-mix(in srgb, var(--brand) 75%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gradient-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -6px color-mix(in srgb, var(--brand) 95%, transparent);
+}
+
+/* CV CTA attention loop, one 3.6s cycle:
+     the arrow sweeps the full pill left edge → right edge and exits,
+     the label then wipes in left → right,
+     holds, and wipes out left → right as well,
+     then the arrow re-enters from the left (while invisible) and it repeats.
+   Only transform / opacity / clip-path animate — no layout property — so every
+   frame stays on the compositor. Animating width or margin instead reflows the
+   button on each frame, which is what made the first pass stutter. */
+/* The crossing (0%→22%) is one linear interval so the label's wipe can stay
+   glued to the arrow. Only the arrival (22%→30%) eases, decelerating into the
+   parked spot — a deceleration that ENDS in a hold reads as landing, unlike a
+   mid-flight waypoint, which reads as a stumble. It then holds until the
+   content wipe swallows it, and resets while that wipe has it covered. */
+@keyframes cv-arrow-sweep {
+  /* translateX(0) IS the resting spot: the arrow is a flex sibling of the label,
+     so the pill's `gap` sets the distance between them and no rem value here has
+     to guess how wide "View CV" renders. The sweep is the arrow pulled back off
+     the left edge and released. -7rem overshoots the edge on purpose — it is
+     clipped and transparent there, and overshooting is safe where falling short
+     would leave the run starting mid-pill. */
+  0%        { transform: translateX(-7rem); opacity: 0; animation-timing-function: linear; }
+  4%        { opacity: 1; }
+  22%       { transform: translateX(-0.55rem); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  30%, 92%  { transform: translateX(0); opacity: 1; }
+  93%, 100% { transform: translateX(-7rem); opacity: 0; }
+}
+/* inset() reads top right bottom left. Growing the RIGHT inset down to 0
+   uncovers the text left→right. 9%–22% is exactly the window in which the arrow
+   crosses the centred label, so the text is uncovered in its wake — and because
+   the clip only ever exposes what is left of the arrow, the two never overlap.
+   The label no longer hides itself; cv-content-wipe below does that for the
+   label and the arrow together. */
+@keyframes cv-label-wipe {
+  0%, 9%    { clip-path: inset(0 100% 0 0); }
+  22%, 92%  { clip-path: inset(0 0 0 0);    }
+  93%, 100% { clip-path: inset(0 100% 0 0); }
+}
+/* Growing the LEFT inset to 100% eats the pill's contents left→right — label
+   first, then the parked arrow. Held fully clipped past 92% so the arrow and
+   label can snap back to their start states unseen. */
+@keyframes cv-content-wipe {
+  0%, 78%   { clip-path: inset(0 0 0 0);    }
+  92%, 100% { clip-path: inset(0 0 0 100%); }
+}
+.cv-content { animation: cv-content-wipe 4.4s linear infinite; will-change: clip-path; }
+.cv-arrow {
+  animation: cv-arrow-sweep 4.4s linear infinite;
+  will-change: transform, opacity;
+}
+.cv-label {
+  display: inline-block;
+  white-space: nowrap;
+  animation: cv-label-wipe 4.4s linear infinite;
+  will-change: clip-path;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-pill, .gradient-pill:hover { transition: none; transform: none; }
+  /* No transform with the animation off, so the arrow simply sits at its
+     natural gap-2 spot after the label. */
+  .cv-arrow { animation: none; opacity: 1; will-change: auto; }
+  .cv-label, .cv-content { animation: none; clip-path: none; opacity: 1; will-change: auto; }
 }
 
 /* ── Custom Scrollbar ──────────────────────────────────────────── */

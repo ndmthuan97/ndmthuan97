@@ -8,6 +8,14 @@ export interface PortfolioLink {
   url: string;
 }
 
+/** One "Challenges & Solutions" story: what broke, why, what was done, what came of it. */
+export interface ProjectChallenge {
+  title: string;
+  problem: string;
+  solution: string;
+  result?: string;
+}
+
 export interface PortfolioItem {
   id: number;
   image: string;
@@ -20,19 +28,19 @@ export interface PortfolioItem {
   demoUrl?: string;     // optional live demo link
   featured?: boolean;
   overview?: string;
-  highlights?: string[]; // 3–4 concise bullets shown on the card for quick scanning
-  features?: string[];   // detailed feature list shown in the modal
+  businessContext?: string;   // why the project existed; what process it replaced
+  roleSummary?: string;       // team context + what this person actually owned
+  responsibilities?: string[]; // only what was done directly
+  highlights?: string[]; // 3–5 technical highlights; also the card's quick-scan bullets
+  features?: string[];   // detailed feature list shown in the modal, user's point of view
+  impact?: string[];     // outcomes / results the project produced
+  challenges?: ProjectChallenge[];
   githubRepo?: string; // legacy single repo — use githubRepos when multiple
   githubRepos?: string[]; // multiple repos (e.g. separate frontend + backend)
   githubStats?: {
     stars?: number;
     language?: string;
     updatedAt?: string;
-  };
-  technicalDetails?: {
-    backend?: string[];
-    frontend?: string[];
-    mobile?: string[];
   };
   links: PortfolioLink[];
   category: Exclude<Category, "all">[];
@@ -41,6 +49,8 @@ export interface PortfolioItem {
     frontend?: string[];
     desktop?: string[];
     mobile?: string[];
+    database?: string[];
+    devops?: string[];
     thirdParty?: string[];
   };
 }

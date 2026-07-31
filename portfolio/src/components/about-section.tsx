@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import aboutData from "../data/about.json";
 import { useReveal } from "../hooks/use-reveal";
 import { assetPath } from "../utils/asset-path";
@@ -270,8 +270,9 @@ interface PersonalInfo {
 
 export function AboutSection() {
   const { name, role, bio, profileImage } = aboutData;
-  const highlights = (aboutData as { highlights?: string[] }).highlights ?? [];
-  const goal = (aboutData as { goal?: string }).goal ?? "";
+  // Bio is one string in about.json so the admin textarea stays a plain field;
+  // one non-empty line = one bullet.
+  const bioPoints = bio.split("\n").map((p) => p.trim()).filter(Boolean);
   const personalInfo = (aboutData as { personalInfo?: PersonalInfo[] }).personalInfo ?? [];
   const { isVisible, ref }  = useReveal(0.05);
 
@@ -301,52 +302,33 @@ export function AboutSection() {
           </div>
 
           {/* ── Right: copy ──────────────────────────────────────── */}
-          <div className="order-2 text-center lg:text-left">
+          {/* Centred at every breakpoint — one alignment for the whole column so the
+              heading, prose, CTAs and info row share a single axis. */}
+          <div className="order-2 text-center">
             {/* Name */}
-            <h1 className={`font-display font-bold tracking-tight text-[2.5rem] leading-[1.05] md:text-6xl lg:text-[4rem] mb-5 flex flex-wrap items-baseline justify-center lg:justify-start gap-x-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-100 fill-mode-backwards" : "opacity-0"}`}>
+            <h1 className={`font-display font-bold tracking-tight text-[2.5rem] leading-[1.05] md:text-6xl lg:text-[4rem] mb-5 flex flex-wrap items-baseline justify-center gap-x-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-100 fill-mode-backwards" : "opacity-0"}`}>
               <span className="text-foreground">Hi, I&apos;m</span>
               <span className="bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400 bg-clip-text text-transparent">
                 {displayName}.
               </span>
             </h1>
 
-            {/* Bio — personal intro */}
-            <p className={`text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-6 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-backwards" : "opacity-0"}`}>
-              {bio}
-            </p>
-
-            {/* Highlights */}
-            {highlights.length > 0 && (
-              <ul className={`space-y-2.5 mb-7 max-w-xl mx-auto lg:mx-0 text-left ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-300 fill-mode-backwards" : "opacity-0"}`}>
-                {highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <span className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full brand-soft shrink-0">
-                      <Check size={12} strokeWidth={3} />
-                    </span>
-                    <span className="text-foreground/80 text-sm leading-relaxed">{h}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* Goal — objective */}
-            {goal && (
-              <div className={`max-w-xl mx-auto lg:mx-0 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-[400ms] fill-mode-backwards" : "opacity-0"}`}>
-                <p className="mono-label text-muted-foreground mb-2">My goal</p>
-                <div className="flex items-start gap-3 text-left">
-                  <span className="mt-1 w-1 self-stretch rounded-full bg-brand shrink-0" />
-                  <p className="text-foreground/90 text-base leading-relaxed italic">
-                    {goal}
-                  </p>
-                </div>
-              </div>
-            )}
+            {/* Bio — one bullet per line. The block is centred but the items stay
+                left-aligned: centred body text under a bullet marker is hard to scan. */}
+            <ul className={`max-w-xl mx-auto mb-7 space-y-3 text-left ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-backwards" : "opacity-0"}`}>
+              {bioPoints.map((p, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-2.5 h-1.5 w-1.5 rounded-full bg-brand shrink-0" />
+                  <span className="text-muted-foreground text-base leading-relaxed">{p}</span>
+                </li>
+              ))}
+            </ul>
 
             {/* Compact personal info */}
             {personalInfo.length > 0 && (
-              <dl className={`mt-8 flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-[500ms] fill-mode-backwards" : "opacity-0"}`}>
+              <dl className={`mt-8 flex flex-wrap justify-center gap-x-8 gap-y-4 ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-[450ms] fill-mode-backwards" : "opacity-0"}`}>
                 {personalInfo.map((item, i) => (
-                  <div key={i} className="text-left">
+                  <div key={i}>
                     <dt className="mono-label text-muted-foreground text-[10px] mb-1">{item.label}</dt>
                     <dd className={`text-sm font-medium ${item.highlight ? "text-brand" : "text-foreground"}`}>
                       {item.highlight && <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand mr-1.5 align-middle animate-pulse" />}
@@ -356,6 +338,30 @@ export function AboutSection() {
                 ))}
               </dl>
             )}
+
+            {/* CV — standalone CTA. GitHub and email are not repeated here; the
+                contact section owns those. */}
+            <div className={`mt-7 flex justify-center ${isVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-[500ms] fill-mode-backwards" : "opacity-0"}`}>
+              {/* Fixed h/w so the looping label shifts no layout, and the arrow's
+                  sweep distance in the keyframes can be a plain rem value.
+                  Same gradient ramp as the name above.
+                  cv-content wraps both children so the closing wipe can eat the
+                  label and the parked arrow as one; its gap-2 — not a rem value in
+                  the keyframes — is what sets how close the arrow parks to the
+                  text, so it holds whatever the label renders at. */}
+              <a
+                href={assetPath("/CV.pdf")}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View CV (PDF, opens in a new tab)"
+                className="gradient-pill relative inline-flex h-11 w-40 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400 text-sm font-semibold"
+              >
+                <span className="cv-content absolute inset-0 flex items-center justify-center gap-2">
+                  <span className="cv-label">View CV</span>
+                  <ArrowRight size={16} strokeWidth={2.5} className="cv-arrow shrink-0" />
+                </span>
+              </a>
+            </div>
           </div>
 
         </div>

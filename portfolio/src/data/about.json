@@ -1,15 +1,7 @@
 {
     "name": "MINH THUAN",
     "role": "Full-Stack Software Engineer",
-    "bio": "A software engineer from Gia Lai, Vietnam, with 3+ years building web products end to end.",
-    "highlights": [
-        "Backend-focused: scalable APIs in .NET & Spring Boot — Clean Architecture, CQRS, RBAC",
-        "Solid data layer with PostgreSQL, SQL Server, Redis & EF Core",
-        "Full-stack & mobile delivery using React, Vue, Angular & React Native",
-        "Security-minded: JWT auth, per-user data ownership & rate limiting",
-        "Clean, maintainable code with pragmatic AI integration into real products"
-    ],
-    "goal": "Looking to grow into a strong backend engineer on a team building products with real impact.",
+    "bio": "Backend Engineer with 2 years of experience designing and developing scalable, maintainable backend systems.\nProficient in building RESTful APIs, authentication and authorization (JWT, RBAC), database design, and performance optimization across multiple technology stacks.\nExperienced with ASP.NET Core, Node.js/NestJS, PostgreSQL, SQL Server, Redis, and EF Core, with working knowledge of frontend technologies including React, and React Native.\nPassionate about software architecture, clean code, and continuously learning through building real-world products.",
     "personalInfo": [
         {
             "label": "Location",
@@ -21,8 +13,7 @@
         },
         {
             "label": "Availability",
-            "value": "On Site - Remote",
-            "highlight": true
+            "value": "Open to on-site or remote"
         }
     ],
     "profileImage": "/profile.JPG"

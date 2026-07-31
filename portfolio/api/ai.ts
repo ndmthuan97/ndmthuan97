@@ -11,8 +11,12 @@ type ExistingItem = {
   title: string;
   description: string;
   overview?: string;
+  businessContext?: string;
+  roleSummary?: string;
+  responsibilities?: string[];
   features?: string[];
-  technicalDetails?: unknown;
+  highlights?: string[];
+  impact?: string[];
   technologies?: unknown;
 };
 
@@ -48,8 +52,12 @@ function buildProjectPrompt(
       `Example ${i + 1} — ${p.title}:
 description: ${JSON.stringify(p.description)}
 overview: ${JSON.stringify(p.overview)}
+businessContext: ${JSON.stringify(p.businessContext ?? "")}
+roleSummary: ${JSON.stringify(p.roleSummary ?? "")}
+responsibilities: ${JSON.stringify(p.responsibilities ?? [])}
 features: ${JSON.stringify(p.features)}
-technicalDetails: ${JSON.stringify(p.technicalDetails ?? {})}
+highlights: ${JSON.stringify(p.highlights ?? [])}
+impact: ${JSON.stringify(p.impact ?? [])}
 technologies: ${JSON.stringify(p.technologies ?? {})}`
     )
     .join("\n\n");
@@ -57,12 +65,18 @@ technologies: ${JSON.stringify(p.technologies ?? {})}`
   return `You are a technical writer generating portfolio content for a software developer named Thuan.
 Study the EXACT writing style of these REAL portfolio entries below, then generate content for the new project that is indistinguishable in style.
 
+OVERRIDING PRINCIPLE — value before technology. Say what the project is, what it was worth, and what Thuan owned, BEFORE naming a framework. A reader should be able to answer all five in 30 seconds: what is it, who uses it, which part was his, what is the standout technical point, what came of it.
+
 STYLE RULES:
 1. description — 1 crisp sentence. What it does, for whom. No filler like "This is a...".
-2. overview — 2-3 sentences. First-person ("I built", "I developed"). Mention purpose, tech stack, and what makes it notable.
-3. features — 5-7 strings. Format: "[emoji] [Name]: [description]". Use "\\n-" for sub-points.
-4. technicalDetails — object with keys "backend", "frontend", "mobile" (only include keys that apply). Each key is an array of 2-4 technical sentences describing implementation details, architecture decisions, and specific library/API usage.
-5. technologies — object with keys "backend", "frontend", "mobile", "thirdParty" (only include keys that apply). Each key is an array of short tech name strings (e.g. ".NET 8", "React", "PostgreSQL", "Vercel").
+2. overview — 2-3 sentences. First-person ("I built", "I developed"). Purpose, who uses it, and Thuan's part.
+3. businessContext — 2-4 sentences on WHY it was built: the situation before it existed, and which manual process it replaced or improved. No technology names here.
+4. roleSummary — 1-2 sentences: solo or team, and specifically which modules/systems were his. If part of the system was built by others, say so.
+5. responsibilities — 4-6 strings, ONLY things done directly. Never list a teammate's work.
+6. features — 5-10 strings from the USER's point of view, not the implementation's. Format: "[emoji] [Name]: [what a user can now do]".
+7. highlights — 3-5 strings, the standout TECHNICAL points (security, architecture, performance, scalability, automation). Each should say why it mattered, not just what was used.
+8. impact — 2-4 strings on outcomes: scale of use, what got faster or safer, what shipped. Never invent a number — if no figure is known, describe the outcome qualitatively.
+9. technologies — object with keys "backend", "frontend", "mobile", "database", "devops", "thirdParty" (only include keys that apply). Each key is an array of short tech name strings (e.g. ".NET 8", "React", "PostgreSQL", "Docker").
 
 --- EXISTING PORTFOLIO ENTRIES (style reference) ---
 ${fewShot || "(no existing entries yet — follow the style rules above)"}
@@ -75,9 +89,13 @@ Return ONLY a valid JSON object — no markdown, no explanation:
 {
   "description": "...",
   "overview": "...",
+  "businessContext": "...",
+  "roleSummary": "...",
+  "responsibilities": ["...", "...", "...", "..."],
   "features": ["...", "...", "...", "...", "..."],
-  "technicalDetails": { "backend": ["...", "..."], "frontend": ["...", "..."] },
-  "technologies": { "backend": ["..."], "frontend": ["..."], "thirdParty": ["..."] }
+  "highlights": ["...", "...", "..."],
+  "impact": ["...", "..."],
+  "technologies": { "backend": ["..."], "database": ["..."], "devops": ["..."], "thirdParty": ["..."] }
 }`;
 }
 
@@ -91,13 +109,14 @@ ${current ? `- Current draft (improve on this tone, don't copy verbatim):\n${cur
 ${hint ? `- What Thuan wants to emphasize: ${hint}` : ""}
 
 WRITE:
-1. summary — 2 to 3 sentences, FIRST PERSON ("I'm a…", "I focus on…"). Professional, confident but not arrogant, concrete (mention real strengths/stack). No clichés like "passionate about coding", no filler like "I am a person who…". Around 45–70 words.
-2. highlights — exactly 4 short strings, each a concrete strength or capability (NOT full sentences, ~6–12 words). Lead with the skill/area. Examples of the right shape: "Scalable backend systems with .NET, Clean Architecture & CQRS", "Relational & in-memory data: PostgreSQL, Redis".
+bio — exactly 3 short paragraphs, FIRST PERSON ("I'm a…", "I focus on…"), 2 to 3 sentences each, 40–65 words per paragraph. Professional, confident but not arrogant, concrete. No clichés like "passionate about coding", no filler like "I am a person who…". No bullet lists — flowing prose.
+  1) Who he is and where he's centred as an engineer.
+  2) The technical work itself — stack, patterns, what he owns day to day.
+  3) Proof: what he has shipped and how he learns.
 
-Return ONLY a valid JSON object — no markdown, no explanation:
+Return ONLY a valid JSON object — no markdown, no explanation. Paragraphs are separated by a blank line:
 {
-  "summary": "...",
-  "highlights": ["...", "...", "...", "..."]
+  "bio": "First paragraph…\\n\\nSecond paragraph…\\n\\nThird paragraph…"
 }`;
 }
 

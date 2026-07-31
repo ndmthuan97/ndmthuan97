@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { ArrowUpRight, Calendar, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { assetPath } from "../../utils/asset-path";
 import { cardHighlights, categoryBadgeClass, getTechIcons } from "../../lib/portfolio-helpers";
 import { TechIcon } from "../tech-icon";
+import { RichText } from "../rich-text";
 import { ProjectTypeBadge } from "./ProjectTypeBadge";
 import { RealUsersBadge } from "./RealUsersBadge";
 import type { PortfolioItem } from "../../types/portfolio";
@@ -24,14 +25,9 @@ function TechIcons({ item }: { item: PortfolioItem }) {
   if (icons.length === 0) return null;
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {/* TechIcon owns the title tooltip + accessible name for each logo. */}
       {icons.map((t) => (
-        <div
-          key={t.slug}
-          title={t.name}
-          className="inline-flex items-center justify-center"
-        >
-          <TechIcon name={t.name} srcs={t.srcs} size={30} />
-        </div>
+        <TechIcon key={t.slug} name={t.name} srcs={t.srcs} size={30} />
       ))}
     </div>
   );
@@ -57,10 +53,13 @@ export function MasonryCard({
   const delay = `${Math.min(index * 80, 400)}ms`;
 
   return (
+    // Clicking anywhere on the card is a pointer shortcut only — it is deliberately
+    // NOT role="button"/tabIndex here. The real control is the "View details"
+    // button at the foot of the card, which carries the accessible name and the
+    // keyboard focus; a role="button" wrapper around a real button would nest two
+    // controls and make the card read twice to assistive tech.
     <article
-      role="button" tabIndex={0} onClick={onSelect}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-      aria-label={`View project: ${item.title}`}
+      onClick={onSelect}
       className={`${baseClass} flex flex-col p-6 md:p-7`}
       style={{ animationDelay: delay }}
     >
@@ -83,14 +82,12 @@ export function MasonryCard({
             <h3 className="font-display font-bold text-xl md:text-2xl leading-tight tracking-tight text-foreground">
               {item.title}
             </h3>
-            <div className="flex items-center gap-2 shrink-0">
-              {item.year && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 brand-soft rounded-full font-mono text-[10px] font-medium">
-                  <Calendar size={11} />
-                  {item.year}
-                </span>
-              )}
-            </div>
+            {item.year && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 brand-soft rounded-full font-mono text-[10px] font-medium shrink-0">
+                <Calendar size={11} />
+                {item.year}
+              </span>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <CatBadges cats={item.category} />
@@ -111,7 +108,7 @@ export function MasonryCard({
       </div>
 
       {/* Description */}
-      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mt-4">{item.description}</p>
+      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 sm:line-clamp-2 mt-4">{item.description}</p>
 
       {/* Quick highlights — scannable bullets */}
       {highlights.length > 0 && (
@@ -119,18 +116,39 @@ export function MasonryCard({
           {highlights.map((h, i) => (
             <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground">
               <span className="w-1.5 h-1.5 rounded-full bg-brand/50 mt-1.5 shrink-0" />
-              <span className="leading-snug line-clamp-1">{h}</span>
+              {/* 2 lines: highlights carry their "why" after an em dash, which clamps away at 1 line.
+                  RichText because these strings are the project page's `highlights`/`features`
+                  verbatim — rendered raw, their ** markers would show up as asterisks. */}
+              <span className="leading-snug line-clamp-2"><RichText>{h}</RichText></span>
             </li>
           ))}
         </ul>
       )}
 
-      {/* Footer */}
-      <div className="mt-auto pt-5 flex items-center justify-between gap-3 flex-wrap">
-        <TechIcons item={item} />
-        <span className="inline-flex items-center gap-1 text-foreground text-sm font-medium group-hover:gap-1.5 motion-safe:transition-all shrink-0">
-          Details <ArrowUpRight size={15} />
-        </span>
+      {/* Footer — mt-auto pins it so cards of differing heights line their footers
+          up. No flex-wrap on this row: the icons wrap inside their own box (which
+          needs min-w-0 to be allowed to shrink), so however many there are the
+          button keeps its corner instead of being bumped onto a line below.
+          items-end holds it to the bottom of that row when the icons run to two.
+          stopPropagation keeps the article's pointer shortcut from firing
+          onSelect a second time on top of the button's own click. */}
+      <div className="mt-auto pt-5 flex items-end justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <TechIcons item={item} />
+        </div>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onSelect(); }}
+          aria-label={`View details: ${item.title}`}
+          className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-secondary ring-line px-3.5 py-1.5 text-xs font-semibold text-foreground cursor-pointer hover:bg-brand hover:text-brand-foreground hover:ring-strong motion-safe:transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          View details
+          <ArrowRight
+            size={13}
+            strokeWidth={2.5}
+            className="motion-safe:transition-transform group-hover:translate-x-1"
+          />
+        </button>
       </div>
     </article>
   );

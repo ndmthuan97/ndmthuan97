@@ -41,40 +41,72 @@
                 "freelance"
             ],
             "role": "Backend & Mobile Developer",
-            "year": "4/2026 - 6/2026",
+            "year": "4/2026 — 7/2026",
             "projectType": "team",
             "hasRealUsers": true,
             "demoUrl": "",
-            "description": "AuChau is an English-center management platform — a Vue admin web portal plus a React Native Student & Parent app on a shared ASP.NET Core backend with JWT auth and Firebase push notifications.",
-            "overview": "AuChau is a learning-management platform for an English center, spanning a Vue web portal for staff/admin (managing students, classes, schedules, and tuition) and a React Native (Expo) mobile app for Students and Parents — all served by a shared ASP.NET Core 9 + PostgreSQL backend. My role was Backend and Mobile: I designed the dedicated /api/mobile layer (schedules, exams, attendance, leave-request CRUD, tuition, notifications) and built the Expo app for both roles. A core focus was strict per-user data ownership — every studentId/parentId is verified server-side so no user can reach another's academic or financial records — alongside JWT access/refresh sessions and Firebase Cloud Messaging push.",
-            "highlights": [
-                "Vue admin portal + React Native app on one ASP.NET Core backend",
-                "Dedicated /api/mobile layer: schedules, exams, attendance, tuition",
-                "Per-user ownership checks on every student/parent record",
-                "JWT access/refresh sessions + Firebase Cloud Messaging push"
+            "description": "Learning-management platform for a multi-branch English center — staff run the centre from a web portal, while students and parents get their own schedule, scores and tuition on their phones.",
+            "overview": "The system a multi-branch English centre runs on: staff handle classes, schedules, scoring and tuition from a web portal, while students and parents see the same information on a mobile app. I built the **mobile half** — the app and the API behind it — then automated two jobs the office did by hand: **end-of-term class rollover** and **the monthly reports**.",
+            "businessContext": "Staff had a web system; **families were locked out of it**. Any question about class times, scores or tuition meant phoning the office. The goal was to hand that straight to families without forking the business logic — **one backend, a second client**.",
+            "roleSummary": "**Backend & Mobile Developer** on a **six-person team** across three repos. The Vue staff portal was built by others.",
+            "responsibilities": [
+                "**Mobile API** — **11 controllers** over schedules, attendance, exams, scores, tuition, homework and leave",
+                "**Student and parent screens** in the React Native app",
+                "**Push pipeline**: FCM plus a dispatcher fanning one event to the student and every linked parent",
+                "**Nightly class rollover** with room allocation and holiday handling",
+                "**Classroom scheduling** with room and time-slot conflict validation",
+                "**Academic and revenue reports**, exported to the centre's Excel templates"
             ],
             "features": [
-                "🌐 Admin Web Portal (Vue): Staff manage students, parents, classes, schedules, and tuition through a PrimeVue dashboard with FullCalendar scheduling and Excel export.",
-                "📱 Student & Parent App (React Native / Expo): Role-aware mobile client with a parent child-selector and Vietnamese / English (i18n) UI.",
-                "🔐 Authentication & Roles: JWT login with access/refresh tokens and an identity endpoint, with distinct Student and Parent access.",
-                "👨‍👩‍👧 Parent–Child Linking: Parents see only their linked children via Family relationships; every record is ownership-checked server-side.",
-                "🗓️ Schedule, Attendance & Exams: Daily/weekly class sessions with teacher, room, time slot, status, per-session attendance, and exam schedules.",
-                "🎬 Courses & Video Lessons: Course/class overview, an online-learning area, and YouTube-based video lessons with weekly progress tracking.",
-                "🧾 Leave Requests (CRUD): Parents create, view, edit, and delete leave requests for linked children, scoped to ownership with audit logging.",
-                "💵 Tuition & Scores: View tuition records and scores grouped by class and assessment component, by student or parent, with pagination.",
-                "🔔 Notifications & Push: In-app notification inbox with read state, plus device-token registration for Firebase Cloud Messaging."
+                "🗓️ **Schedule**: next session with teacher, room and slot, plus the week ahead and exam dates.",
+                "✅ **Attendance**: present, absent or excused, per session.",
+                "📊 **Scores**: by class and assessment component, not one average.",
+                "💵 **Tuition**: what is owed and what is paid, per child.",
+                "📚 **Homework**: assignments, deadlines, file upload, teacher attachments.",
+                "🧾 **Leave requests**: parents file, edit and withdraw them themselves.",
+                "🎬 **Courses**: class overview, weekly progress, video lessons.",
+                "🔔 **Alerts**: push on schedule changes, absences, leave decisions, tuition and exams.",
+                "👨‍👩‍👧 **Family accounts**: a parent switches between children; each sees only their own.",
+                "📤 **Staff reporting**: one-click Excel into the office's existing workbooks."
+            ],
+            "highlights": [
+                "**Ownership guard** read from the token — a request carrying someone else's studentId is refused",
+                "One dispatcher behind **ten event types**, **fire-and-forget** so a failed push never breaks the request",
+                "Nightly rollover allocates rooms around clashes, skips holidays, and is **idempotent** against manual creation",
+                "Mobile API **released separately** from the staff API, so app builds never wait on the portal",
+                "Excel export writes **only the input columns** and lets the workbook's own formulas do the rest"
+            ],
+            "impact": [
+                "**Live in production** — students, parents and staff use it daily",
+                "Routine questions **answered in-app** instead of by phone",
+                "End-of-term class creation went from **manual, per class** to a **nightly job**",
+                "Monthly reports **export straight from the system**"
+            ],
+            "challenges": [
+                {
+                    "title": "End-of-term class rollover was manual",
+                    "problem": "Staff hand-created the next class for every group — free room, re-enrol students, lay sessions and exams around holidays. **Dozens of times a term**, and a missed clash surfaced only when students met an occupied room.",
+                    "solution": "A **nightly job** picks up classes ending within 14 days, finds a free room per slot, generates sessions and exams (cancelling holidays), migrates active students and notifies families. **Idempotent**: it skips if a next-level class already holds them.",
+                    "result": "Rollover happens **overnight**, and manual and automatic creation **coexist safely**."
+                },
+                {
+                    "title": "Five modules all needed to notify families",
+                    "problem": "Scores, schedules, attendance, tuition and exams each had to reach families. Wiring Firebase into all five **scatters the same fan-out logic**, and a stale device token would fail the request behind it — saving a score should not depend on a push.",
+                    "solution": "**One dispatcher**, a method per event. Each call opens its own DI scope and runs **fire-and-forget**: persist first, then push. Missing Firebase credentials degrade to database-only.",
+                    "result": "**Ten event types share one path**; a push outage degrades the notification, not the operation."
+                }
             ],
             "links": [],
             "technologies": {
                 "backend": [
                     ".NET",
-                    "PostgreSQL"
+                    "EF Core",
+                    "OData",
+                    "Hangfire",
+                    "ClosedXML"
                 ],
-                "frontend": [
-                    "Vue",
-                    "Vite",
-                    "PrimeVue",
-                    "TailwindCSS"
+                "database": [
+                    "PostgreSQL"
                 ],
                 "mobile": [
                     "React Native",
@@ -99,23 +131,57 @@
             "year": "3/2026 - 6/2026",
             "projectType": "personal",
             "demoUrl": "",
-            "description": "Tapo is a full-stack B2C e-commerce platform for laptop retail, with JWT auth, real-time chat, payment integration, and Dockerized deployment.",
-            "overview": "Tapo is a single-store B2C e-commerce platform specialising in laptops, built as a full-stack learning project to apply production-ready Java + React patterns end to end. The backend is a Spring Boot API (Docker + Nginx) backed by Supabase PostgreSQL and Upstash Redis, while the React SPA ships real-time chat, payments, and a full admin dashboard. It covers the complete retail flow — catalog, cart, orders, reviews, returns, vouchers, flash sales, and inventory — across four RBAC roles.",
-            "highlights": [
-                "JWT + Google OAuth2 auth with RBAC across 4 roles",
-                "Real-time customer–staff chat over WebSocket (STOMP)",
-                "PayOS payments, vouchers, and stock-limited flash sales",
-                "Spring Boot + React, Dockerized with 200+ backend tests"
+            "description": "A B2C laptop store built end to end — catalog and checkout for customers, order, inventory and chat desks for staff — as a place to practise production patterns rather than tutorial ones.",
+            "overview": "A single-store B2C platform for laptop retail, **built solo front to back**: Spring Boot behind Nginx in Docker, a React SPA, Supabase PostgreSQL and Upstash Redis. It covers **the whole retail loop** across four RBAC roles, backed by **205 backend and 25 frontend tests**.",
+            "businessContext": "I wanted a project whose hard parts were **a real shop's, not a CRUD tutorial's**: money that must not be charged twice, stock that must not oversell in a flash sale, a token refresh that survives concurrent requests. Retail was the domain because all of those fall out of it naturally.",
+            "roleSummary": "**Sole developer** — domain, backend, front end, tests and the containerised deployment.",
+            "responsibilities": [
+                "**Domain and PostgreSQL schema** — **26 entities**, versioned with Flyway",
+                "**Spring Boot API**: 23 controllers, service layer, global exception handling",
+                "**Auth**: JWT with Redis-backed refresh tokens, Google OAuth2, email verification, **four-role RBAC**",
+                "**React SPA**: storefront, cart, checkout, plus a separate admin area",
+                "**Integrations**: PayOS, Supabase Storage and Gmail SMTP",
+                "**205 backend tests** (controller, service, H2 flows) and **25 frontend tests**",
+                "**Deployment**: Docker Compose behind Nginx, SPA on Vercel"
             ],
             "features": [
-                "🔐 Authentication: JWT + Refresh Token (Redis), Google OAuth2, email verification, and RBAC across Admin / Sales / Warehouse / Customer roles.",
-                "🛍️ Shopping & Orders: Product catalog with search & filter, cart, and full order lifecycle (PENDING → DELIVERED) with PayOS payment.",
-                "💬 Real-time Chat: WebSocket (STOMP) live chat between customers and support staff.",
-                "⭐ Reviews & Returns: 1–5 star reviews with admin approve/reject, plus a customer return-request workflow.",
-                "🏷️ Vouchers & Flash Sale: Fixed / percentage discounts with usage limits, and stock-limited flash-sale campaigns with countdown timers.",
-                "📦 Inventory: Stock import/export, auto-deduction on delivery, and low-stock alerts for warehouse staff.",
-                "📊 Admin Dashboard: Revenue charts, order statistics, blog & banner management, and user administration.",
-                "🌐 i18n & Instalments: Vietnamese / English UI (react-i18next) and a 6 / 12 / 18 / 24-month instalment calculator."
+                "🛍️ **Browse and buy**: search and filters, a cart that survives login, checkout through PayOS.",
+                "📦 **Order tracking**: full lifecycle from PENDING to DELIVERED.",
+                "⭐ **Reviews and returns**: star reviews held for approval, return requests customers can follow.",
+                "🏷️ **Vouchers and flash sales**: usage-capped discounts, stock-limited sales on a countdown.",
+                "💬 **Live chat**: customers reach sales staff over WebSocket without leaving the page.",
+                "🔐 **Ways in**: email with verification or Google — four staff roles, each landing somewhere different.",
+                "📦 **Warehouse desk**: stock import/export, auto-deduction on delivery, low-stock alerts.",
+                "📊 **Admin dashboard**: revenue charts, order stats, blog, banners, users.",
+                "💳 **Instalments**: a 6 / 12 / 18 / 24-month calculator on the product page.",
+                "🌐 **Bilingual**: Vietnamese and English throughout."
+            ],
+            "highlights": [
+                "Refresh tokens in **Redis, not the database** — rotation and revocation are one key operation",
+                "The SPA **queues every concurrent 401 behind a single refresh** instead of firing one per request",
+                "Rate limiting with Bucket4j over Redis, so the limit **holds across instances** rather than per process",
+                "A **reflection test asserts every endpoint carries its RBAC annotation** — it catches the route someone forgot to guard",
+                "**205 backend tests at three levels**: MockMvc controllers, service units, and H2 integration flows"
+            ],
+            "impact": [
+                "**Feature-complete retail loop** — catalog, cart, payment, reviews, returns, vouchers, flash sales, inventory",
+                "**205 backend and 25 frontend tests passing**, including flows against an in-memory database",
+                "**Two security holes** found and closed in a self-review pass, both now covered by tests",
+                "Packaged for deployment: SPA on Vercel, backend **containerised behind Nginx**"
+            ],
+            "challenges": [
+                {
+                    "title": "Concurrent requests hitting a just-expired token",
+                    "problem": "The SPA fires several calls at once, so they 401 together and a naive interceptor sends **one refresh per call**. The second arrives with a token the first already rotated away, **logging the user out mid-session** — intermittently, so it read as a flaky backend.",
+                    "solution": "**Queued it**: the first 401 starts one refresh promise, the rest subscribe and replay once it resolves. Tokens sit in Redis so rotation is a single key operation, and the queue is pinned by unit tests.",
+                    "result": "Token expiry became **invisible**, and a stale refresh no longer cascades into a forced logout."
+                },
+                {
+                    "title": "Blog formatting that also allowed script injection",
+                    "problem": "Post content rendered through **dangerouslySetInnerHTML** so authors could use bold markers — so any script in a post body ran in the reader's browser. **The feature and the hole were one line of code.**",
+                    "solution": "Replaced it with a **renderBold()** that parses only the bold marker and returns React nodes, **escaping the rest as text**. Exported so it could be unit-tested against script payloads.",
+                    "result": "Formatting kept, **injection closed**, and tests fail if raw HTML is reintroduced."
+                }
             ],
             "links": [
                 {
@@ -132,9 +198,7 @@
                 "backend": [
                     "Java",
                     "Spring",
-                    "PostgreSQL",
-                    "Redis",
-                    "Docker"
+                    "Flyway"
                 ],
                 "frontend": [
                     "React",
@@ -142,10 +206,20 @@
                     "TailwindCSS",
                     "TanStack Query"
                 ],
+                "database": [
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "devops": [
+                    "Docker",
+                    "Nginx",
+                    "Vercel",
+                    "GitHub Actions"
+                ],
                 "thirdParty": [
                     "PayOS",
-                    "Swagger",
-                    "Vercel"
+                    "Supabase",
+                    "Swagger"
                 ]
             },
             "githubRepos": [
@@ -182,29 +256,57 @@
             "year": "12/2025 — 2/2026",
             "demoUrl": "",
             "projectType": "personal",
-            "description": "Trava is a comprehensive Task Management and Team Collaboration System designed to streamline project workflows.",
-            "overview": "Trava is a multi-workspace task management system. I developed this project to explore Clean Architecture and modern web technologies, focusing on high scalability and a smooth user experience for team collaboration.",
+            "description": "Multi-workspace task and team-collaboration system — private and team spaces, nested tasks, invitations and notifications, built to work through Clean Architecture and CQRS on a domain complex enough to justify them.",
+            "overview": "A task and collaboration system: work lives in **private or team Spaces**, splits into parent and sub-tasks with priorities and workload points, and pushes notifications on assignment and deadlines. Built solo — domain, backend and Angular client — as the project where I would **actually apply Clean Architecture and CQRS** rather than read about them.",
+            "businessContext": "Every task tool I had used drew its boundaries differently and I wanted to know why — **where a workspace ends and a project begins**, how permissions differ between a space you own and one you were invited to. **Collaboration forces those decisions**; a single-user todo list never has to answer them.",
+            "roleSummary": "**Sole developer** — domain, backend architecture, API and the Angular client.",
+            "responsibilities": [
+                "**Domain model**: Spaces and membership roles, nested tasks, priorities and workload points",
+                "**Five Clean Architecture projects** with a strictly one-way dependency flow",
+                "**CQRS with MediatR**, FluentValidation on commands, AutoMapper between entities and DTOs",
+                "**Persistence** on EF Core and PostgreSQL behind Repository and Unit of Work",
+                "**Redis distributed caching**, JWT auth, rate limiting and CORS",
+                "**Angular client** with PrimeNG and Tailwind"
+            ],
             "features": [
-                "🔐 Member Management: Secure registration, login, personal profile management, and security updates.",
-                "🏢 Workspace Management (Spaces): Supports Private and Team space models with clear role-based access control.",
-                "📩 Invitation System: Mechanism to send/receive Workspace invitations and manage invitation statuses in real-time.",
-                "✅ Task Management: Supports complex Task structures (Parent/Sub-tasks) with priority levels and workloads.",
-                "🔔 Notification System: Provides real-time updates on Space changes, Task assignments, and deadline reminders."
+                "🏢 **Workspaces**: private spaces for your own work, team spaces with role-based access.",
+                "📩 **Invitations**: send and accept invites, with invitation state tracked throughout.",
+                "✅ **Nested tasks**: sub-tasks, priority from low to urgent, workload points.",
+                "💬 **Comments**: discussion attached to the task it concerns.",
+                "🔔 **Notifications**: space changes, task assignment, approaching deadlines.",
+                "👤 **Accounts**: registration, login, profile and security settings."
+            ],
+            "highlights": [
+                "**Five-project Clean Architecture** with a one-way dependency flow — Domain depends on nothing, **persistence never leaks upward**",
+                "CQRS through MediatR, with FluentValidation as a pipeline step so **validation sits outside the handler**",
+                "Repository and Unit of Work over EF Core, so a request touching several aggregates **still commits once**",
+                "**Redis distributed caching** over the read-heavy queries, plus rate limiting on the API surface",
+                "JWT with **per-space role checks** — membership of one workspace grants nothing in another"
+            ],
+            "impact": [
+                "A working collaboration backend covering **the full loop**: space → invite → task → sub-task → comment → notification",
+                "Adding a feature means **adding a handler, not editing a controller** — which was the point of the exercise"
             ],
             "technologies": {
                 "backend": [
                     ".NET",
-                    "PostgreSQL",
-                    "Redis"
+                    "EF Core",
+                    "MediatR"
                 ],
                 "frontend": [
                     "Angular",
                     "TailwindCSS",
                     "PrimeNG"
                 ],
-                "thirdParty": [
+                "database": [
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "devops": [
                     "Azure",
-                    "Vercel",
+                    "Vercel"
+                ],
+                "thirdParty": [
                     "Swagger"
                 ]
             }
@@ -239,31 +341,64 @@
             "year": "5/2025 - 8/2025",
             "demoUrl": "",
             "projectType": "team",
-            "description": "Phygen is an AI-Powered Physics Exam Generator System that helps teachers create exams automatically.",
-            "overview": "Phygen leverages AI to automate the creation of physics exams for high school students. It supports custom difficulty levels and topic selection, generating high-quality questions and detailed explanations instantly.",
+            "description": "Exam generator for physics teachers — declare the spread of chapters and difficulty you want, and the system assembles a matching paper from a curated question bank.",
+            "overview": "So physics teachers **stop assembling exams by hand**. A teacher defines an **exam matrix** — how many questions, from which chapter, at which difficulty — and the system draws from a curated bank to produce a matching paper, exportable to Word or PDF. I worked on the backend and **owned the repository**, reviewing and merging the team's work. Our graduation capstone.",
+            "businessContext": "Building a physics exam is repetitive without being mechanical: a teacher must **hit a required spread across chapters and difficulty** while keeping papers different between classes, so in practice they reuse last year's or spend an evening on it. An explicit matrix **hands the tedious half to the computer**.",
+            "roleSummary": "**Backend Developer** on a capstone team, and **owner of the backend repository** — reviewing and merging the team's pull requests and managing release branches.",
+            "responsibilities": [
+                "**Backend modules** on a five-project .NET 8 Clean Architecture solution over PostgreSQL",
+                "**Curriculum hierarchy** — Curriculum → Subject → Chapter → Topic → Section",
+                "**Question bank** and the matrix-driven exam generation flow",
+                "**Auth**: registration and login with email OTP, plus role-based access to the shared bank",
+                "**Integrations**: Cloudinary for question media, PayOS for payments",
+                "**Code review** — merged the team's backend pull requests"
+            ],
             "features": [
-                "🏫 Curriculum Management: Flexible organization by Curriculum → Subject → Chapter → Topic → Section.",
-                "📝 Question Bank: Supports various question types, media attachments via Cloudinary, and categorization by difficulty.",
-                "⚙️ Automated Exam Generation: Builds detailed exam matrices and automatically synthesizes exams.",
-                "💳 Payment Integration: Supports secure transactions via the PayOS gateway.",
-                "🔐 Security & Authentication: Login/Registration with Email OTP, Role-Based Access Control (RBAC).",
-                "📄 Document Publishing: Supports exporting exams and documents to Word/PDF formats."
+                "🏫 **Curriculum**: Curriculum → Subject → Chapter → Topic → Section, so questions attach where they belong.",
+                "📝 **Question bank**: several question types, media per question, categorised by chapter and difficulty.",
+                "⚙️ **Matrix generation**: declare the spread you want and the system assembles a matching paper.",
+                "📄 **Export**: exams out to Word or PDF, ready to print.",
+                "🔐 **Accounts**: email OTP on registration and login, roles over who edits the shared bank.",
+                "💳 **Payments**: PayOS checkout for paid plans.",
+                "🔔 **Notifications**: course, exam and transaction status.",
+                "💬 **Support**: an in-app chatbox for user questions."
+            ],
+            "highlights": [
+                "The exam matrix is a **first-class entity, not a filter** — a paper is produced by satisfying a declared spread, which makes the output **reproducible**",
+                "Clean Architecture across five projects, keeping **generation logic in the domain** instead of in controllers",
+                "**Email OTP** on registration and login, with **RBAC** over who may edit the shared question bank",
+                "Cloudinary for question media so **images live outside the database**, PayOS for payment",
+                "**Redis caching** over the curriculum and question reads the generator hits repeatedly"
+            ],
+            "impact": [
+                "Turned exam assembly from **an evening of manual work** into **declaring a matrix and exporting the result**",
+                "Delivered as the team's **graduation capstone project**",
+                "Packaged with **Docker Compose** so the API and its dependencies come up together"
             ],
             "technologies": {
                 "backend": [
                     ".NET",
-                    "PostgreSQL",
-                    "Azure",
-                    "ChatGPT",
-                    "Gemini",
-                    "PayOS"
+                    "EF Core"
                 ],
                 "frontend": [
                     "React",
                     "TailwindCSS"
                 ],
-                "thirdParty": [
+                "database": [
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "devops": [
+                    "Docker",
+                    "Azure",
                     "Vercel"
+                ],
+                "thirdParty": [
+                    "Cloudinary",
+                    "PayOS",
+                    "ChatGPT",
+                    "Gemini",
+                    "Swagger"
                 ]
             }
         },
@@ -301,21 +436,44 @@
             },
             "role": "Backend Developer",
             "year": "12/2024 - 3/2025",
-            "demoUrl": "",
+            "demoUrl": "https://swap-time.vercel.app/",
             "projectType": "team",
-            "description": "TimeSwap is a Time Exchange and Job Marketplace Platform connecting users for skill sharing and services.",
-            "overview": "TimeSwap creates a marketplace where users can exchange services using a 'time' currency. It includes robust job listing, search, and application systems with an integrated E-Wallet for secure transactions.",
+            "description": "Time-exchange marketplace where people trade hours of skill — post a job, apply with your profile, and settle through an in-app wallet.",
+            "overview": "Connects people with spare time to people who need help, mostly in services and IT. Users post jobs, search by industry, fee and location, apply with their existing profile, and employers review applicants before picking one; payment settles through an **in-app wallet**. Built by a student team across **an Angular web app, a Kotlin Android app and the shared .NET API** behind both.",
+            "businessContext": "Small tasks — an hour of tutoring, an afternoon fixing a laptop — are **too small for a formal freelance platform and too awkward for a group chat**. TimeSwap frames them as **time exchanged rather than a contract signed**: a job carries a fee, anyone applies with the profile they have, and the wallet settles it.",
+            "roleSummary": "**Backend Developer** on a student team, on the **.NET API serving both** the Angular web client and the Kotlin Android app.",
+            "responsibilities": [
+                "**API endpoints** on the .NET 8 backend over PostgreSQL",
+                "**Job posting, search and application flow**, including the employer's applicant list",
+                "**JWT authentication** serving both the web and Android clients",
+                "**E-wallet** and transaction history module",
+                "**ChatGPT API** behind the in-app assistant"
+            ],
             "features": [
-                "👤 User Authentication: Login / Register with email, Forgot Password, Secure Logout.",
-                "📋 Job Management: Listings, Search by name/fee/industry/location, Post Job, Apply for Jobs, Applicant List.",
-                "🤖 AI Chatbot Integration: Integrated ChatGPT API to assist users with job-related inquiries.",
-                "💳 Payment Management: E-Wallet Integration for seamless transactions with Transaction History.",
-                "📄 User Profile Management: View & Edit Profile, Account Information with subscription details."
+                "👤 **Accounts**: registration and login, password reset, profile management.",
+                "📋 **Job board**: browse what is open, or search by name, fee, industry, category and location.",
+                "📝 **Post and apply**: post a job with its fee; apply with the profile you already have.",
+                "🧑‍💼 **Applicant review**: an employer sees everyone who applied and picks the candidate.",
+                "💳 **E-wallet**: pay and get paid in-app, with transaction history.",
+                "🤖 **Assistant**: a ChatGPT-backed chatbot for job-related questions.",
+                "📱 **Android client**: the same marketplace as a native app."
+            ],
+            "highlights": [
+                "**One API serving two very different clients** — an Angular SPA and a native Android app — behind a single JWT scheme",
+                "Job search across name, fee, industry, category and location through **one query surface**, not an endpoint per filter",
+                "E-wallet with transaction history, so a job's fee **settles inside the platform** instead of out of band",
+                "**ChatGPT** integrated as an in-app assistant for job-related questions",
+                "**Split deployment with CI**: Angular on Vercel, .NET API on DigitalOcean behind Nginx, built by GitHub Actions"
+            ],
+            "impact": [
+                "**Live and reachable** — the web client runs at swap-time.vercel.app",
+                "Delivered across **three surfaces from one backend**: Angular web, Kotlin Android, and the shared .NET API"
             ],
             "technologies": {
                 "backend": [
                     ".NET",
-                    "PostgreSQL"
+                    "EF Core",
+                    "MediatR"
                 ],
                 "frontend": [
                     "Angular",
@@ -326,9 +484,19 @@
                     "Kotlin",
                     "Jetpack Compose"
                 ],
-                "thirdParty": [
+                "database": [
+                    "PostgreSQL",
+                    "Redis"
+                ],
+                "devops": [
+                    "Docker",
+                    "Nginx",
                     "DigitalOcean",
                     "Vercel",
+                    "GitHub Actions"
+                ],
+                "thirdParty": [
+                    "ChatGPT",
                     "Google Maps"
                 ]
             }
@@ -346,12 +514,30 @@
             "demoUrl": "",
             "projectType": "",
             "hasRealUsers": true,
-            "description": "A large-scale content migration project for an enterprise client using Adobe Experience Manager (AEM).",
-            "overview": "This project involved migrating and validating thousands of landing pages from legacy CMS platforms to Adobe Experience Manager. I ensured structural integrity and content consistency across global enterprise environments.",
+            "description": "Consolidating thousands of a global brand's landing pages off legacy CMS platforms onto Adobe Experience Manager — live customer-facing pages, so the acceptance bar was fidelity, not just a successful import.",
+            "overview": "A global enterprise client was moving its landing pages off several legacy CMS platforms onto **Adobe Experience Manager**. I migrated and validated those pages — **thousands of them** — making sure structure and content **survived intact** across the client's regional environments, inside a strictly governed Agile process.",
+            "businessContext": "The client's landing pages had accumulated across several legacy CMS platforms, each with its own structure, turning every global campaign into **a per-platform exercise**. Consolidating onto AEM gave marketing **one place to author** — but only if migrated pages matched the originals, since these were **live pages for a global brand**.",
+            "roleSummary": "**Software Engineer** on the migration team — migrating and validating landing pages, and holding content consistent across regional environments.",
+            "responsibilities": [
+                "**Migrated** landing pages from legacy CMS platforms onto Adobe Experience Manager",
+                "**Validated** each page against its original for structural and content fidelity",
+                "**Held content consistent** across global environments, not one region at a time",
+                "**Governed Agile process** — work tracked and reviewed through Jira"
+            ],
             "features": [
-                "📄 Large-Scale Migration: Migrated and validated thousands of landing pages from legacy CMS platforms.",
-                "✅ Content Consistency: Ensured structural integrity and content consistency across global enterprise environments.",
-                "🔄 Agile Governance: Followed strictly governed Agile workflows for enterprise deployment and collaboration."
+                "📄 **Thousands of landing pages** moved off legacy platforms onto a single AEM instance.",
+                "✅ **Every page checked against its original** — fidelity, not just a successful import.",
+                "🌍 **The same component renders identically** in every regional environment.",
+                "🔄 Delivered through a **strictly governed enterprise Agile workflow**."
+            ],
+            "highlights": [
+                "The acceptance bar was **fidelity, not import success** — a page that loaded but shifted structure was a defect, which makes **validation the real work**",
+                "**Content consistency held across regional AEM environments**, where a component had to behave the same everywhere",
+                "Delivered under **enterprise change governance**: batches tracked, reviewed and signed off before reaching a live environment"
+            ],
+            "impact": [
+                "**Thousands of landing pages** consolidated from several legacy CMS platforms onto **one AEM platform**",
+                "**Sixteen months** inside an enterprise delivery process — governed releases, global environments, live customer-facing pages"
             ],
             "technologies": {
                 "backend": [

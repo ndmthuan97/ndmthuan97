@@ -75,11 +75,32 @@ export function iconSources(slug: string): string[] {
   return [`https://www.google.com/s2/favicons?domain=${value}&sz=128`];
 }
 
+/**
+ * Stack groups in display order, with the label shown above each in the modal.
+ * Anything absent from this map is invisible everywhere — getAllTechs and
+ * getTechGroups both read it — so a new group in projects.json must be added
+ * here too or its entries silently vanish from the site.
+ */
+const TECH_GROUPS = [
+  ["backend", "Backend"],
+  ["frontend", "Frontend"],
+  ["mobile", "Mobile"],
+  ["desktop", "Desktop"],
+  ["database", "Database"],
+  ["devops", "Cloud / DevOps"],
+  ["thirdParty", "Third-party"],
+] as const;
+
+type TechGroupKey = (typeof TECH_GROUPS)[number][0];
+
+function groupTechs(item: PortfolioItem, key: TechGroupKey): string[] {
+  return item.technologies?.[key] ?? [];
+}
+
 /** Deduplicated flat list of all technologies across stacks. */
 export function getAllTechs(item: PortfolioItem): string[] {
-  const t = item.technologies;
-  if (!t) return [];
-  return [...new Set([...(t.backend ?? []), ...(t.frontend ?? []), ...(t.desktop ?? []), ...(t.mobile ?? []), ...(t.thirdParty ?? [])])];
+  if (!item.technologies) return [];
+  return [...new Set(TECH_GROUPS.flatMap(([key]) => groupTechs(item, key)))];
 }
 
 /**
@@ -138,6 +159,14 @@ const TECH_ICON_SLUGS: Record<string, string> = {
   "React Native": "react",
   "Expo": "expo",
   "Firebase": "firebase",
+  "Nginx": "nginx",
+  "Supabase": "supabase",
+  "Cloudinary": "cloudinary",
+  // No logo in icons.json — mapped anyway so they survive as text chips in the
+  // grouped stack list instead of being dropped as if they were a concept.
+  "Hangfire": "hangfire",
+  "Flyway": "flyway",
+  "MediatR": "mediatr",
 };
 
 export interface TechIcon {
@@ -146,7 +175,11 @@ export interface TechIcon {
   srcs: string[]; // candidate image URLs; empty → render a text chip
 }
 
-/** Mapped techs as {name, slug, srcs}. Concepts without a logo entry are skipped. */
+/**
+ * Flat icon row for cards. Concepts without a logo entry are skipped, and the
+ * row is deduplicated by slug — ".NET" and "EF Core" both resolve to one .NET
+ * mark rather than two.
+ */
 export function getTechIcons(item: PortfolioItem): TechIcon[] {
   const seen = new Set<string>();
   const out: TechIcon[] = [];
@@ -157,4 +190,23 @@ export function getTechIcons(item: PortfolioItem): TechIcon[] {
     out.push({ name, slug, srcs: iconSources(slug) });
   }
   return out;
+}
+
+/**
+ * Stack split by group for the modal, so it reads as a stack rather than a pile.
+ * Unlike getTechIcons this keeps EVERY name: no slug simply means no logo, and
+ * TechIcon falls back to a text chip. Deduplication would drop siblings that
+ * share a mark (EF Core next to .NET), which is wrong when the point is to list
+ * what the project actually uses.
+ */
+export function getTechGroups(item: PortfolioItem): { key: string; label: string; techs: TechIcon[] }[] {
+  if (!item.technologies) return [];
+  return TECH_GROUPS.map(([key, label]) => ({
+    key,
+    label,
+    techs: groupTechs(item, key).map((name) => {
+      const slug = TECH_ICON_SLUGS[name];
+      return { name, slug: slug ?? name, srcs: slug ? iconSources(slug) : [] };
+    }),
+  })).filter((g) => g.techs.length > 0);
 }

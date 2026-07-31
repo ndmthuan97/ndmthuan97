@@ -4,7 +4,6 @@ import portfolioData from "../data/projects.json";
 import { useReveal } from "../hooks/use-reveal";
 import type { PortfolioItem, PortfolioFilter, Category } from "../types/portfolio";
 import { MasonryCard } from "./portfolio/MasonryCard";
-import { ProjectModal } from "./portfolio/ProjectModal";
 import { FilterTabs } from "./portfolio/FilterTabs";
 
 const portfolioItems = portfolioData.items as PortfolioItem[];
@@ -15,7 +14,6 @@ const PAGE_SIZE = 3;
 export function PortfolioSection() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
   const { isVisible, ref } = useReveal(0.05);
 
   const filteredItems = useMemo(() => {
@@ -136,7 +134,7 @@ export function PortfolioSection() {
                 item={item}
                 index={index}
                 isVisible={isVisible}
-                onSelect={() => setSelectedProject(item)}
+                onSelect={() => { window.location.hash = `project/${item.id}`; }}
               />
             ))}
           </div>
@@ -207,11 +205,6 @@ export function PortfolioSection() {
           </div>
         )}
       </div>
-
-      {/* Modal */}
-      {selectedProject && (
-        <ProjectModal item={selectedProject} onClose={() => setSelectedProject(null)} />
-      )}
     </section>
   );
 }
