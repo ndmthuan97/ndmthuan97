@@ -19,6 +19,7 @@ const SKILL_DISPLAY_NAMES: Record<string, string> = {
   cs: "C#",
   java: "Java",
   spring: "Spring",
+  nestjs: "NestJS",
   redis: "Redis",
   postgres: "PostgreSQL",
   sqlserver: "SQL Server",

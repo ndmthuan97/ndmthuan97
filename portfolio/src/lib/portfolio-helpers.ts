@@ -117,6 +117,7 @@ const TECH_ICON_SLUGS: Record<string, string> = {
   "Java": "java",
   "Spring": "spring",
   "Node.js": "nodejs",
+  "NestJS": "nestjs",
   "Next.js": "nextjs",
   "Next.js 15": "nextjs",
   "Next.js API Routes": "nextjs",

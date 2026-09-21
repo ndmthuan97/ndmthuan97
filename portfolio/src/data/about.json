@@ -1,7 +1,7 @@
 {
     "name": "MINH THUAN",
     "role": "Full-Stack Software Engineer",
-    "bio": "Backend Engineer with 2 years of experience designing and developing scalable, maintainable backend systems.\nProficient in building RESTful APIs, authentication and authorization (JWT, RBAC), database design, and performance optimization across multiple technology stacks.\nExperienced with ASP.NET Core, Node.js/NestJS, PostgreSQL, SQL Server, Redis, and EF Core, with working knowledge of frontend technologies including React, and React Native.\nPassionate about software architecture, clean code, and continuously learning through building real-world products.",
+    "bio": "Backend-focused Software Engineer with 2+ years shipping web and mobile products end to end, including sixteen months of enterprise delivery on live customer-facing pages and a learning-management platform now running in production.\nCore stack is .NET/C# and NestJS over PostgreSQL and Redis, with React and TypeScript on the frontend.\nFocused on the parts that decide whether a system survives real users: REST API design, JWT authentication with RBAC and ownership checks, Clean Architecture and CQRS, distributed caching, rate limiting, and idempotent background jobs.\nTested at more than one level, the latest build shipping 205 backend tests across controller, service and in-memory-database integration layers, then packaged with Docker, Nginx and a Git-based GitHub Actions pipeline on Azure, Vercel and DigitalOcean.\nComfortable taking Java/Spring, Angular, or mobile in React Native and Kotlin when a project calls for it, working Scrum with Jira under enterprise change governance.",
     "personalInfo": [
         {
             "label": "Location",

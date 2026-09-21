@@ -14,6 +14,7 @@
             "skills": [
                 { "icon": "dotnet" },
                 { "icon": "cs" },
+                { "icon": "nestjs" },
                 { "icon": "java" },
                 { "icon": "spring" },
                 { "icon": "postgres" },
@@ -26,7 +27,6 @@
             "skills": [
                 { "icon": "react" },
                 { "icon": "angular" },
-                { "icon": "vue" },
                 { "icon": "typescript" },
                 { "icon": "js" },
                 { "icon": "html" },
